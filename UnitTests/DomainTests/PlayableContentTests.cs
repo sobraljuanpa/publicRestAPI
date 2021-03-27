@@ -46,6 +46,17 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void SetAndGetCategoryTest()
+        {
+            Category c = new Category();
+            PlayableContent p = new PlayableContent();
+
+            p.Category = c;
+
+            Assert.AreEqual(c, p.Category);
+        }
+
+        [TestMethod]
         public void SetAndGetDurationTest()
         {
             PlayableContent p = new PlayableContent();
