@@ -51,7 +51,7 @@ namespace UnitTests
         {
             var categories = repository.GetAll();
 
-            Assert.AreEqual(4, categories.ToImmutableList().Count);
+            Assert.AreEqual(4, categories.ToList().Count);
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace UnitTests
             repository.Delete(1);
 
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
-            Assert.AreEqual(3, repository.GetAll().ToImmutableList().Count);
+            Assert.AreEqual(3, repository.GetAll().ToList().Count);
         }
     }
 }
