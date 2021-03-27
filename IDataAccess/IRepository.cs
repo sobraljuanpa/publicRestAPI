@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace IDataAccess
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll();
         T Get(int id);
         void Add(T entity);
-        void Update(T dbEntity, T newEntity);
-        void Delete(T entity);
+        void Update(int id, T newEntity);
+        void Delete(int id);
     }
 }
