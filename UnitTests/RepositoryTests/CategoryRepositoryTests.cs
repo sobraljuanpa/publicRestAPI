@@ -89,7 +89,6 @@ namespace UnitTests
             repository.Delete(1);
 
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
-            Assert.AreEqual(3, repository.GetAll().ToList().Count);
         }
     }
 }
