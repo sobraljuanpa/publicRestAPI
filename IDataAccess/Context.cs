@@ -10,8 +10,8 @@ namespace IDataAccess
         {
         }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Playlist> Playlists { get; set; }
-        public DbSet<PlayableContent> PlayableContents { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Playlist> Playlists { get; set; }
+        public virtual DbSet<PlayableContent> PlayableContents { get; set; }
     }
 }
