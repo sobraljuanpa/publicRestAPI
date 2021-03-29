@@ -17,7 +17,7 @@ namespace UnitTests
     public class PlaylistRepositoryTests
     {
 
-        PlayableContentRepository repository;
+        PlaylistRepository repository;
         Mock<DbSet<Playlist>> mockSet;
         Mock<Context> mockContext;
         DbContextOptions<Context> DbOptions;
@@ -26,7 +26,7 @@ namespace UnitTests
         public void SetUp()
         {
             var auxCategory = new Category { Id = 3, Name = "Musica" };
-            var auxPlayableContent = new PlayableContent { Id = 1, Author = "Buenos Muchachos", Category = auxCategory, Duration = 1.2, ContentURL = "http://sin-hogar.mp3", ImageURL = "", Name = "Sin hogar" }
+            var auxPlayableContent = new PlayableContent { Id = 1, Author = "Buenos Muchachos", Category = auxCategory, Duration = 1.2, ContentURL = "http://sin-hogar.mp3", ImageURL = "", Name = "Sin hogar" };
             var data = new List<Playlist>
             {
                 new Playlist { Id = 1, Category = auxCategory, Description = "Rock uruguayo", ImageURL = "", Name = "Rock uruguayo", Contents = new List<PlayableContent> { auxPlayableContent } }
@@ -50,7 +50,7 @@ namespace UnitTests
         {
             var playlists = repository.GetAll();
 
-            Assert.AreEqual(1, contents.ToList().Count);
+            Assert.AreEqual(1, playlists.ToList().Count);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace UnitTests
         {
             var playlist = repository.Get(1);
 
-            Assert.AreEqual("Rock uruguayo", content.Name);
+            Assert.AreEqual("Rock uruguayo", playlist.Name);
         }
 
         [TestMethod]
