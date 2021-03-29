@@ -76,12 +76,12 @@ namespace UnitTests
         public void UpdateContentTest()
         {
             var auxCategory = new Category { Id = 3, Name = "Musica" };
-            var content = new PlayableContent { Id = 3, Author = "The Smiths", Category = auxCategory, Duration = 3.2, ContentURL = "http://there-is-a-light.mp3", ImageURL = "", Name = "There is a light that never goes out" };
-            repository.Update(3, content);
-            var modifiedContent = repository.Get(1);
+            var content = new PlayableContent { Id = 2, Author = "Buitres", Category = auxCategory, Duration = 3.2, ContentURL = "http://carretera-perdida.mp3", ImageURL = "", Name = "Carretera Perdida" };
+            repository.Update(2, content);
+            var modifiedContent = repository.Get(2);
 
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
-            Assert.AreEqual("There is a light that never goes out", modifiedContent.Name);
+            Assert.AreEqual("Carretera Perdida", modifiedContent.Name);
         }
 
         [TestMethod]
