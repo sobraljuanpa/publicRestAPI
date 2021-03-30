@@ -21,7 +21,7 @@ namespace UnitTests.RepositoryTests
         Mock<Context> mockContext;
         DbContextOptions<Context> DbOptions;
 
-        [TestMethod]
+        [TestInitialize]
         public void SetUp()
         {
             var data = new List<Problem>
@@ -88,7 +88,7 @@ namespace UnitTests.RepositoryTests
         }
 
         [TestMethod]
-        public void DeleteProblemTest()
+        public void DeleteTest()
         {
             repository.Delete(1);
 
