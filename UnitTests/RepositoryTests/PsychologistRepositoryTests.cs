@@ -50,7 +50,7 @@ namespace UnitTests.RepositoryTests
         {
             var pyschologist = repository.GetAll();
 
-            Assert.AreEqual(1, pyschologist.ToList().Count);
+            Assert.AreEqual(2, pyschologist.ToList().Count);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace UnitTests.RepositoryTests
         {
             var pyschologist = repository.Get(1);
 
-            Assert.AreEqual("Perez", pyschologist.Surname);
+            Assert.AreEqual("Perez", pyschologist.PsychologistSurname);
         }
 
         [TestMethod]
