@@ -8,7 +8,7 @@ namespace IBusinessLogic
     public interface IPlayerBL
     {
         public List<Category> GetCategories();
-        public List<CategoryElement> GetCategoryElements();
+        public List<CategoryElement> GetCategoryElements(int id);
         public Playlist GetPlaylist(int id);
         public PlayableContent GetPlayableContent(int id);
         public void AddIndependentContent(PlayableContent playableContent);

@@ -41,6 +41,11 @@ namespace BusinessLogic
 
         }
 
+        public PlayableContent GetPlayableContent(int contentId)
+        {
+            return null;
+        }
+
         public void AddIndependentContent (PlayableContent playableContent)
         {
            
