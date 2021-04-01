@@ -17,5 +17,9 @@ namespace Domain
         public string PatientEmail { get; set; }
 
         public string PatientPhone { get; set; }
+
+        public Problem Problem { get; set; }
+
+        public Psychologist Psychologist { get; set; }
     }
 }
