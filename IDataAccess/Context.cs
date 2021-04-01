@@ -17,5 +17,16 @@ namespace IDataAccess
         public virtual DbSet<Psychologist> Psychologists { get; set; }
         public virtual DbSet<Administrator> Administrators { get; set; }
         public virtual DbSet<Consultation> Consultations { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Administrator>().HasIndex(a => a.Email).IsUnique();
+            modelBuilder.Entity<Administrator>().HasData(new Administrator
+            {
+                Id = 1,
+                Password = "admin",
+                Email = "admin@admin.admin"
+            });
+        }
     }
 }
