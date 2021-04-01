@@ -17,12 +17,15 @@ namespace DataAccess
 
         public bool Authenticate(string email, string password)
         {
-            var authenticates = _context.Administrators.SingleOrDefault(
-                x => x.Email == email && x.Password == password);
-
-            if (authenticates != null) return true;
-
-            return false;
+            var adminList = _context.Administrators.ToList();
+            bool auxReturn = false;
+            
+            foreach(Administrator admin in adminList)
+            {
+                if (admin.Email == email && admin.Password == password) auxReturn = true;
+            }
+            
+            return auxReturn;
         }
 
         public IQueryable<Administrator> GetAll()
