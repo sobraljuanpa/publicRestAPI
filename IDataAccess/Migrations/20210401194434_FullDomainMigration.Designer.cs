@@ -4,14 +4,16 @@ using IDataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IDataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20210401194434_FullDomainMigration")]
+    partial class FullDomainMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,17 +76,7 @@ namespace IDataAccess.Migrations
                     b.Property<string>("PatientPhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProblemId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PsychologistId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProblemId");
-
-                    b.HasIndex("PsychologistId");
 
                     b.ToTable("Consultations");
                 });
@@ -194,21 +186,6 @@ namespace IDataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Psychologists");
-                });
-
-            modelBuilder.Entity("Domain.Consultation", b =>
-                {
-                    b.HasOne("Domain.Problem", "Problem")
-                        .WithMany()
-                        .HasForeignKey("ProblemId");
-
-                    b.HasOne("Domain.Psychologist", "Psychologist")
-                        .WithMany()
-                        .HasForeignKey("PsychologistId");
-
-                    b.Navigation("Problem");
-
-                    b.Navigation("Psychologist");
                 });
 
             modelBuilder.Entity("Domain.PlayableContent", b =>
