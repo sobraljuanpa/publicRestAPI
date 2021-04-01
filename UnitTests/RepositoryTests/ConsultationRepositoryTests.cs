@@ -84,7 +84,7 @@ namespace UnitTests.RepositoryTests
         {
             var consultation = new Consultation { Id = 1, PatientName = "Juana", 
                                                   PatientBirthDate = new DateTime(1990, 01, 01), 
-                                                  PatientEmail = "juana@hotmail.com",
+                                                  PatientEmail = "juana@gmail.com",
                                                   PatientPhone = "098765432" };
             repository.Update(1, consultation);
             var modifiedConsultation = repository.Get(1);
