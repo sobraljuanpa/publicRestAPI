@@ -16,5 +16,6 @@ namespace IDataAccess
         public virtual DbSet<Problem> Problems { get; set; }
         public virtual DbSet<Psychologist> Psychologists { get; set; }
         public virtual DbSet<Administrator> Administrators { get; set; }
+        public virtual DbSet<Consultation> Consultations { get; set; }
     }
 }
