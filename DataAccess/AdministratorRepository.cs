@@ -5,7 +5,7 @@ using IDataAccess;
 
 namespace DataAccess
 {
-    public class AdministratorRepository: IRepository<Administrator>
+    public class AdministratorRepository: IAdministratorRepository<Administrator>
     {
 
         readonly Context _context;
@@ -13,6 +13,16 @@ namespace DataAccess
         public AdministratorRepository(Context context)
         {
             _context = context;
+        }
+
+        public bool Authenticate(string email, string password)
+        {
+            var authenticates = _context.Administrators.SingleOrDefault(
+                x => x.Email == email && x.Password == password);
+
+            if (authenticates != null) return true;
+
+            return false;
         }
 
         public IQueryable<Administrator> GetAll()
