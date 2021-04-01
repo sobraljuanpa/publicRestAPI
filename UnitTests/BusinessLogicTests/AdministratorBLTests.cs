@@ -10,6 +10,7 @@ using Moq;
 using Domain;
 using DataAccess;
 using IDataAccess;
+using BusinessLogic;
 
 namespace UnitTests.RepositoryTests
 {
