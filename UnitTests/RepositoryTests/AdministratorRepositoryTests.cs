@@ -45,6 +45,12 @@ namespace UnitTests.RepositoryTests
         }
 
         [TestMethod]
+        public void AuthenticateTest()
+        {
+            Assert.IsTrue(repository.Authenticate("chiara@hotmail.com", "123chiara987"));
+        }
+
+        [TestMethod]
         public void GetAllTest()
         {
             var administrator = repository.GetAll();
