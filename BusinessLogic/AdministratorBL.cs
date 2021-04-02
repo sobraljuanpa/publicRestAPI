@@ -1,6 +1,8 @@
 ﻿using Domain;
 using IBusinessLogic;
 using IDataAccess;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BusinessLogic 
 {
@@ -20,9 +22,29 @@ namespace BusinessLogic
             return administratorRepository.Authenticate(email, password);
         }
 
+        private bool ValidEmail(string email)
+        {
+            bool isValid = true;
+            List<Administrator> administrators = administratorRepository.GetAll().ToList();
+            
+            foreach(Administrator admin in administrators)
+            {
+                if (admin.Email.ToLower() == email.ToLower()) isValid = false; 
+            }
+
+            return isValid;
+        }
+
         public void AddAdministrator(Administrator administrator)
         {
-            administratorRepository.Add(administrator);
+            if(ValidEmail(administrator.Email))
+            {
+                administratorRepository.Add(administrator);
+            }
+            else
+            {
+                throw new System.Exception("The email you are trying to use is already associated to an administrator");
+            }
         }
 
         public void DeleteAdministrator(int id)
