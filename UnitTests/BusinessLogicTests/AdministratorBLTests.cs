@@ -11,6 +11,7 @@ using Domain;
 using DataAccess;
 using IDataAccess;
 using BusinessLogic;
+using System;
 
 namespace UnitTests.RepositoryTests
 {
@@ -61,6 +62,14 @@ namespace UnitTests.RepositoryTests
 
             mockSet.Verify(v => v.Add(It.IsAny<Administrator>()), Times.Once());
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
+        }
+
+        [TestMethod]
+        public void AddAdministratorInvalidUsernameTest()
+        {
+            var administrator = new Administrator { Id = 3, Email = "juanPablo@gmail.com", Name = "Lorenzo", Password = "123lorenzo" };
+
+            Assert.ThrowsException<Exception>(() => businessLogic.AddAdministrator(administrator));
         }
 
         [TestMethod]
