@@ -10,16 +10,19 @@ using Moq;
 using Domain;
 using DataAccess;
 using IDataAccess;
+using BusinessLogic;
+using System;
 
 namespace UnitTests.RepositoryTests
 {
     [TestClass]
-    public class AdministratorRepositoryTests
+    public class AdministratorBLTests
     {
         AdministratorRepository repository;
         Mock<DbSet<Administrator>> mockSet;
         Mock<Context> mockContext;
         DbContextOptions<Context> DbOptions;
+        AdministratorBL businessLogic;
 
         [TestInitialize]
         public void SetUp()
@@ -42,45 +45,38 @@ namespace UnitTests.RepositoryTests
             mockContext.Setup(v => v.Administrators).Returns(mockSet.Object);
 
             repository = new AdministratorRepository(mockContext.Object);
+            businessLogic = new AdministratorBL(repository);
         }
 
         [TestMethod]
         public void AuthenticateTest()
         {
-            Assert.IsTrue(repository.Authenticate("chiara@hotmail.com", "123chiara987"));
-        }
-
-        [TestMethod]
-        public void GetAllTest()
-        {
-            var administrator = repository.GetAll();
-
-            Assert.AreEqual(2, administrator.ToList().Count);
-        }
-
-        [TestMethod]
-        public void GetByIdTest()
-        {
-            var administrator = repository.Get(1);
-
-            Assert.AreEqual("chiara@hotmail.com", administrator.Email);
+            Assert.AreEqual(true, businessLogic.Authenticate("chiara@hotmail.com", "123chiara987"));
         }
 
         [TestMethod]
         public void AddAdministratorTest()
         {
             var administrator = new Administrator { Id = 3, Email = "lorenzo@gmail.com", Name = "Lorenzo", Password = "123lorenzo" };
-            repository.Add(administrator);
+            businessLogic.AddAdministrator(administrator);
 
             mockSet.Verify(v => v.Add(It.IsAny<Administrator>()), Times.Once());
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
         }
 
         [TestMethod]
+        public void AddAdministratorInvalidUsernameTest()
+        {
+            var administrator = new Administrator { Id = 3, Email = "juanPablo@gmail.com", Name = "Lorenzo", Password = "123lorenzo" };
+
+            Assert.ThrowsException<Exception>(() => businessLogic.AddAdministrator(administrator));
+        }
+
+        [TestMethod]
         public void UpdateAdministratorTest()
         {
             var administrator = new Administrator { Id = 1, Email = "chiara@hotmail.com", Name = "Chiara", Password = "chiara123987" };
-            repository.Update(1, administrator);
+            businessLogic.UpdateAdministrator(1, administrator);
             var modifiedAdministrator = repository.Get(1);
 
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
@@ -90,7 +86,7 @@ namespace UnitTests.RepositoryTests
         [TestMethod]
         public void DeleteAdministratorTest()
         {
-            repository.Delete(1);
+            businessLogic.DeleteAdministrator(1);
 
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
         }
