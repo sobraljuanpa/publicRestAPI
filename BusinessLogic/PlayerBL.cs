@@ -56,7 +56,7 @@ namespace BusinessLogic
 
         }
 
-        public void AddContentToPlaylist (int contentId)
+        public void AddContentToPlaylist (int playlistId, int contentId)
         {
 
         }
