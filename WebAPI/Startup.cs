@@ -7,6 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using IDataAccess;
+using DataAccess;
+using IBusinessLogic;
+using BusinessLogic;
+using Domain;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -28,7 +32,12 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<DbContext, Context>(o => o.UseSqlServer(@"Server=DESKTOP-PEFQTVJ\SQLEXPRESS;Database=BetterCalmDB;Trusted_Connection=True;MultipleActiveResultSets=True;"));
+            services.AddDbContext<Context>(
+                o => o.UseSqlServer(Configuration.GetConnectionString("BetterCalmDB"))
+            );
+            //registro repositorio y logica para admin
+            services.AddScoped<IAdministratorRepository<Administrator>, AdministratorRepository>();
+            services.AddScoped<IAdministratorBL, AdministratorBL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
