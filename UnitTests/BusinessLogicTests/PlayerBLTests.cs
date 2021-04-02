@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,6 +14,7 @@ using BusinessLogic;
 
 namespace UnitTests.BusinessLogicTests
 {
+    [TestClass]
     public class PlayerBLTests
     {
 
@@ -117,15 +117,16 @@ namespace UnitTests.BusinessLogicTests
         }
 
         [TestMethod]
-        public void AddContentToPlaylistTest(int contentId)
+        public void AddContentToPlaylistTest()
         {
             var auxCategory = new Category { Id = 3, Name = "Musica" };
             PlayableContent newContent = new PlayableContent { Id = 3, Author = "Cuatro Pesos de Propina", Category = auxCategory, Duration = 4.4, ContentURL = "http://mi-revolucion.mp3", ImageURL = "", Name = "Mi Revolución" };
+            Playlist auxPlaylist = new Playlist { Id = 1, Category = auxCategory, Description = "Rock uruguayo", ImageURL = "", Name = "Rock uruguayo", Contents = new List<PlayableContent> {  } };
 
-            playerBL.AddContentToPlaylist(1,newContent.Id);
-            
 
-            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
+            playerBL.AddContentToPlaylist(auxPlaylist,newContent);
+
+            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
 
         }
