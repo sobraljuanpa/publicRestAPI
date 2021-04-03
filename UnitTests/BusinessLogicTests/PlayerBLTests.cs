@@ -194,20 +194,19 @@ namespace UnitTests.BusinessLogicTests
             };
             PlayableContent newContent = new PlayableContent
             {
-                Id = 3,
-                Author = "Cuatro Pesos de Propina",
+                Id = 1,
+                Author = "Buenos Muchachos",
                 Category = auxCategory,
-                Duration = 4.4,
-                ContentURL = "http://mi-revolucion.mp3",
+                Duration = 1.2,
+                ContentURL = "http://sin-hogar.mp3",
                 ImageURL = "",
-                Name = "Mi Revolución"
+                Name = "Sin hogar"
             };
 
             playerBL.AddIndependentContent(newContent);
-            playerBL.AddIndependentContent(newContent);
 
-            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
-            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(2));
+            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
+            mockContext.Verify(e => e.SaveChanges(), Times.Once());
 
         }
 
