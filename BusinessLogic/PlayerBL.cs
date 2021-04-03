@@ -81,7 +81,7 @@ namespace BusinessLogic
             
             if (!playlistRepository.GetAll().ToList().Contains(playlist))
             {
-                AddPlaylist(playlist);
+                playlistRepository.Add(playlist);
             }
         }
 
@@ -94,14 +94,23 @@ namespace BusinessLogic
             } 
         }
 
+        public void SameCategory(Playlist playlist, PlayableContent content)
+        {
+            if (playlist.Category != content.Category)
+            {
+                throw new Exception("This playable content cannot be added to the playlist.");
+            }
+        }
+
         public void AddContentToPlaylist (Playlist playlist, PlayableContent content)
         {
+            SameCategory(playlist, content);
             ExistsContent(content);
             ExitsPlaylist(playlist);
-            AlreadyOnPlaylist(playlist,content);
-            Playlist auxPlaylist = playlistRepository.Get(playlist.Id);
-            PlayableContent auxContent = contentRepository.Get(content.Id);
-            auxPlaylist.Contents.Add(auxContent);
+            AlreadyOnPlaylist(playlist, content);
+            //Playlist auxPlaylist = playlistRepository.Get(playlist.Id);
+            //PlayableContent auxContent = contentRepository.Get(content.Id);
+            playlist.Contents.Add(content);
         }
 
         public void DeleteContent (int contentId)

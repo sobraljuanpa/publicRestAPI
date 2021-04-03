@@ -243,7 +243,7 @@ namespace UnitTests.BusinessLogicTests
             playerBL.AddContentToPlaylist(auxPlaylist, newContent);
 
             contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
-            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(2));
+            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(3));
 
         }
 
@@ -280,7 +280,7 @@ namespace UnitTests.BusinessLogicTests
             playerBL.AddContentToPlaylist(auxPlaylist, newContent);
 
             contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
-            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(2));
+            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(3));
         }
 
         [TestMethod]
@@ -315,8 +315,8 @@ namespace UnitTests.BusinessLogicTests
             playerBL.AddIndependentContent(newContent);
             playerBL.AddContentToPlaylist(auxPlaylist, newContent);
 
-            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Exactly(2));
-            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(2));
+            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
+            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(3));
         }
 
         [TestMethod]
