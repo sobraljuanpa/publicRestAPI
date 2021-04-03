@@ -11,6 +11,7 @@ using Domain;
 using DataAccess;
 using IDataAccess;
 using BusinessLogic;
+using System;
 
 namespace UnitTests.BusinessLogicTests
 {
@@ -32,35 +33,81 @@ namespace UnitTests.BusinessLogicTests
         public void SetUp()
         {
 
-            var auxCategory = new Category { Id = 3, Name = "Musica" };
-            var auxPlayableContent = new PlayableContent { Id = 1, Author = "Buenos Muchachos",
-                                                           Category = auxCategory, Duration = 1.2, 
-                                                           ContentURL = "http://sin-hogar.mp3", 
-                                                           ImageURL = "", Name = "Sin hogar" };
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+            var auxPlayableContent = new PlayableContent
+            {
+                Id = 1,
+                Author = "Buenos Muchachos",
+                Category = auxCategory,
+                Duration = 1.2,
+                ContentURL = "http://sin-hogar.mp3",
+                ImageURL = "",
+                Name = "Sin hogar"
+            };
 
             var dataCategory = new List<Category>
             {
-                new Category {Id = 1, Name = "Dormir"},
-                new Category {Id = 2, Name = "Meditar"},
-                new Category {Id = 3, Name = "Musica"},
-                new Category {Id = 4, Name = "Cuerpo"},
+                new Category
+                {
+                    Id = 1,
+                    Name = "Dormir"
+                },
+                new Category
+                {
+                    Id = 2,
+                    Name = "Meditar"
+                },
+                new Category
+                {
+                    Id = 3,
+                    Name = "Musica"
+                },
+                new Category
+                {
+                    Id = 4,
+                    Name = "Cuerpo"
+                },
             }.AsQueryable();
 
             var dataPlayableContent = new List<PlayableContent>
             {
-                new PlayableContent { Id = 1, Author = "Buenos Muchachos", Category = auxCategory, 
-                                      Duration = 1.2, ContentURL = "http://sin-hogar.mp3", 
-                                      ImageURL = "", Name = "Sin hogar"},
-                new PlayableContent { Id = 2, Author = "Buitres", Category = auxCategory, Duration = 2.2, 
-                                      ContentURL = "http://cadillac-solitario.mp3", ImageURL = "", 
-                                      Name = "Cadillac solitario"}
+                new PlayableContent
+                {
+                    Id = 1,
+                    Author = "Buenos Muchachos",
+                    Category = auxCategory,
+                    Duration = 1.2,
+                    ContentURL = "http://sin-hogar.mp3",
+                    ImageURL = "",
+                    Name = "Sin hogar"
+                },
+                new PlayableContent
+                {
+                  Id = 2,
+                  Author = "Buitres",
+                  Category = auxCategory,
+                  Duration = 2.2,
+                  ContentURL = "http://cadillac-solitario.mp3",
+                  ImageURL = "",
+                  Name = "Cadillac solitario"
+                }
             }.AsQueryable();
 
             var dataPlaylist = new List<Playlist>
             {
-                new Playlist { Id = 1, Category = auxCategory, Description = "Rock uruguayo", 
-                               ImageURL = "", Name = "Rock uruguayo", 
-                               Contents = new List<PlayableContent> { auxPlayableContent } }
+                new Playlist
+                {
+                    Id = 1,
+                    Category = auxCategory,
+                    Description = "Rock uruguayo",
+                    ImageURL = "",
+                    Name = "Rock uruguayo",
+                    Contents = new List<PlayableContent> { auxPlayableContent }
+                }
             }.AsQueryable();
 
             categoryMockSet = new Mock<DbSet<Category>>();
@@ -94,7 +141,7 @@ namespace UnitTests.BusinessLogicTests
             playlistRepository = new PlaylistRepository(mockContext.Object);
 
 
-            playerBL = new PlayerBL(categoryRepository,playableContentRepository,playlistRepository);
+            playerBL = new PlayerBL(categoryRepository, playableContentRepository, playlistRepository);
         }
 
         [TestMethod]
@@ -116,12 +163,20 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void AddIndependentContentTest()
         {
-            var auxCategory = new Category { Id = 3, Name = "Musica" };
-            PlayableContent newContent = new PlayableContent { Id = 3, Author = "Cuatro Pesos de Propina",
-                                                               Category = auxCategory, Duration = 4.4, 
-                                                               ContentURL = "http://mi-revolucion.mp3", 
-                                                               ImageURL = "", Name = "Mi Revolución" };
-;
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+            PlayableContent newContent = new PlayableContent {
+                Id = 3,
+                Author = "Cuatro Pesos de Propina",
+                Category = auxCategory,
+                Duration = 4.4,
+                ContentURL = "http://mi-revolucion.mp3",
+                ImageURL = "",
+                Name = "Mi Revolución"
+            };
             playerBL.AddIndependentContent(newContent);
 
             contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
@@ -129,24 +184,218 @@ namespace UnitTests.BusinessLogicTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddExistingIndependentContentTest()
+        {
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+            PlayableContent newContent = new PlayableContent
+            {
+                Id = 3,
+                Author = "Cuatro Pesos de Propina",
+                Category = auxCategory,
+                Duration = 4.4,
+                ContentURL = "http://mi-revolucion.mp3",
+                ImageURL = "",
+                Name = "Mi Revolución"
+            };
+
+            playerBL.AddIndependentContent(newContent);
+            playerBL.AddIndependentContent(newContent);
+
+            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
+            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(2));
+
+        }
+
+        [TestMethod]
         public void AddContentToPlaylistTest()
         {
-            var auxCategory = new Category { Id = 3, Name = "Musica" };
-            PlayableContent newContent = new PlayableContent { Id = 3, Author = "Cuatro Pesos de Propina",
-                                                               Category = auxCategory, Duration = 4.4, 
-                                                               ContentURL = "http://mi-revolucion.mp3", 
-                                                               ImageURL = "", Name = "Mi Revolución" };
-            Playlist auxPlaylist = new Playlist { Id = 1, Category = auxCategory, 
-                                                  Description = "Rock uruguayo", ImageURL = "", 
-                                                  Name = "Rock uruguayo", 
-                                                  Contents = new List<PlayableContent> {  } };
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+            PlayableContent newContent = new PlayableContent
+            {
+                Id = 3,
+                Author = "Cuatro Pesos de Propina",
+                Category = auxCategory,
+                Duration = 4.4,
+                ContentURL = "http://mi-revolucion.mp3",
+                ImageURL = "", Name = "Mi Revolución"
+            };
 
+            Playlist auxPlaylist = new Playlist
+            {
+                Id = 1,
+                Category = auxCategory,
+                Description = "Rock uruguayo",
+                ImageURL = "",
+                Name = "Rock uruguayo",
+                Contents = new List<PlayableContent> { }
+            };
 
-            playerBL.AddContentToPlaylist(auxPlaylist,newContent);
+            playerBL.AddIndependentContent(newContent);
+            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+
+            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
+            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(2));
+
+        }
+
+        [TestMethod]
+        public void AddNotExistingContentToPlaylistTest()
+        {
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+            PlayableContent newContent = new PlayableContent
+            {
+                Id = 4,
+                Author = "Once Tiros",
+                Category = auxCategory,
+                Duration = 3.0,
+                ContentURL = "http://Maldición.mp3",
+                ImageURL = "",
+                Name = "Maldición"
+            };
+
+            Playlist auxPlaylist = new Playlist
+            {
+                Id = 1,
+                Category = auxCategory,
+                Description = "Rock uruguayo",
+                ImageURL = "",
+                Name = "Rock uruguayo",
+                Contents = new List<PlayableContent> { }
+            };
+
+            playableContentRepository.Add(newContent);
+            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+
+            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
+            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public void AddContentToNotExistingPlaylistTest()
+        {
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+            PlayableContent newContent = new PlayableContent
+            {
+                Id = 3,
+                Author = "Catupecu Machu",
+                Category = auxCategory,
+                Duration = 4.2,
+                ContentURL = "http://A-veces-vuelvo.mp3",
+                ImageURL = "",
+                Name = "A veces vuelvo"
+            };
+
+            Playlist auxPlaylist = new Playlist
+            {
+                Id = 2,
+                Category = auxCategory,
+                Description = "Rock argentino",
+                ImageURL = "",
+                Name = "Rock argentino",
+                Contents = new List<PlayableContent> { }
+            };
+
+            playerBL.AddIndependentContent(newContent);
+            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+
+            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Exactly(2));
+            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddExistingContentToPlaylistTest()
+        {
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+            PlayableContent newContent = new PlayableContent
+            {
+                Id = 4,
+                Author = "Once Tiros",
+                Category = auxCategory,
+                Duration = 3.0,
+                ContentURL = "http://Maldición.mp3",
+                ImageURL = "",
+                Name = "Maldición"
+            };
+
+            Playlist auxPlaylist = new Playlist
+            {
+                Id = 1,
+                Category = auxCategory,
+                Description = "Rock uruguayo",
+                ImageURL = "",
+                Name = "Rock uruguayo",
+                Contents = new List<PlayableContent> { newContent }
+            };
+
+            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+
+            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
+            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddContentToPlaylistWithDifferentCategoriesTest()
+        {
+
+            var bodyCategory = new Category
+            {
+                Id = 4,
+                Name = "Cuerpo"
+            };
+            var musicCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+
+            PlayableContent newContent = new PlayableContent
+            {
+                Id = 3,
+                Author = "Peter Scherer",
+                Category = bodyCategory,
+                Duration = 1.1,
+                ContentURL = "http://The-flight.mp3",
+                ImageURL = "",
+                Name = "The flight"
+            };
+            Playlist auxPlaylist = new Playlist
+            {
+                Id = 1,
+                Category = musicCategory,
+                Description = "Rock uruguayo",
+                ImageURL = "",
+                Name = "Rock uruguayo",
+                Contents = new List<PlayableContent> { }
+            };
+
+            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
 
             contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
-
         }
     }
 }
