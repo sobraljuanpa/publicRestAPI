@@ -33,7 +33,21 @@ namespace BusinessLogic
 
         public List<CategoryElement> GetCategoryElements(int categoryId)
         {
-            return null;
+            var playlists = playlistRepository.GetAll().ToList();
+            var contents = contentRepository.GetAll().ToList();
+            List<CategoryElement> auxReturn = new List<CategoryElement>();
+
+            foreach (Playlist p in playlists)
+            {
+                if (p.Category.Id == categoryId) auxReturn.Add(p);
+            }
+
+            foreach (PlayableContent c in contents)
+            {
+                if (c.Category.Id == categoryId) auxReturn.Add(c);
+            }
+
+            return auxReturn;
         }
 
         public Playlist GetPlaylist(int playlistId)
@@ -44,7 +58,7 @@ namespace BusinessLogic
 
         public PlayableContent GetPlayableContent(int contentId)
         {
-            return null;
+            return contentRepository.Get(contentId);
         }
 
         public void ValidateContent (PlayableContent content)
@@ -70,7 +84,7 @@ namespace BusinessLogic
 
         public void AddPlaylist (Playlist playlist)
         {
-
+            playlistRepository.Add(playlist);
         }
 
         public void AlreadyOnPlaylist (Playlist playlist, PlayableContent content)
@@ -120,7 +134,7 @@ namespace BusinessLogic
 
         public void DeleteContent (int contentId)
         {
-
+            contentRepository.Delete(contentId);
         }
 
     }
