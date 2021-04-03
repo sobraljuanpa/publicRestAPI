@@ -396,5 +396,40 @@ namespace UnitTests.BusinessLogicTests
             contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
         }
+
+        [TestMethod]
+        public void GetCategoryElementsTest()
+        {
+            var contents = playerBL.GetCategoryElements(1);
+
+            Assert.AreEqual(2, contents.Count);
+        }
+
+        [TestMethod]
+        public void GetPlayableContentTest()
+        {
+            var content = playerBL.GetPlayableContent(1);
+
+            Assert.AreEqual("Buenos Muchachos", content.Author);
+        }
+
+        [TestMethod]
+        public void AddPlaylistTest()
+        {
+            Category c = new Category { Id = 1, Name = "q" };
+            Playlist p = new Playlist { Id = 3, Category = c, Description = "asd", Name = "asd", ImageURL = "asd" };
+            playerBL.AddPlaylist(p);
+
+            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
+            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+        }
+
+        [TestMethod]
+        public void DeleteContentTest()
+        {
+            playerBL.DeleteContent(2);
+
+            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+        }
     }
 }
