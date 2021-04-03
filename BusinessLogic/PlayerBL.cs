@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Domain;
 using IBusinessLogic;
 using IDataAccess;
@@ -27,43 +28,113 @@ namespace BusinessLogic
 
         public List<Category> GetCategories()
         {
-            return null;
+            return categoryRepository.GetAll().ToList();
         }
 
         public List<CategoryElement> GetCategoryElements(int categoryId)
         {
-            return null;
+            var playlists = playlistRepository.GetAll().ToList();
+            var contents = contentRepository.GetAll().ToList();
+            List<CategoryElement> auxReturn = new List<CategoryElement>();
+
+            foreach (Playlist p in playlists)
+            {
+                if (p.Category.Id == categoryId) auxReturn.Add(p);
+            }
+
+            foreach (PlayableContent c in contents)
+            {
+                if (c.Category.Id == categoryId) auxReturn.Add(c);
+            }
+
+            return auxReturn;
         }
 
         public Playlist GetPlaylist(int playlistId)
         {
-            return null;
+            return playlistRepository.Get(playlistId);
 
         }
 
         public PlayableContent GetPlayableContent(int contentId)
         {
-            return null;
+            return contentRepository.Get(contentId);
         }
 
-        public void AddIndependentContent (PlayableContent playableContent)
+        public void ValidateContent (PlayableContent content)
         {
-           
+
+            foreach (PlayableContent auxContent in contentRepository.GetAll().ToList())
+            {
+                if (content.Name == auxContent.Name && content.ImageURL == auxContent.ImageURL && 
+                    content.Duration == auxContent.Duration && content.ContentURL == auxContent.ContentURL 
+                    && content.Category == auxContent.Category && content.Author == auxContent.Author)
+                {
+
+                    throw new Exception("The playable content inserted already exists.");
+                }
+            }
+        }
+
+        public void AddIndependentContent (PlayableContent content)
+        {
+            ValidateContent(content);
+            contentRepository.Add(content);
         }
 
         public void AddPlaylist (Playlist playlist)
         {
-
+            playlistRepository.Add(playlist);
         }
 
-        public void AddContentToPlaylist (int contentId)
+        public void AlreadyOnPlaylist (Playlist playlist, PlayableContent content)
         {
+            if (playlist.Contents.Contains(content))
+            {
+                throw new Exception("The playable content inserted already exists in the playlist.");
+            }
+        }
 
+        public void PlaylistExists(Playlist playlist)
+        {
+            
+            if (!playlistRepository.GetAll().ToList().Contains(playlist))
+            {
+                playlistRepository.Add(playlist);
+            }
+        }
+
+        public void ContentExists(PlayableContent content)
+        {
+            PlayableContent auxContent = contentRepository.Get(content.Id);
+            if (auxContent == null)
+            {
+                contentRepository.Add(auxContent);
+            } 
+        }
+
+        public void SameCategory(Playlist playlist, PlayableContent content)
+        {
+            if (playlist.Category != content.Category)
+            {
+                throw new Exception("This playable content cannot be added to the playlist.");
+            }
+        }
+
+        public void AddContentToPlaylist (Playlist playlist, PlayableContent content)
+        {
+            SameCategory(playlist, content);
+            ContentExists(content);
+            PlaylistExists(playlist);
+            AlreadyOnPlaylist(playlist, content);
+            //Playlist auxPlaylist = playlistRepository.Get(playlist.Id);
+            //PlayableContent auxContent = contentRepository.Get(content.Id);
+            playlist.Contents.Add(content);
         }
 
         public void DeleteContent (int contentId)
         {
-
+            contentRepository.Delete(contentId);
         }
 
     }

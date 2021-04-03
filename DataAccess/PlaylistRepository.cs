@@ -2,6 +2,7 @@
 
 using Domain;
 using IDataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
@@ -16,7 +17,9 @@ namespace DataAccess
 
         public IQueryable<Playlist> GetAll()
         {
-            return _context.Playlists;
+            return _context.Playlists
+                .Include(p => p.Category)
+                .Include(p => p.Contents);
         }
 
         public Playlist Get(int id)
