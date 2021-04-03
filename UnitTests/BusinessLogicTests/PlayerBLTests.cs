@@ -400,9 +400,9 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void GetCategoryElementsTest()
         {
-            var contents = playerBL.GetCategoryElements(1);
+            var contents = playerBL.GetCategoryElements(3);
 
-            Assert.AreEqual(2, contents.Count);
+            Assert.AreEqual(3, contents.Count);
         }
 
         [TestMethod]
