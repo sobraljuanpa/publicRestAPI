@@ -33,7 +33,10 @@ namespace UnitTests.BusinessLogicTests
         {
 
             var auxCategory = new Category { Id = 3, Name = "Musica" };
-            var auxPlayableContent = new PlayableContent { Id = 1, Author = "Buenos Muchachos", Category = auxCategory, Duration = 1.2, ContentURL = "http://sin-hogar.mp3", ImageURL = "", Name = "Sin hogar" };
+            var auxPlayableContent = new PlayableContent { Id = 1, Author = "Buenos Muchachos",
+                                                           Category = auxCategory, Duration = 1.2, 
+                                                           ContentURL = "http://sin-hogar.mp3", 
+                                                           ImageURL = "", Name = "Sin hogar" };
 
             var dataCategory = new List<Category>
             {
@@ -45,13 +48,19 @@ namespace UnitTests.BusinessLogicTests
 
             var dataPlayableContent = new List<PlayableContent>
             {
-                new PlayableContent { Id = 1, Author = "Buenos Muchachos", Category = auxCategory, Duration = 1.2, ContentURL = "http://sin-hogar.mp3", ImageURL = "", Name = "Sin hogar"},
-                new PlayableContent { Id = 2, Author = "Buitres", Category = auxCategory, Duration = 2.2, ContentURL = "http://cadillac-solitario.mp3", ImageURL = "", Name = "Cadillac solitario"}
+                new PlayableContent { Id = 1, Author = "Buenos Muchachos", Category = auxCategory, 
+                                      Duration = 1.2, ContentURL = "http://sin-hogar.mp3", 
+                                      ImageURL = "", Name = "Sin hogar"},
+                new PlayableContent { Id = 2, Author = "Buitres", Category = auxCategory, Duration = 2.2, 
+                                      ContentURL = "http://cadillac-solitario.mp3", ImageURL = "", 
+                                      Name = "Cadillac solitario"}
             }.AsQueryable();
 
             var dataPlaylist = new List<Playlist>
             {
-                new Playlist { Id = 1, Category = auxCategory, Description = "Rock uruguayo", ImageURL = "", Name = "Rock uruguayo", Contents = new List<PlayableContent> { auxPlayableContent } }
+                new Playlist { Id = 1, Category = auxCategory, Description = "Rock uruguayo", 
+                               ImageURL = "", Name = "Rock uruguayo", 
+                               Contents = new List<PlayableContent> { auxPlayableContent } }
             }.AsQueryable();
 
             categoryMockSet = new Mock<DbSet<Category>>();
@@ -108,7 +117,10 @@ namespace UnitTests.BusinessLogicTests
         public void AddIndependentContentTest()
         {
             var auxCategory = new Category { Id = 3, Name = "Musica" };
-            PlayableContent newContent = new PlayableContent { Id = 3, Author = "Cuatro Pesos de Propina", Category = auxCategory, Duration = 4.4, ContentURL = "http://mi-revolucion.mp3", ImageURL = "", Name = "Mi Revolución" };
+            PlayableContent newContent = new PlayableContent { Id = 3, Author = "Cuatro Pesos de Propina",
+                                                               Category = auxCategory, Duration = 4.4, 
+                                                               ContentURL = "http://mi-revolucion.mp3", 
+                                                               ImageURL = "", Name = "Mi Revolución" };
 ;
             playerBL.AddIndependentContent(newContent);
 
@@ -120,8 +132,14 @@ namespace UnitTests.BusinessLogicTests
         public void AddContentToPlaylistTest()
         {
             var auxCategory = new Category { Id = 3, Name = "Musica" };
-            PlayableContent newContent = new PlayableContent { Id = 3, Author = "Cuatro Pesos de Propina", Category = auxCategory, Duration = 4.4, ContentURL = "http://mi-revolucion.mp3", ImageURL = "", Name = "Mi Revolución" };
-            Playlist auxPlaylist = new Playlist { Id = 1, Category = auxCategory, Description = "Rock uruguayo", ImageURL = "", Name = "Rock uruguayo", Contents = new List<PlayableContent> {  } };
+            PlayableContent newContent = new PlayableContent { Id = 3, Author = "Cuatro Pesos de Propina",
+                                                               Category = auxCategory, Duration = 4.4, 
+                                                               ContentURL = "http://mi-revolucion.mp3", 
+                                                               ImageURL = "", Name = "Mi Revolución" };
+            Playlist auxPlaylist = new Playlist { Id = 1, Category = auxCategory, 
+                                                  Description = "Rock uruguayo", ImageURL = "", 
+                                                  Name = "Rock uruguayo", 
+                                                  Contents = new List<PlayableContent> {  } };
 
 
             playerBL.AddContentToPlaylist(auxPlaylist,newContent);
