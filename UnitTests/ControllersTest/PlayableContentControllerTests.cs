@@ -195,7 +195,7 @@ namespace UnitTests.ControllersTests
         public void DeleteContentByIdTest()
         {
             var result = controller.DeleteContentById(1);
-            var objectResult = result as ObjectResult;
+            var objectResult = result as NoContentResult;
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(204, statusCode);
