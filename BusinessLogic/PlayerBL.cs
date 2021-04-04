@@ -53,7 +53,6 @@ namespace BusinessLogic
         public Playlist GetPlaylist(int playlistId)
         {
             return playlistRepository.Get(playlistId);
-
         }
 
         public PlayableContent GetPlayableContent(int contentId)
@@ -140,7 +139,11 @@ namespace BusinessLogic
 
         public void DeleteContent (int contentId)
         {
-            contentRepository.Delete(contentId);
+            if (contentId <= contentRepository.GetAll().ToList().Count() && contentId > 0)
+            {
+                contentRepository.Delete(contentId);
+            }
+            else throw new Exception("No content associated to given id.");
         }
 
     }

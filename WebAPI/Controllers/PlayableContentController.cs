@@ -48,5 +48,20 @@ namespace WebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        //DELETE: /api/playablecontent/{id}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteContentById(int id)
+        {
+            try
+            {
+                playerBL.DeleteContent(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
     }
 }
