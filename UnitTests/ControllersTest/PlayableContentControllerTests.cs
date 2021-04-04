@@ -157,6 +157,16 @@ namespace UnitTests.ControllersTests
             Assert.AreEqual(200, statusCode);
         }
 
+        [TestMethod]
+        public void GetNonExistantContentByIdTest()
+        {
+            var result = controller.GetContentById(0);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(404, statusCode);
+        }
+
 
     }
 }
