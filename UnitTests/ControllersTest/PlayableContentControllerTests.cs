@@ -167,6 +167,18 @@ namespace UnitTests.ControllersTests
             Assert.AreEqual(404, statusCode);
         }
 
+        [TestMethod]
+        public void AddContentTest()
+        {
+            Category c = new Category { Id = 3, Name = "Musica"};
+            PlayableContent p = new PlayableContent { Author = "Joy Division", Category = c, ContentURL = "http://disorder.mp3", Duration = 1.2, ImageURL = "", Name = "Disorder" };
+            var result = controller.CreateContent(p);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(201, statusCode);
+        }
+
 
     }
 }
