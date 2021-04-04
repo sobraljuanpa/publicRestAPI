@@ -33,5 +33,20 @@ namespace WebAPI.Controllers
                 return NotFound(e.Message);
             }
         }
+
+        //POST: /api/playablecontent
+        [HttpPost]
+        public IActionResult CreateContent([FromBody] PlayableContent content)
+        {
+            try
+            {
+                playerBL.AddIndependentContent(content);
+                return Created($"Content created at /api/playablecontent/{content.Id}", content);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

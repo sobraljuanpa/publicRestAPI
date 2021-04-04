@@ -81,10 +81,11 @@ namespace BusinessLogic
             }
         }
 
-        public void AddIndependentContent (PlayableContent content)
+        public PlayableContent AddIndependentContent (PlayableContent content)
         {
             ValidateContent(content);
             contentRepository.Add(content);
+            return contentRepository.Get(contentRepository.GetAll().ToList().Count());
         }
 
         public void AddPlaylist (Playlist playlist)
