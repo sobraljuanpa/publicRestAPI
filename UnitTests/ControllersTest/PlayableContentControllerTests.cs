@@ -191,6 +191,25 @@ namespace UnitTests.ControllersTests
             Assert.AreEqual(400, statusCode);
         }
 
+        [TestMethod]
+        public void DeleteContentByIdTest()
+        {
+            var result = controller.DeleteContentById(1);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(204, statusCode);
+        }
+
+        [TestMethod]
+        public void DeleteInvalidContentByIdTest()
+        {
+            var result = controller.DeleteContentById(30);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(404, statusCode);
+        }
 
     }
 }
