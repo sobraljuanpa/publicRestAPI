@@ -27,6 +27,7 @@ namespace IDataAccess
                 Password = "admin",
                 Email = "admin@admin.admin"
             });
+            modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<Category>().HasData(new List<Category> 
             {
                 new Category
