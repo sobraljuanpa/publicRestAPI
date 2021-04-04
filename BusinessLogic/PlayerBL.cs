@@ -58,7 +58,7 @@ namespace BusinessLogic
 
         public PlayableContent GetPlayableContent(int contentId)
         {
-            if (contentId <= contentRepository.GetAll().ToList().Count())
+            if (contentId <= contentRepository.GetAll().ToList().Count() && contentId > 0)
             {
                 return contentRepository.Get(contentId);
             }
