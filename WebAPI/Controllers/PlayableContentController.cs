@@ -23,8 +23,15 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetContentById(int id)
         {
-            PlayableContent content = playerBL.GetPlayableContent(id);
-            return Ok(content);
+            try
+            {
+                PlayableContent content = playerBL.GetPlayableContent(id);
+                return Ok(content);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }

@@ -58,7 +58,11 @@ namespace BusinessLogic
 
         public PlayableContent GetPlayableContent(int contentId)
         {
-            return contentRepository.Get(contentId);
+            if (contentId <= contentRepository.GetAll().Count())
+            {
+                return contentRepository.Get(contentId);
+            }
+            else throw new Exception("No content associated to given id.");
         }
 
         public void ValidateContent (PlayableContent content)
