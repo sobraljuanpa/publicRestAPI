@@ -22,6 +22,7 @@ namespace WebAPI.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] Administrator admin)
         {
+
             bool aux = administratorBL.Authenticate(admin.Email, admin.Password);
             if(aux)
             {
