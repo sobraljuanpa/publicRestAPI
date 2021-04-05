@@ -45,5 +45,19 @@ namespace WebAPI.Controllers
             }
 
         }
+
+        [HttpPost()]
+        public IActionResult AddAdministrator (Administrator administrator)
+        {
+            try
+            {
+                administratorBL.AddAdministrator(administrator);
+                return Created(" ",administrator);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
