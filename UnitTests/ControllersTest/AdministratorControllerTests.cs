@@ -140,7 +140,7 @@ namespace UnitTests.ControllersTest
                 Name = "admin",
                 Password = "admin"
             };
-            var firstAttempt = controller.AddAdministrator(admin);
+
             var result = controller.AddAdministrator(admin);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
