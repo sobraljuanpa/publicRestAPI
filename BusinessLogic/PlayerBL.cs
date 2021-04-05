@@ -139,7 +139,7 @@ namespace BusinessLogic
 
         public void DeleteContent (int contentId)
         {
-            if (contentId <= contentRepository.GetAll().ToList().Count() && contentId > 0)
+            if (contentId <= contentRepository.GetAll().ToList().FindLast(x => x.Id != 0).Id && contentId > 0)
             {
                 contentRepository.Delete(contentId);
             }
