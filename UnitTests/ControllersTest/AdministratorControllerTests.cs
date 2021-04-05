@@ -97,7 +97,7 @@ namespace UnitTests.ControllersTest
         }
 
         [TestMethod]
-        public void invalidAuthenticationTest ()
+        public void InvalidAuthenticationTest ()
         {
             Administrator admin = new Administrator
             {
@@ -111,6 +111,23 @@ namespace UnitTests.ControllersTest
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(401, statusCode);
+        }
+
+        [TestMethod]
+        public void AddAdministratorTest ()
+        {
+            Administrator admin = new Administrator
+            {
+                Id = 1,
+                Email = "chiara@chiara.chiara",
+                Name = "chiara",
+                Password = "chiara"
+            };
+            var result = controller.AddAdministrator(admin);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(201, statusCode);
         }
     }
 }
