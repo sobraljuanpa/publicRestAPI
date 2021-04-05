@@ -13,6 +13,10 @@ namespace Domain
 
         public string ImageURL { get; set; }
 
+        [ForeignKey("CategoryId")]
         public Category Category { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }
     }
 }

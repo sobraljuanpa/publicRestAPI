@@ -38,6 +38,11 @@ namespace WebAPI
             //registro repositorio y logica para admin
             services.AddScoped<IAdministratorRepository<Administrator>, AdministratorRepository>();
             services.AddScoped<IAdministratorBL, AdministratorBL>();
+            //registro repositorios y logica para playablecontent
+            services.AddScoped<IRepository<Playlist>, PlaylistRepository>();
+            services.AddScoped<IRepository<Category>, CategoryRepository>();
+            services.AddScoped<IRepository<PlayableContent>, PlayableContentRepository>();
+            services.AddScoped<IPlayerBL, PlayerBL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

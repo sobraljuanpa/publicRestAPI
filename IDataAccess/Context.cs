@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Domain;
 
@@ -26,6 +26,30 @@ namespace IDataAccess
                 Id = 1,
                 Password = "admin",
                 Email = "admin@admin.admin"
+            });
+            modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
+            modelBuilder.Entity<Category>().HasData(new List<Category> 
+            {
+                new Category
+                {
+                    Id = 1,
+                    Name = "Dormir"
+                },
+                new Category
+                {
+                    Id = 2,
+                    Name = "Meditar"
+                },
+                new Category
+                {
+                    Id = 3,
+                    Name = "Musica"
+                },
+                new Category
+                {
+                    Id = 4,
+                    Name = "Cuerpo"
+                }
             });
         }
     }

@@ -169,7 +169,6 @@ namespace UnitTests.BusinessLogicTests
                 Name = "Musica"
             };
             PlayableContent newContent = new PlayableContent {
-                Id = 3,
                 Author = "Cuatro Pesos de Propina",
                 Category = auxCategory,
                 Duration = 4.4,
@@ -220,7 +219,6 @@ namespace UnitTests.BusinessLogicTests
             };
             PlayableContent newContent = new PlayableContent
             {
-                Id = 3,
                 Author = "Cuatro Pesos de Propina",
                 Category = auxCategory,
                 Duration = 4.4,
@@ -292,7 +290,6 @@ namespace UnitTests.BusinessLogicTests
             };
             PlayableContent newContent = new PlayableContent
             {
-                Id = 3,
                 Author = "Catupecu Machu",
                 Category = auxCategory,
                 Duration = 4.2,
