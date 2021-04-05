@@ -57,6 +57,11 @@ namespace BusinessLogic
             administratorRepository.Update(id, administrator);
         }
 
+        public Administrator Get (int id)
+        {
+            return administratorRepository.Get(id);
+        }
+
     }
         
 }

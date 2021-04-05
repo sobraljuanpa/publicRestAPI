@@ -30,5 +30,14 @@ namespace WebAPI.Controllers
             }
             return Unauthorized(new { message = "Username or password incorrect" });
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetAdministratorById (int id)
+        {
+            Administrator administrator = administratorBL.Get(id);
+
+            return Ok(administrator);
+
+        }
     }
 }
