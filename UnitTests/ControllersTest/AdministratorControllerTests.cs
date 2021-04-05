@@ -58,6 +58,16 @@ namespace UnitTests.ControllersTest
         }
 
         [TestMethod]
+        public void GetAdministratorByIdTest ()
+        {
+            var result = controller.GetAdministratorById(1);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(200, statusCode);
+        }
+
+        [TestMethod]
         public void AuthenticateTest ()
         {
             Administrator admin = new Administrator
