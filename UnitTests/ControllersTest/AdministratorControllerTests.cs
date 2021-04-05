@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UnitTests.ControllersTest
 {
+    [TestClass]
+
     public class AdministratorControllerTests
     {
 
@@ -65,6 +67,16 @@ namespace UnitTests.ControllersTest
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(200, statusCode);
+        }
+
+        [TestMethod]
+        public void GetNonExistingAdministratorByIdTest()
+        {
+            var result = controller.GetAdministratorById(0);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(404, statusCode);
         }
 
         [TestMethod]

@@ -3,6 +3,7 @@ using IBusinessLogic;
 using IDataAccess;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace BusinessLogic 
 {
@@ -59,7 +60,11 @@ namespace BusinessLogic
 
         public Administrator Get (int id)
         {
-            return administratorRepository.Get(id);
+            if (id != 0)
+            {
+                return administratorRepository.Get(id);
+            }
+            else throw new Exception("No administrator associated to given id.");
         }
 
     }
