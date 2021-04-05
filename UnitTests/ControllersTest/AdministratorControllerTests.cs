@@ -56,5 +56,39 @@ namespace UnitTests.ControllersTest
             administratorBL = new AdministratorBL(administratorRepository);
             controller = new AdministratorsController(administratorBL);
         }
+
+        [TestMethod]
+        public void AuthenticateTest ()
+        {
+            Administrator admin = new Administrator
+            { 
+                Id = 1,
+                Email = "admin@admin.admin",
+                Name = "admin",
+                Password = "admin"
+            };
+            var result = controller.Authenticate(admin);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(202, statusCode);
+        }
+
+        [TestMethod]
+        public void invalidAuthenticationTest ()
+        {
+            Administrator admin = new Administrator
+            {
+                Id = 1,
+                Email = "chiara@admin.admin",
+                Name = "chiara",
+                Password = "chiara"
+            };
+            var result = controller.Authenticate(admin);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(401, statusCode);
+        }
     }
 }
