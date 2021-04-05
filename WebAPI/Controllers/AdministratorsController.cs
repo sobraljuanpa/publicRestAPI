@@ -34,9 +34,15 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetAdministratorById (int id)
         {
-            Administrator administrator = administratorBL.Get(id);
-
-            return Ok(administrator);
+            try
+            {
+                Administrator administrator = administratorBL.Get(id);
+                return Ok(administrator);
+            } 
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
 
         }
     }
