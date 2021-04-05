@@ -147,5 +147,24 @@ namespace UnitTests.ControllersTest
 
             Assert.AreEqual(400, statusCode);
         }
+
+        [TestMethod]
+        public void DeleteAdministratorTest ()
+        {
+            Administrator admin = new Administrator
+            {
+                Id = 1,
+                Email = "chiara@chiara.chiara",
+                Name = "chiara",
+                Password = "chiara"
+            };
+
+            var addAdmin = controller.AddAdministrator(admin);
+            var result = controller.DeleteAdministrator(admin);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(200, statusCode);
+        }
     }
 }
