@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
             {
                 return Ok("Authentication successful");
             }
-            return BadRequest(new { message = "Username or password incorrect" });
+            return Unauthorized(new { message = "Username or password incorrect" });
         }
     }
 }
