@@ -129,5 +129,23 @@ namespace UnitTests.ControllersTest
 
             Assert.AreEqual(201, statusCode);
         }
+
+        [TestMethod]
+        public void AddExistingAdministratorTest ()
+        {
+            Administrator admin = new Administrator
+            {
+                Id = 1,
+                Email = "admin@admin.admin",
+                Name = "admin",
+                Password = "admin"
+            };
+            var firstAttempt = controller.AddAdministrator(admin);
+            var result = controller.AddAdministrator(admin);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(400, statusCode);
+        }
     }
 }
