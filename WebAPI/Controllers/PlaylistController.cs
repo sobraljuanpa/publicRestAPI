@@ -13,6 +13,12 @@ namespace WebAPI.Controllers
     public class PlaylistController : ControllerBase
     {
         private readonly IPlayerBL playerBL;
+
+        public PlaylistController(IPlayerBL playerBL)
+        {
+            this.playerBL = playerBL;
+        }
     }
+
 }
 
