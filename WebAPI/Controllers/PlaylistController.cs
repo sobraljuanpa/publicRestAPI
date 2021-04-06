@@ -32,6 +32,14 @@ namespace WebAPI.Controllers
                 return NotFound(e.Message);
             }
         }
+
+        [HttpPost]
+        public IActionResult CreatePlaylist([FromBody] Playlist playlist)
+        {
+            playerBL.AddPlaylist(playlist);
+            return Created($"Playlist created at /api/playlist/{playlist.Id}", playlist);
+
+        }
     }
 
 }
