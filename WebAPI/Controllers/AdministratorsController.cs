@@ -66,7 +66,7 @@ namespace WebAPI.Controllers
             try
             {
                 administratorBL.DeleteAdministrator(id);
-                return Ok();
+                return NoContent();
             }
             catch (Exception e)
             {
