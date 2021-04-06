@@ -160,7 +160,7 @@ namespace UnitTests.ControllersTest
             };
 
             var addAdmin = controller.AddAdministrator(admin);
-            var result = controller.DeleteAdministrator(admin);
+            var result = controller.DeleteAdministrator(admin.Id);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
@@ -170,8 +170,7 @@ namespace UnitTests.ControllersTest
         [TestMethod]
         public void DeleteInvalidAdministratorTest ()
         {
-           var admin = controller.GetAdministratorById(0);
-            var result = controller.DeleteAdministrator(admin);
+            var result = controller.DeleteAdministrator(0);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
