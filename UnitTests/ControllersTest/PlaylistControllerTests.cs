@@ -195,23 +195,61 @@ namespace UnitTests.ControllersTests
         }
 
         [TestMethod]
-        public void DeletePlaylistByIdTest()
+        public void AddExistingPlaylistTest ()
         {
-            var result = controller.DeletePlaylistById(1);
-            var objectResult = result as NoContentResult;
-            var statusCode = objectResult.StatusCode;
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
 
-            Assert.AreEqual(204, statusCode);
-        }
+            var auxPlayableContent = new PlayableContent
+            {
+                Id = 1,
+                Author = "Buenos Muchachos",
+                Category = auxCategory,
+                Duration = 1.2,
+                ContentURL = "http://sin-hogar.mp3",
+                ImageURL = "",
+                Name = "Sin hogar"
+            };
 
-        [TestMethod]
-        public void DeleteInvalidPlaylistByIdTest()
-        {
-            var result = controller.DeletePlaylistById(30);
+            Playlist p = new Playlist
+            {
+                Id = 1,
+                Category = auxCategory,
+                Description = "Rock uruguayo",
+                ImageURL = "",
+                Name = "Rock uruguayo",
+                Contents = new List<PlayableContent> { auxPlayableContent }
+            };
+
+            var result = controller.CreatePlaylist(p);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(404, statusCode);
+
         }
+
+        //[TestMethod]
+        //public void DeletePlaylistByIdTest()
+        //{
+        //    var result = controller.DeletePlaylistById(1);
+        //    var objectResult = result as NoContentResult;
+        //    var statusCode = objectResult.StatusCode;
+
+        //    Assert.AreEqual(204, statusCode);
+        //}
+
+        //[TestMethod]
+        //public void DeleteInvalidPlaylistByIdTest()
+        //{
+        //    var result = controller.DeletePlaylistById(30);
+        //    var objectResult = result as ObjectResult;
+        //    var statusCode = objectResult.StatusCode;
+
+        //    Assert.AreEqual(404, statusCode);
+        //}
     }
 }
