@@ -59,5 +59,34 @@ namespace WebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAdministrator (int id)
+        {
+            try
+            {
+                administratorBL.DeleteAdministrator(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpPost("update")]
+        public IActionResult UpdateAdministrator (int id, Administrator admin)
+        {
+            try
+            {
+                administratorBL.UpdateAdministrator(id, admin);
+                return Ok(admin);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
     }
 }

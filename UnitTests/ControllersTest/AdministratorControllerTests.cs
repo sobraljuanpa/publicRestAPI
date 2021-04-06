@@ -187,7 +187,7 @@ namespace UnitTests.ControllersTest
                 Name = "juan",
                 Password = "juan"
             };
-            var result = controller.UpdateAdministrator(2, admin);
+            var result = controller.UpdateAdministrator(1, admin);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
