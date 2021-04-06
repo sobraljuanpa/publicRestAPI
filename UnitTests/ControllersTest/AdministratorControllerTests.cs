@@ -176,5 +176,39 @@ namespace UnitTests.ControllersTest
 
             Assert.AreEqual(404, statusCode);
         }
+
+        [TestMethod]
+        public void UpdateAdministratorTest ()
+        {
+            Administrator admin = new Administrator
+            {
+                Id = 2,
+                Email = "juan@juan.juan",
+                Name = "juan",
+                Password = "juan"
+            };
+            var result = controller.UpdateAdministrator(2, admin);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(200, statusCode);
+        }
+
+        [TestMethod]
+        public void UpdateNonExistingAdministratorTest ()
+        {
+            Administrator admin = new Administrator
+            {
+                Id = 2,
+                Email = "juan@juan.juan",
+                Name = "juan",
+                Password = "juan"
+            };
+            var result = controller.UpdateAdministrator(0, admin);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(404, statusCode);
+        }
     }
 }
