@@ -52,7 +52,7 @@ namespace BusinessLogic
 
         public Playlist GetPlaylist(int playlistId)
         {
-            if (playlistId != 0) 
+            if (playlistId >= 0) 
             {
                 return playlistRepository.Get(playlistId);
             }
@@ -94,8 +94,27 @@ namespace BusinessLogic
             return contentRepository.Get(contentRepository.GetAll().ToList().Count());
         }
 
+        public void ExistsPlaylist(Playlist playlist)
+        {
+            if (GetPlaylist(playlist.Id) != null)
+            {
+                throw new Exception("The playlist you are trying to create already exists.");
+            }
+        }
+
+        public void ValidId(int id)
+        {
+            if (id < 0)
+            {
+                throw new Exception("Invalid id");
+            }
+        }
+
         public void AddPlaylist (Playlist playlist)
         {
+            ExistsPlaylist(playlist);
+            ValidId(playlist.Id);
+            ValidId(playlist.CategoryId);
             playlistRepository.Add(playlist);
         }
 
