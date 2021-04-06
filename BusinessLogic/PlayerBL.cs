@@ -52,7 +52,14 @@ namespace BusinessLogic
 
         public Playlist GetPlaylist(int playlistId)
         {
-            return playlistRepository.Get(playlistId);
+            if (playlistId != 0) 
+            {
+                return playlistRepository.Get(playlistId);
+            }
+            else
+            {
+                throw new Exception("No playlist associated to given id.");
+            }
         }
 
         public PlayableContent GetPlayableContent(int contentId)

@@ -18,6 +18,20 @@ namespace WebAPI.Controllers
         {
             this.playerBL = playerBL;
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetPlaylistById(int id)
+        {
+            try
+            {
+                Playlist playlist = playerBL.GetPlaylist(id);
+                return Ok(playlist);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
     }
 
 }
