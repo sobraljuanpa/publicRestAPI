@@ -74,7 +74,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost("update")]
+        [HttpPost("{id}")]
         public IActionResult UpdateAdministrator (int id, Administrator admin)
         {
             try
