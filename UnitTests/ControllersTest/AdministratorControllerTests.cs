@@ -151,20 +151,12 @@ namespace UnitTests.ControllersTest
         [TestMethod]
         public void DeleteAdministratorTest ()
         {
-            Administrator admin = new Administrator
-            {
-                Id = 1,
-                Email = "chiara@chiara.chiara",
-                Name = "chiara",
-                Password = "chiara"
-            };
-
-            var addAdmin = controller.AddAdministrator(admin);
-            var result = controller.DeleteAdministrator(admin.Id);
-            var objectResult = result as ObjectResult;
+            
+            var result = controller.DeleteAdministrator(1);
+            var objectResult = result as NoContentResult;
             var statusCode = objectResult.StatusCode;
 
-            Assert.AreEqual(200, statusCode);
+            Assert.AreEqual(204, statusCode);
         }
 
         [TestMethod]
