@@ -50,7 +50,12 @@ namespace BusinessLogic
 
         public void DeleteAdministrator(int id)
         {
-            administratorRepository.Delete(id);
+            if(id <= administratorRepository.GetAll().ToList().Count() && id > 0)
+            {
+                administratorRepository.Delete(id);
+            }
+            else throw new Exception("No content associated to given id");
+            
         }
 
         public void UpdateAdministrator(int id, Administrator administrator)
