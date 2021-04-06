@@ -45,6 +45,7 @@ namespace UnitTests.ControllersTests
                 Id = 1,
                 Author = "Buenos Muchachos",
                 Category = auxCategory,
+                CategoryId = auxCategory.Id,
                 Duration = 1.2,
                 ContentURL = "http://sin-hogar.mp3",
                 ImageURL = "",
@@ -82,6 +83,7 @@ namespace UnitTests.ControllersTests
                     Id = 1,
                     Author = "Buenos Muchachos",
                     Category = auxCategory,
+                    CategoryId = auxCategory.Id,
                     Duration = 1.2,
                     ContentURL = "http://sin-hogar.mp3",
                     ImageURL = "",
@@ -92,6 +94,7 @@ namespace UnitTests.ControllersTests
                   Id = 2,
                   Author = "Buitres",
                   Category = auxCategory,
+                  CategoryId = auxCategory.Id,
                   Duration = 2.2,
                   ContentURL = "http://cadillac-solitario.mp3",
                   ImageURL = "",
@@ -105,6 +108,7 @@ namespace UnitTests.ControllersTests
                 {
                     Id = 1,
                     Category = auxCategory,
+                    CategoryId = auxCategory.Id,
                     Description = "Rock uruguayo",
                     ImageURL = "",
                     Name = "Rock uruguayo",
@@ -160,7 +164,7 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void GetNonExistantPlaylistByIdTest()
         {
-            var result = controller.GetPlaylistById(0);
+            var result = controller.GetPlaylistById(-1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
@@ -175,13 +179,15 @@ namespace UnitTests.ControllersTests
                 Id = 1,
                 Author = "The smiths",
                 Category = c,
+                CategoryId = c.Id,
                 Duration = 1.2,
                 ContentURL = "http://this-charming-man.mp3",
                 ImageURL = "",
                 Name = "This charming man" };
 
             Playlist p = new Playlist { 
-                Category = c, 
+                Category = c,
+                CategoryId = c.Id,
                 Description = "Best of 80s rock", 
                 ImageURL = "", 
                 Name = "Alternative rock", 
@@ -208,6 +214,7 @@ namespace UnitTests.ControllersTests
                 Id = 1,
                 Author = "Buenos Muchachos",
                 Category = auxCategory,
+                CategoryId = auxCategory.Id,
                 Duration = 1.2,
                 ContentURL = "http://sin-hogar.mp3",
                 ImageURL = "",
@@ -218,6 +225,7 @@ namespace UnitTests.ControllersTests
             {
                 Id = 1,
                 Category = auxCategory,
+                CategoryId = auxCategory.Id,
                 Description = "Rock uruguayo",
                 ImageURL = "",
                 Name = "Rock uruguayo",
@@ -228,7 +236,7 @@ namespace UnitTests.ControllersTests
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
-            Assert.AreEqual(404, statusCode);
+            Assert.AreEqual(400, statusCode);
 
         }
 
