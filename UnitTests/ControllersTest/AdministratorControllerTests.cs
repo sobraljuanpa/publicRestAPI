@@ -166,5 +166,16 @@ namespace UnitTests.ControllersTest
 
             Assert.AreEqual(200, statusCode);
         }
+
+        [TestMethod]
+        public void DeleteInvalidAdministratorTest ()
+        {
+           var admin = controller.GetAdministratorById(0);
+            var result = controller.DeleteAdministrator(admin);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(404, statusCode);
+        }
     }
 }
