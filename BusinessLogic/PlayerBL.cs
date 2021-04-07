@@ -173,25 +173,6 @@ namespace BusinessLogic
             else throw new Exception("No content associated to given id.");
         }
 
-        public void RemoveContentsFromPlaylist(int playlistId)
-        {
-            Playlist playlist = GetPlaylist(playlistId);
-
-            if (playlist.Contents.ToList().Count != 0)
-            {
-                foreach (PlayableContent content in playlist.Contents)
-                {
-                    playlist.Contents.ToList().Remove(content);
-                }
-            }
-        }
-
-        public void DeletePlaylist(int playlistId)
-        {
-            RemoveContentsFromPlaylist(playlistId);
-            playlistRepository.Delete(playlistId);
-        }
-
     }
         
 }
