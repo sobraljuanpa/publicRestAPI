@@ -176,7 +176,7 @@ namespace UnitTests.ControllersTests
         {
             Category c = new Category { Id = 3, Name = "Musica"};
             PlayableContent content = new PlayableContent { 
-                Id = 1,
+                Id = 3,
                 Author = "The smiths",
                 Category = c,
                 CategoryId = c.Id,
@@ -186,6 +186,7 @@ namespace UnitTests.ControllersTests
                 Name = "This charming man" };
 
             Playlist p = new Playlist { 
+                Id = 2,
                 Category = c,
                 CategoryId = c.Id,
                 Description = "Best of 80s rock", 
