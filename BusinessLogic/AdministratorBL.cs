@@ -3,6 +3,7 @@ using IBusinessLogic;
 using IDataAccess;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace BusinessLogic 
 {
@@ -49,12 +50,26 @@ namespace BusinessLogic
 
         public void DeleteAdministrator(int id)
         {
-            administratorRepository.Delete(id);
+            if(id <= administratorRepository.GetAll().ToList().Count() && id > 0)
+            {
+                administratorRepository.Delete(id);
+            }
+            else throw new Exception("No content associated to given id");
+            
         }
 
         public void UpdateAdministrator(int id, Administrator administrator)
         {
             administratorRepository.Update(id, administrator);
+        }
+
+        public Administrator Get (int id)
+        {
+            if (id != 0)
+            {
+                return administratorRepository.Get(id);
+            }
+            else throw new Exception("No administrator associated to given id.");
         }
 
     }
