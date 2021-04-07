@@ -241,24 +241,24 @@ namespace UnitTests.ControllersTests
 
         }
 
-        //[TestMethod]
-        //public void DeletePlaylistByIdTest()
-        //{
-        //    var result = controller.DeletePlaylistById(1);
-        //    var objectResult = result as NoContentResult;
-        //    var statusCode = objectResult.StatusCode;
+        [TestMethod]
+        public void DeletePlaylistByIdTest()
+        {
+            var result = controller.DeletePlaylistById(1);
+            var objectResult = result as NoContentResult;
+            var statusCode = objectResult.StatusCode;
 
-        //    Assert.AreEqual(204, statusCode);
-        //}
+            Assert.AreEqual(204, statusCode);
+        }
 
-        //[TestMethod]
-        //public void DeleteInvalidPlaylistByIdTest()
-        //{
-        //    var result = controller.DeletePlaylistById(30);
-        //    var objectResult = result as ObjectResult;
-        //    var statusCode = objectResult.StatusCode;
+        [TestMethod]
+        public void DeleteInvalidPlaylistByIdTest()
+        {
+            var result = controller.DeletePlaylistById(30);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
 
-        //    Assert.AreEqual(404, statusCode);
-        //}
+            Assert.AreEqual(404, statusCode);
+        }
     }
 }
