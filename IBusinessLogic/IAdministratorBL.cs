@@ -11,5 +11,6 @@ namespace IBusinessLogic
         public void DeleteAdministrator(int id);
 
         public void UpdateAdministrator(int id, Administrator administrator);
+        public Administrator Get(int id);
     }
 }

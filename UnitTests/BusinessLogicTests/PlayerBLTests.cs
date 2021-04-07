@@ -414,7 +414,7 @@ namespace UnitTests.BusinessLogicTests
         public void AddPlaylistTest()
         {
             Category c = new Category { Id = 1, Name = "q" };
-            Playlist p = new Playlist { Id = 3, Category = c, Description = "asd", Name = "asd", ImageURL = "asd" };
+            Playlist p = new Playlist { Id = 3, Category = c, CategoryId = c.Id, Description = "asd", Name = "asd", ImageURL = "asd" };
             playerBL.AddPlaylist(p);
 
             playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());

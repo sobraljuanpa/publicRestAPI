@@ -52,7 +52,14 @@ namespace BusinessLogic
 
         public Playlist GetPlaylist(int playlistId)
         {
-            return playlistRepository.Get(playlistId);
+            if (playlistId > 0) 
+            {
+                return playlistRepository.Get(playlistId);
+            }
+            else
+            {
+                throw new Exception("No playlist associated to given id.");
+            }
         }
 
         public PlayableContent GetPlayableContent(int contentId)
@@ -87,8 +94,28 @@ namespace BusinessLogic
             return contentRepository.Get(contentRepository.GetAll().ToList().Count());
         }
 
+        public void ExistsPlaylist(Playlist playlist)
+        {
+            Playlist p = GetPlaylist(playlist.Id);
+            if (GetPlaylist(playlist.Id) != null)
+            {
+                throw new Exception("The playlist you are trying to create already exists.");
+            }
+        }
+
+        public void ValidId(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Invalid id");
+            }
+        }
+
         public void AddPlaylist (Playlist playlist)
         {
+            ExistsPlaylist(playlist);
+            ValidId(playlist.Id);
+            ValidId(playlist.CategoryId);
             playlistRepository.Add(playlist);
         }
 
@@ -144,6 +171,25 @@ namespace BusinessLogic
                 contentRepository.Delete(contentId);
             }
             else throw new Exception("No content associated to given id.");
+        }
+
+        public void RemoveContentsFromPlaylist(int playlistId)
+        {
+            Playlist playlist = GetPlaylist(playlistId);
+
+            if (playlist.Contents.ToList().Count != 0)
+            {
+                foreach (PlayableContent content in playlist.Contents)
+                {
+                    playlist.Contents.ToList().Remove(content);
+                }
+            }
+        }
+
+        public void DeletePlaylist(int playlistId)
+        {
+            RemoveContentsFromPlaylist(playlistId);
+            playlistRepository.Delete(playlistId);
         }
 
     }

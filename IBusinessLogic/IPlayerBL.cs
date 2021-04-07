@@ -15,5 +15,6 @@ namespace IBusinessLogic
         public void AddPlaylist(Playlist playlist);
         public void AddContentToPlaylist(Playlist playlis, PlayableContent playableContent);
         public void DeleteContent(int id);
+        public void DeletePlaylist(int id);
     }
 }
