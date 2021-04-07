@@ -113,8 +113,8 @@ namespace BusinessLogic
 
         public void AddPlaylist (Playlist playlist)
         {
-            ExistsPlaylist(playlist);
-            ValidId(playlist.Id);
+            //ExistsPlaylist(playlist);
+            //ValidId(playlist.Id);
             ValidId(playlist.CategoryId);
             playlistRepository.Add(playlist);
         }
