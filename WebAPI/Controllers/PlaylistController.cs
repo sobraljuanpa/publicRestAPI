@@ -36,9 +36,15 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult CreatePlaylist([FromBody] Playlist playlist)
         {
-            playerBL.AddPlaylist(playlist);
-            return Created($"Playlist created at /api/playlist/{playlist.Id}", playlist);
-
+            try
+            {
+                playerBL.AddPlaylist(playlist);
+                return Created($"Playlist created at /api/playlist/{playlist.Id}", playlist);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 
