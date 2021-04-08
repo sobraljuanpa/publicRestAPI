@@ -1,7 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
 
 using Domain;
 using IDataAccess;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DataAccess
 {
@@ -15,17 +20,30 @@ namespace DataAccess
             _context = context;
         }
 
-        public bool Authenticate(string email, string password)
+        public Administrator Authenticate(string email, string password)
         {
-            var adminList = _context.Administrators.ToList();
-            bool auxReturn = false;
-            
-            foreach(Administrator admin in adminList)
+            Administrator aux = _context.Administrators.SingleOrDefault(
+                x => x.Email == email && x.Password == password);
+
+            if (aux == null) return null;
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("Ahora este es nuestro secreto.");
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                if (admin.Email == email && admin.Password == password) auxReturn = true;
-            }
-            
-            return auxReturn;
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, aux.Id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            aux.Token = tokenHandler.WriteToken(token);
+
+            aux.Password = null;
+
+            return aux;
         }
 
         public IQueryable<Administrator> GetAll()
