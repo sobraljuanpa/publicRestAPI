@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IDataAccess.Migrations
 {
-    public partial class StartMigration : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,9 +13,10 @@ namespace IDataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,7 +29,7 @@ namespace IDataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,7 +61,7 @@ namespace IDataAccess.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +71,7 @@ namespace IDataAccess.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +106,7 @@ namespace IDataAccess.Migrations
                     PlaylistId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,7 +116,7 @@ namespace IDataAccess.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlayableContents_Playlists_PlaylistId",
                         column: x => x.PlaylistId,
@@ -122,6 +124,76 @@ namespace IDataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Consultations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PatientName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PatientEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProblemId = table.Column<int>(type: "int", nullable: true),
+                    PsychologistId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consultations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Consultations_Problems_ProblemId",
+                        column: x => x.ProblemId,
+                        principalTable: "Problems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Consultations_Psychologists_PsychologistId",
+                        column: x => x.PsychologistId,
+                        principalTable: "Psychologists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Administrators",
+                columns: new[] { "Id", "Email", "Name", "Password", "Token" },
+                values: new object[] { 1, "admin@admin.admin", null, "admin", null });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Dormir" },
+                    { 2, "Meditar" },
+                    { 3, "Musica" },
+                    { 4, "Cuerpo" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Administrators_Email",
+                table: "Administrators",
+                column: "Email",
+                unique: true,
+                filter: "[Email] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Name",
+                table: "Categories",
+                column: "Name",
+                unique: true,
+                filter: "[Name] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Consultations_ProblemId",
+                table: "Consultations",
+                column: "ProblemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Consultations_PsychologistId",
+                table: "Consultations",
+                column: "PsychologistId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayableContents_CategoryId",
@@ -148,6 +220,9 @@ namespace IDataAccess.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Administrators");
+
+            migrationBuilder.DropTable(
+                name: "Consultations");
 
             migrationBuilder.DropTable(
                 name: "PlayableContents");
