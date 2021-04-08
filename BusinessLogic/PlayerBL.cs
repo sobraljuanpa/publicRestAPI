@@ -94,15 +94,6 @@ namespace BusinessLogic
             return contentRepository.Get(contentRepository.GetAll().ToList().Count());
         }
 
-        public void ExistsPlaylist(Playlist playlist)
-        {
-            Playlist p = GetPlaylist(playlist.Id);
-            if (GetPlaylist(playlist.Id) != null)
-            {
-                throw new Exception("The playlist you are trying to create already exists.");
-            }
-        }
-
         public void ValidId(int id)
         {
             if (id <= 0)
@@ -111,10 +102,21 @@ namespace BusinessLogic
             }
         }
 
+        public void ValidatePlaylist (Playlist playlist)
+        {
+            foreach (Playlist auxPlaylist in playlistRepository.GetAll().ToList())
+            {
+                if (playlist.Name == auxPlaylist.Name && playlist.Description == auxPlaylist.Description)
+                {
+                    throw new Exception($"The playlist you are trying to create already exists at index {auxPlaylist.Id}");
+                }
+            }
+        }
+
         public void AddPlaylist (Playlist playlist)
         {
-            //ExistsPlaylist(playlist);
-            //ValidId(playlist.Id);
+
+            ValidatePlaylist(playlist);
             ValidId(playlist.CategoryId);
             playlistRepository.Add(playlist);
         }
@@ -159,8 +161,6 @@ namespace BusinessLogic
             ContentExists(content);
             PlaylistExists(playlist);
             AlreadyOnPlaylist(playlist, content);
-            //Playlist auxPlaylist = playlistRepository.Get(playlist.Id);
-            //PlayableContent auxContent = contentRepository.Get(content.Id);
             playlist.Contents.Add(content);
         }
 
