@@ -149,7 +149,7 @@ namespace BusinessLogic
 
         public void SameCategory(Playlist playlist, PlayableContent content)
         {
-            if (playlist.Category != content.Category)
+            if (playlist.CategoryId != content.CategoryId)
             {
                 throw new Exception("This playable content cannot be added to the playlist.");
             }
