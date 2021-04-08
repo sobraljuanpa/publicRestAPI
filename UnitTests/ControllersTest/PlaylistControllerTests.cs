@@ -242,6 +242,76 @@ namespace UnitTests.ControllersTests
         }
 
         [TestMethod]
+        public void AddContentToPlaylistTest ()
+        {
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+
+            PlayableContent newContent = new PlayableContent
+            {
+                Id = 3,
+                Author = "The smiths",
+                Category = auxCategory,
+                CategoryId = auxCategory.Id,
+                Duration = 1.2,
+                ContentURL = "http://this-charming-man.mp3",
+                ImageURL = "",
+                Name = "This charming man"
+            };
+
+            Playlist playlist = playerBL.GetPlaylist(1);
+
+            var result = controller.AddContentToPlaylist(playlist, newContent);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(200, statusCode);
+        }
+
+        [TestMethod]
+        public void AddContentToNonExistingPlaylistTest()
+        {
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+
+            PlayableContent newContent = new PlayableContent
+            {
+                Id = 3,
+                Author = "The smiths",
+                Category = auxCategory,
+                CategoryId = auxCategory.Id,
+                Duration = 1.2,
+                ContentURL = "http://this-charming-man.mp3",
+                ImageURL = "",
+                Name = "This charming man"
+            };
+
+            Playlist playlist = new Playlist
+            {
+                Id = 2,
+                Category = auxCategory,
+                CategoryId = auxCategory.Id,
+                Description = "Best of 80s rock",
+                ImageURL = "",
+                Name = "Alternative rock",
+                Contents = new List<PlayableContent> {  }
+            };
+
+            var result = controller.AddContentToPlaylist(playlist, newContent);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(404, statusCode);
+
+        }
+
+        [TestMethod]
         public void DeletePlaylistByIdTest()
         {
             var result = controller.DeletePlaylistById(1);
