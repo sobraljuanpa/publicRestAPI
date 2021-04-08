@@ -47,6 +47,13 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPost("{id}/[add]/{content}")]
+        public IActionResult AddContentToPlaylist([FromBody] Playlist playlist, [FromBody] PlayableContent content)
+        {
+                playerBL.AddContentToPlaylist(playlist, content);
+                return Ok(playlist);
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeletePlaylistById(int id)
         {
