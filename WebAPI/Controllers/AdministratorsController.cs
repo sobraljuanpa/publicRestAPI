@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
             Administrator auxAdmin = administratorBL.Authenticate(admin.Email, admin.Password);
             if(auxAdmin != null)
             {
-                return Accepted(admin);
+                return Accepted(auxAdmin);
             }
             return Unauthorized(new { message = "Username or password incorrect" });
         }
