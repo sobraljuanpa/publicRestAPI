@@ -373,7 +373,6 @@ namespace UnitTests.BusinessLogicTests
                 Id = 3,
                 Author = "Peter Scherer",
                 Category = bodyCategory,
-                CategoryId = bodyCategory.Id,
                 Duration = 1.1,
                 ContentURL = "http://The-flight.mp3",
                 ImageURL = "",
@@ -383,7 +382,6 @@ namespace UnitTests.BusinessLogicTests
             {
                 Id = 1,
                 Category = musicCategory,
-                CategoryId = musicCategory.Id,
                 Description = "Rock uruguayo",
                 ImageURL = "",
                 Name = "Rock uruguayo",

@@ -307,7 +307,7 @@ namespace UnitTests.ControllersTests
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
-            Assert.AreEqual(200, statusCode);
+            Assert.AreEqual(404, statusCode);
 
         }
 
