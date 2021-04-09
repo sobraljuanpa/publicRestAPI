@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IDataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210401194434_FullDomainMigration")]
-    partial class FullDomainMigration
+    [Migration("20210408205102_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,7 +29,7 @@ namespace IDataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -37,9 +37,24 @@ namespace IDataAccess.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
                     b.ToTable("Administrators");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@admin.admin",
+                            Password = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Category", b =>
@@ -50,11 +65,37 @@ namespace IDataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Dormir"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Meditar"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Musica"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Cuerpo"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Consultation", b =>
@@ -76,7 +117,17 @@ namespace IDataAccess.Migrations
                     b.Property<string>("PatientPhone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProblemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PsychologistId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProblemId");
+
+                    b.HasIndex("PsychologistId");
 
                     b.ToTable("Consultations");
                 });
@@ -91,7 +142,7 @@ namespace IDataAccess.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("ContentURL")
@@ -125,7 +176,7 @@ namespace IDataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -188,11 +239,28 @@ namespace IDataAccess.Migrations
                     b.ToTable("Psychologists");
                 });
 
+            modelBuilder.Entity("Domain.Consultation", b =>
+                {
+                    b.HasOne("Domain.Problem", "Problem")
+                        .WithMany()
+                        .HasForeignKey("ProblemId");
+
+                    b.HasOne("Domain.Psychologist", "Psychologist")
+                        .WithMany()
+                        .HasForeignKey("PsychologistId");
+
+                    b.Navigation("Problem");
+
+                    b.Navigation("Psychologist");
+                });
+
             modelBuilder.Entity("Domain.PlayableContent", b =>
                 {
                     b.HasOne("Domain.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Playlist", null)
                         .WithMany("Contents")
@@ -205,7 +273,9 @@ namespace IDataAccess.Migrations
                 {
                     b.HasOne("Domain.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
                 });

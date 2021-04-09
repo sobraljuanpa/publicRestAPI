@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,7 @@ using Domain;
 
 namespace WebAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AdministratorsController : ControllerBase
@@ -19,14 +20,15 @@ namespace WebAPI.Controllers
             this.administratorBL = administratorBL;
         }
 
+        [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] Administrator admin)
         {
 
-            bool aux = administratorBL.Authenticate(admin.Email, admin.Password);
-            if(aux)
+            Administrator auxAdmin = administratorBL.Authenticate(admin.Email, admin.Password);
+            if(auxAdmin != null)
             {
-                return Accepted("Authentication successful");
+                return Accepted(auxAdmin);
             }
             return Unauthorized(new { message = "Username or password incorrect" });
         }

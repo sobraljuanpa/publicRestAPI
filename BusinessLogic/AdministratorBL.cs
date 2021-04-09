@@ -18,7 +18,7 @@ namespace BusinessLogic
             this.administratorRepository = administratorRepository;
         }
 
-        public bool Authenticate(string email, string password)
+        public Administrator Authenticate(string email, string password)
         {
             return administratorRepository.Authenticate(email, password);
         }

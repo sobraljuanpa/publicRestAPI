@@ -44,5 +44,15 @@ namespace UnitTests
 
             Assert.AreEqual("123456", a.Password);
         }
+
+        [TestMethod]
+        public void SetAndGetTokenTest()
+        {
+            Administrator a = new Administrator();
+
+            a.Token = "unToken";
+
+            Assert.AreEqual("unToken", a.Token);
+        }
     }
 }
