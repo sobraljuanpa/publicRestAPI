@@ -31,23 +31,28 @@ namespace BusinessLogic
             return categoryRepository.GetAll().ToList();
         }
 
-        public List<CategoryElement> GetCategoryElements(int categoryId)
+        public List<object> GetCategoryElements(int categoryId)
         {
-            var playlists = playlistRepository.GetAll().ToList();
-            var contents = contentRepository.GetAll().ToList();
-            List<CategoryElement> auxReturn = new List<CategoryElement>();
-
-            foreach (Playlist p in playlists)
+            if(0 < categoryId && categoryId < 5)
             {
-                if (p.Category.Id == categoryId) auxReturn.Add(p);
+                var playlists = playlistRepository.GetAll().ToList();
+                var contents = contentRepository.GetAll().ToList();
+                List<object> auxReturn = new List<object>();
+
+                foreach (Playlist p in playlists)
+                {
+                    if (p.Category.Id == categoryId) auxReturn.Add(p);
+                }
+
+                foreach (PlayableContent c in contents)
+                {
+                    if (c.Category.Id == categoryId) auxReturn.Add(c);
+                }
+
+                return auxReturn;
             }
 
-            foreach (PlayableContent c in contents)
-            {
-                if (c.Category.Id == categoryId) auxReturn.Add(c);
-            }
-
-            return auxReturn;
+            throw new Exception("There is no category associated to given id.");
         }
 
         public Playlist GetPlaylist(int playlistId)
@@ -113,9 +118,9 @@ namespace BusinessLogic
 
         public void AddPlaylist (Playlist playlist)
         {
-            ExistsPlaylist(playlist);
-            ValidId(playlist.Id);
-            ValidId(playlist.CategoryId);
+            //ExistsPlaylist(playlist);
+            //ValidId(playlist.Id);
+            //ValidId(playlist.CategoryId);
             playlistRepository.Add(playlist);
         }
 
