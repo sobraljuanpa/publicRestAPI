@@ -464,6 +464,145 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "GetContentTest",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"contentId\", jsonResponse.id);\r",
+									"pm.environment.set(\"contentName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Content created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"asdas\",\r\n    \"categoryId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created content without authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Content retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct content retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"contentName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent/{{contentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent",
+								"{{contentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
