@@ -244,30 +244,14 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void AddContentToPlaylistTest ()
         {
-            var auxCategory = new Category
-            {
-                Id = 3,
-                Name = "Musica"
-            };
-
-            PlayableContent newContent = new PlayableContent
-            {
-                Id = 3,
-                Author = "The smiths",
-                Category = auxCategory,
-                CategoryId = auxCategory.Id,
-                Duration = 1.2,
-                ContentURL = "http://this-charming-man.mp3",
-                ImageURL = "",
-                Name = "This charming man"
-            };
 
             Playlist playlist = playerBL.GetPlaylist(1);
+            PlayableContent content = playerBL.GetPlayableContent(2);
 
-            var result = controller.AddContentToPlaylist(playlist, newContent);
+            var result = controller.AddContentToPlaylist(playlist.Id, content.Id);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
-
+        
             Assert.AreEqual(200, statusCode);
         }
 
@@ -278,18 +262,6 @@ namespace UnitTests.ControllersTests
             {
                 Id = 3,
                 Name = "Musica"
-            };
-
-            PlayableContent newContent = new PlayableContent
-            {
-                Id = 3,
-                Author = "The smiths",
-                Category = auxCategory,
-                CategoryId = auxCategory.Id,
-                Duration = 1.2,
-                ContentURL = "http://this-charming-man.mp3",
-                ImageURL = "",
-                Name = "This charming man"
             };
 
             Playlist playlist = new Playlist
@@ -303,11 +275,12 @@ namespace UnitTests.ControllersTests
                 Contents = new List<PlayableContent> {  }
             };
 
-            var result = controller.AddContentToPlaylist(playlist, newContent);
+
+            var result = controller.AddContentToPlaylist(playlist.Id, 2);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
-            Assert.AreEqual(200, statusCode);
+            Assert.AreEqual(400, statusCode);
 
         }
 
