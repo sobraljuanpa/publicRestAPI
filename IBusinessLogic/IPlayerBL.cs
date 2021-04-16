@@ -13,7 +13,7 @@ namespace IBusinessLogic
         public PlayableContent GetPlayableContent(int id);
         public PlayableContent AddIndependentContent(PlayableContent playableContent);
         public void AddPlaylist(Playlist playlist);
-        public void AddContentToPlaylist(Playlist playlis, PlayableContent playableContent);
+        public Playlist AddContentToPlaylist(int playlistId, int contentId);
         public void DeleteContent(int id);
         public void DeletePlaylist(int id);
     }

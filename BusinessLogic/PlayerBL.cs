@@ -91,7 +91,7 @@ namespace BusinessLogic
         {
             ValidateContent(content);
             contentRepository.Add(content);
-            return contentRepository.Get(contentRepository.GetAll().ToList().Count());
+            return contentRepository.Get(content.Id);
         }
 
         public void ValidId(int id)
@@ -121,47 +121,54 @@ namespace BusinessLogic
             playlistRepository.Add(playlist);
         }
 
-        public void AlreadyOnPlaylist (Playlist playlist, PlayableContent content)
+        public void AlreadyOnPlaylist(int playlistId, int contentId)
         {
-            if (playlist.Contents.Contains(content))
+            Playlist auxPlaylist = playlistRepository.Get(playlistId);
+            PlayableContent auxContent = contentRepository.Get(contentId);
+
+            foreach (PlayableContent content in auxPlaylist.Contents)
             {
-                throw new Exception("The playable content inserted already exists in the playlist.");
+                if (content.Name == auxContent.Name && content.Author == auxContent.Author )
+                {
+                    throw new Exception($"The playable content you are trying to create already exists");
+                }
+
             }
         }
 
-        public void PlaylistExists(Playlist playlist)
+        public void PlaylistExists(int playlistId)
         {
-            
-            if (!playlistRepository.GetAll().ToList().Contains(playlist))
+            Playlist auxPlaylist = playlistRepository.Get(playlistId);
+
+            if (!playlistRepository.GetAll().ToList().Contains(auxPlaylist))
             {
-                playlistRepository.Add(playlist);
+
+                throw new Exception("There's no playlist associated to given id");
             }
         }
 
-        public void ContentExists(PlayableContent content)
+        public void ContentExists(int contentId)
         {
-            PlayableContent auxContent = contentRepository.Get(content.Id);
+            PlayableContent auxContent = contentRepository.Get(contentId);
+
             if (auxContent == null)
             {
-                contentRepository.Add(auxContent);
-            } 
-        }
-
-        public void SameCategory(Playlist playlist, PlayableContent content)
-        {
-            if (playlist.CategoryId != content.CategoryId)
-            {
-                throw new Exception("This playable content cannot be added to the playlist.");
+                throw new Exception("There's no playable content associated to given id");
             }
         }
 
-        public void AddContentToPlaylist (Playlist playlist, PlayableContent content)
+        public Playlist AddContentToPlaylist(int playlistId, int contentId)
         {
-            SameCategory(playlist, content);
-            ContentExists(content);
-            PlaylistExists(playlist);
-            AlreadyOnPlaylist(playlist, content);
+            Playlist playlist = playlistRepository.Get(playlistId);
+            PlayableContent content = contentRepository.Get(contentId);
+
+            ContentExists(contentId);
+            PlaylistExists(playlistId);
+            AlreadyOnPlaylist(playlistId, contentId);
+
             playlist.Contents.Add(content);
+
+            return playlist;
         }
 
         public void DeleteContent (int contentId)
