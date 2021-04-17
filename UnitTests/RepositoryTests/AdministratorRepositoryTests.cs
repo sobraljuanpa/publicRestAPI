@@ -17,31 +17,29 @@ namespace UnitTests.RepositoryTests
     public class AdministratorRepositoryTests
     {
         AdministratorRepository repository;
-        Mock<DbSet<Administrator>> mockSet;
-        Mock<Context> mockContext;
-        DbContextOptions<Context> DbOptions;
 
         [TestInitialize]
         public void SetUp()
         {
-         
-            var data = new List<Administrator>
-            {
-                 new Administrator { Id = 1, Email = "chiara@hotmail.com", Name = "Chiara", Password= "123chiara987"},
-                 new Administrator { Id = 2, Email = "juanPablo@gmail.com", Name = "Juan Pablo", Password = "987juan123" }
-            }.AsQueryable();
+            var admin = new Administrator 
+            { 
+                Id = 1, 
+                Email = "chiara@hotmail.com", 
+                Name = "Chiara", 
+                Password = "123chiara987" 
+            };
 
-            mockSet = new Mock<DbSet<Administrator>>();
-            mockSet.As<IQueryable<Administrator>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Administrator>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Administrator>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            mockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => data.FirstOrDefault(d => d.Id == (int)pk[0]));
+            var options = new DbContextOptionsBuilder<Context>()
+                .UseInMemoryDatabase("BetterCalmDB")
+                .Options;
 
-            DbOptions = new DbContextOptions<Context>();
-            mockContext = new Mock<Context>(DbOptions);
-            mockContext.Setup(v => v.Administrators).Returns(mockSet.Object);
+            Context context = new Context(options);
 
-            repository = new AdministratorRepository(mockContext.Object);
+            context.Database.EnsureDeleted();
+            context.Set<Administrator>().Add(admin);
+            context.SaveChanges();
+
+            repository = new AdministratorRepository(context);
         }
 
         [TestMethod]
@@ -53,9 +51,9 @@ namespace UnitTests.RepositoryTests
         [TestMethod]
         public void GetAllTest()
         {
-            var administrator = repository.GetAll();
+            var administrators = repository.GetAll();
 
-            Assert.AreEqual(2, administrator.ToList().Count);
+            Assert.AreEqual(1, administrators.ToList().Count);
         }
 
         [TestMethod]
@@ -70,10 +68,12 @@ namespace UnitTests.RepositoryTests
         public void AddAdministratorTest()
         {
             var administrator = new Administrator { Id = 3, Email = "lorenzo@gmail.com", Name = "Lorenzo", Password = "123lorenzo" };
+            
             repository.Add(administrator);
-
-            mockSet.Verify(v => v.Add(It.IsAny<Administrator>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            
+            var count = repository.GetAll().Count();
+            
+            Assert.AreEqual(2, count);
         }
 
         [TestMethod]
@@ -82,8 +82,6 @@ namespace UnitTests.RepositoryTests
             var administrator = new Administrator { Id = 1, Email = "chiara@hotmail.com", Name = "Chiara", Password = "chiara123987" };
             repository.Update(1, administrator);
             var modifiedAdministrator = repository.Get(1);
-
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
             Assert.AreEqual("chiara123987", modifiedAdministrator.Password);
         }
 
@@ -92,7 +90,9 @@ namespace UnitTests.RepositoryTests
         {
             repository.Delete(1);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            var count = repository.GetAll().Count();
+
+            Assert.AreEqual(0, count);
         }
     }
 }
