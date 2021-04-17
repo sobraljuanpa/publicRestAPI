@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9a6d7467-5f44-4c4f-adc6-52882de13cb9",
+		"_postman_id": "a3eb8dbb-b967-43c4-87ad-cfc0a7e67017",
 		"name": "BetterCalm",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -182,34 +182,1777 @@
 			]
 		},
 		{
-			"name": "authenticate",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"Name\": \"Admin\",\r\n    \"Email\": \"admin@admin.admin\",\r\n    \"Password\": \"admin\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Authenticate as administrator",
+			"item": [
+				{
+					"name": "authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Authentication successful\", function () {",
+									"    pm.response.to.have.status(202)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
 						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Admin\",\r\n    \"Email\": \"admin@admin.admin\",\r\n    \"Password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/administrators/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get categories without authenticating",
+			"item": [
+				{
+					"name": "Get Categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Categories retrieved successfully\", function () {",
+									"    pm.response.to.have.status(200)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get content without authenticating",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"contentId\", jsonResponse.id);\r",
+									"pm.environment.set(\"contentName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Content created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"asdas\",\r\n    \"categoryId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created content without authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Content retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct content retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"contentName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent/{{contentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent",
+								"{{contentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete content as administrator",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"contentId\", jsonResponse.id);\r",
+									"pm.environment.set(\"contentName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Content created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"asdas\",\r\n    \"categoryId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new content created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Content retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct content retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"contentName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent/{{contentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent",
+								"{{contentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete created content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Content deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent/{{contentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent",
+								"{{contentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert created content deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check content deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent/{{contentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent",
+								"{{contentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
 					}
 				},
-				"url": {
-					"raw": "http://localhost:5000/api/administrators/authenticate",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"administrators",
-						"authenticate"
-					]
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "Delete playlist as administrator",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"playlistId\", jsonResponse.id);\r",
+									"pm.environment.set(\"playlistName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Playlist created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"CategoryId\": 3,\r\n            \"Description\": \"Rock uruguayo\",\r\n            \"ImageURL\": \"\",\r\n            \"Name\": \"Rock uruguayo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playlist",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new playlist created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Playlist retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct playlist retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"playlistName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playlist/{{playlistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist",
+								"{{playlistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete created playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"playlist deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playlist/{{playlistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist",
+								"{{playlistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert created playlist deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check playlist deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playlist/{{playlistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist",
+								"{{playlistId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get playlist without authenticating",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"playlistId\", jsonResponse.id);\r",
+									"pm.environment.set(\"playlisttName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Playlist created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"CategoryId\": 3,\r\n            \"Description\": \"Rock uruguayo\",\r\n            \"ImageURL\": \"\",\r\n            \"Name\": \"Rock uruguayo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playlist",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new content created Copy 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Playlist retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct playlist retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"playlistName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playlist/{{playlistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist",
+								"{{playlistId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create playable content as administrator",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"contentId\", jsonResponse.id);\r",
+									"pm.environment.set(\"contentName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Content created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"asdas\",\r\n    \"categoryId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new content created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Content retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct content retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"contentName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent/{{contentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent",
+								"{{contentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Add content to playlist without authentication",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"contentId\", jsonResponse.id);\r",
+									"pm.environment.set(\"contentName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Content created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"asdas\",\r\n    \"categoryId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new content created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Content retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct content retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"contentName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playablecontent/{{contentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playablecontent",
+								"{{contentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"playlistId\", jsonResponse.id);\r",
+									"pm.environment.set(\"playlistName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Playlist created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"CategoryId\": 3,\r\n            \"Description\": \"Rock uruguayo\",\r\n            \"ImageURL\": \"\",\r\n            \"Name\": \"Rock uruguayo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playlist",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new playlist created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"playlist retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct playlist retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"playlistName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/playlist/{{playlistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist",
+								"{{playlistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add created content to playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"playlistId\", jsonResponse.id);\r",
+									"pm.environment.set(\"playlistName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Playlist created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"CategoryId\": 3,\r\n            \"Description\": \"Rock uruguayo\",\r\n            \"ImageURL\": \"\",\r\n            \"Name\": \"Rock uruguayo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/playlist/{{playlistId}}/contents?contentId={{contentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"playlist",
+								"{{playlistId}}",
+								"contents"
+							],
+							"query": [
+								{
+									"key": "contentId",
+									"value": "{{contentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create administrator as administrator",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new administrator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"administratorId\", jsonResponse.id);\r",
+									"pm.environment.set(\"administratorName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Content created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"juan@admin.admin\",\r\n    \"Name\": \"juan\",\r\n    \"Password\": \"juan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new administrator created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Administrator retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct administrator retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"administratorName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/administrators/{{administratorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"{{administratorId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete administrator as administrator",
+			"item": [
+				{
+					"name": "Authenticate Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new administrator Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"administratorId\", jsonResponse.id);\r",
+									"pm.environment.set(\"administratorName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Administrator created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"chiara@admin.admin\",\r\n    \"Name\": \"chiara\",\r\n    \"Password\": \"chiara\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new administrator created Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Administrator retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct administrator retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"administratorName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/administrators/{{administratorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"{{administratorId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete created administrator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Administrator deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/administrators/{{administratorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"{{administratorId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert created administrator deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check administrator deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/administrators/{{administratorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"{{administratorId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update administrator as administrator",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json;\r",
+									"\r",
+									"pm.environment.set(\"token\", jsonResponse.token);\r",
+									"\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new administrator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"administratorId\", jsonResponse.id);\r",
+									"pm.environment.set(\"administratorName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Administrator created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"pedro@admin.admin\",\r\n    \"Name\": \"pedro\",\r\n    \"Password\": \"pedro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assert new administrator created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Administrator retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct administrator retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.name).to.eq(pm.environment.get(\"administratorName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/administrators/{{administratorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"{{administratorId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update created administrator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"administratorId\", jsonResponse.id);\r",
+									"pm.environment.set(\"administratorName\", jsonResponse.name);\r",
+									"\r",
+									"pm.test(\"Administrator created successfully\", function () {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"nina@admin.admin\",\r\n    \"Name\": \"nina\",\r\n    \"Password\": \"nina\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/{{administratorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"{{administratorId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000/api"
 		}
 	]
 }
