@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Domain;
 
 namespace IDataAccess
 {
@@ -12,6 +12,6 @@ namespace IDataAccess
         void Add(T entity);
         void Update(int id, T newEntity);
         void Delete(int id);
-        bool Authenticate(string email, string password);
+        Administrator Authenticate(string email, string password);
     }
 }

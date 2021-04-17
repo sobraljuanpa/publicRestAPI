@@ -4,7 +4,7 @@ namespace IBusinessLogic
 {
     public interface IAdministratorBL
     {
-        public bool Authenticate(string email, string password);
+        public Administrator Authenticate(string email, string password);
 
         public void AddAdministrator(Administrator administrator);
 

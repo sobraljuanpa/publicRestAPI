@@ -13,7 +13,7 @@ using IDataAccess;
 using BusinessLogic;
 using System;
 
-namespace UnitTests.RepositoryTests
+namespace UnitTests.BusinessLogicTests
 {
     [TestClass]
     public class AdministratorBLTests
@@ -51,7 +51,7 @@ namespace UnitTests.RepositoryTests
         [TestMethod]
         public void AuthenticateTest()
         {
-            Assert.AreEqual(true, businessLogic.Authenticate("chiara@hotmail.com", "123chiara987"));
+            Assert.IsNotNull(businessLogic.Authenticate("chiara@hotmail.com", "123chiara987"));
         }
 
         [TestMethod]
