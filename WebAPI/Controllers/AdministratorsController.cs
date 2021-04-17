@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost()]
-        public IActionResult AddAdministrator (Administrator administrator)
+        public IActionResult AddAdministrator ([FromBody] Administrator administrator)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("{id}")]
-        public IActionResult UpdateAdministrator (int id, Administrator admin)
+        public IActionResult UpdateAdministrator (int id, [FromBody] Administrator admin)
         {
             try
             {

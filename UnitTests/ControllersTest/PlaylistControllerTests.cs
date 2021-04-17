@@ -242,6 +242,49 @@ namespace UnitTests.ControllersTests
         }
 
         [TestMethod]
+        public void AddContentToPlaylistTest ()
+        {
+
+            Playlist playlist = playerBL.GetPlaylist(1);
+            PlayableContent content = playerBL.GetPlayableContent(2);
+
+            var result = controller.AddContentToPlaylist(playlist.Id, content.Id);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+        
+            Assert.AreEqual(200, statusCode);
+        }
+
+        [TestMethod]
+        public void AddContentToNonExistingPlaylistTest()
+        {
+            var auxCategory = new Category
+            {
+                Id = 3,
+                Name = "Musica"
+            };
+
+            Playlist playlist = new Playlist
+            {
+                Id = 2,
+                Category = auxCategory,
+                CategoryId = auxCategory.Id,
+                Description = "Best of 80s rock",
+                ImageURL = "",
+                Name = "Alternative rock",
+                Contents = new List<PlayableContent> {  }
+            };
+
+
+            var result = controller.AddContentToPlaylist(playlist.Id, 2);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(400, statusCode);
+
+        }
+
+        [TestMethod]
         public void DeletePlaylistByIdTest()
         {
             var result = controller.DeletePlaylistById(1);

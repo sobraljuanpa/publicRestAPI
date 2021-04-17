@@ -212,39 +212,19 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void AddContentToPlaylistTest()
         {
-            var auxCategory = new Category
-            {
-                Id = 3,
-                Name = "Musica"
-            };
-            PlayableContent newContent = new PlayableContent
-            {
-                Author = "Cuatro Pesos de Propina",
-                Category = auxCategory,
-                Duration = 4.4,
-                ContentURL = "http://mi-revolucion.mp3",
-                ImageURL = "", Name = "Mi Revolución"
-            };
 
-            Playlist auxPlaylist = new Playlist
-            {
-                Id = 1,
-                Category = auxCategory,
-                Description = "Rock uruguayo",
-                ImageURL = "",
-                Name = "Rock uruguayo",
-                Contents = new List<PlayableContent> { }
-            };
+            PlayableContent content = playerBL.GetPlayableContent(2);
+            Playlist playlist = playerBL.GetPlaylist(1);
 
-            playerBL.AddIndependentContent(newContent);
-            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+            Playlist auxPlaulist = playerBL.AddContentToPlaylist(playlist.Id, content.Id);
 
-            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
-            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(3));
+            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(0));
+            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(0));
 
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void AddNotExistingContentToPlaylistTest()
         {
             var auxCategory = new Category
@@ -274,13 +254,14 @@ namespace UnitTests.BusinessLogicTests
             };
 
             playableContentRepository.Add(newContent);
-            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+            playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
 
             contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
             mockContext.Verify(e => e.SaveChanges(), Times.Exactly(3));
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void AddContentToNotExistingPlaylistTest()
         {
             var auxCategory = new Category
@@ -309,7 +290,7 @@ namespace UnitTests.BusinessLogicTests
             };
 
             playerBL.AddIndependentContent(newContent);
-            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+            playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
 
             playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
             mockContext.Verify(e => e.SaveChanges(), Times.Exactly(3));
@@ -345,7 +326,7 @@ namespace UnitTests.BusinessLogicTests
                 Contents = new List<PlayableContent> { newContent }
             };
 
-            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+            playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
 
             playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
@@ -373,6 +354,7 @@ namespace UnitTests.BusinessLogicTests
                 Id = 3,
                 Author = "Peter Scherer",
                 Category = bodyCategory,
+                CategoryId = bodyCategory.Id,
                 Duration = 1.1,
                 ContentURL = "http://The-flight.mp3",
                 ImageURL = "",
@@ -382,13 +364,14 @@ namespace UnitTests.BusinessLogicTests
             {
                 Id = 1,
                 Category = musicCategory,
+                CategoryId = musicCategory.Id,
                 Description = "Rock uruguayo",
                 ImageURL = "",
                 Name = "Rock uruguayo",
                 Contents = new List<PlayableContent> { }
             };
 
-            playerBL.AddContentToPlaylist(auxPlaylist, newContent);
+            playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
 
             contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
