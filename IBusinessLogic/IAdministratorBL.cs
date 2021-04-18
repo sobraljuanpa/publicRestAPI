@@ -6,6 +6,8 @@ namespace IBusinessLogic
     {
         public Administrator Authenticate(string email, string password);
 
+        public bool ValidEmail(string email);
+
         public void AddAdministrator(Administrator administrator);
 
         public void DeleteAdministrator(int id);
