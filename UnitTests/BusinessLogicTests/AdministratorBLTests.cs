@@ -21,8 +21,6 @@ namespace UnitTests.BusinessLogicTests
         private Mock<IAdministratorRepository<Administrator>> mock;
         private AdministratorBL businessLogic;
         private Administrator admin;
-        private Administrator validAdmin;
-        private Administrator invalidEmailAdmin;
         private IEnumerable<Administrator> administrators;
 
         [TestInitialize]
