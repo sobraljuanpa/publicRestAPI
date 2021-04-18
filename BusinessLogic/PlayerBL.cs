@@ -83,7 +83,7 @@ namespace BusinessLogic
         {
             contentValidator.ValidateContent(content);
             contentRepository.Add(content);
-            return contentRepository.GetAll().ToList().FindLast(x => x.Id != 0);
+            return contentRepository.GetAll().ToList().FindLast(x => x.Name != null);
         }
 
         public void DeleteContent (int contentId)

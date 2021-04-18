@@ -19,26 +19,30 @@ namespace UnitTests.BusinessLogicTests
     public class PlayerBLTests
     {
 
-        Mock<DbSet<PlayableContent>> contentMockSet;
-        Mock<DbSet<Category>> categoryMockSet;
-        Mock<DbSet<Playlist>> playlistMockSet;
-        PlayableContentRepository playableContentRepository;
-        CategoryRepository categoryRepository;
-        PlaylistRepository playlistRepository;
-        PlayerBL playerBL;
-        Mock<Context> mockContext;
-        DbContextOptions<Context> DbOptions;
+        private Mock<IRepository<Playlist>> playlistRepoMock;
+        private Mock<IRepository<PlayableContent>> contentRepoMock;
+        private Mock<IRepository<Category>> categoryRepoMock;
+
+        private IEnumerable<Category> categories;
+        private IEnumerable<Playlist> playlists;
+        private IEnumerable<PlayableContent> contents;
+
+        private Category auxCategory;
+        private PlayableContent auxPlayableContent;
+        private Playlist auxPlaylist;
+
+        private PlayerBL playerBL;
 
         [TestInitialize]
         public void SetUp()
         {
 
-            var auxCategory = new Category
+            auxCategory = new Category
             {
                 Id = 3,
                 Name = "Musica"
             };
-            var auxPlayableContent = new PlayableContent
+            auxPlayableContent = new PlayableContent
             {
                 Id = 1,
                 Author = "Buenos Muchachos",
@@ -48,8 +52,17 @@ namespace UnitTests.BusinessLogicTests
                 ImageURL = "",
                 Name = "Sin hogar"
             };
+            auxPlaylist = new Playlist
+            {
+                Id = 1,
+                Category = auxCategory,
+                Description = "Rock uruguayo",
+                ImageURL = "",
+                Name = "Rock uruguayo",
+                Contents = new List<PlayableContent> { auxPlayableContent }
+            };
 
-            var dataCategory = new List<Category>
+            categories = new List<Category>
             {
                 new Category
                 {
@@ -71,9 +84,9 @@ namespace UnitTests.BusinessLogicTests
                     Id = 4,
                     Name = "Cuerpo"
                 },
-            }.AsQueryable();
+            };
 
-            var dataPlayableContent = new List<PlayableContent>
+            contents = new List<PlayableContent>
             {
                 new PlayableContent
                 {
@@ -95,69 +108,38 @@ namespace UnitTests.BusinessLogicTests
                   ImageURL = "",
                   Name = "Cadillac solitario"
                 }
-            }.AsQueryable();
+            };
 
-            var dataPlaylist = new List<Playlist>
+            playlists = new List<Playlist>
             {
-                new Playlist
-                {
-                    Id = 1,
-                    Category = auxCategory,
-                    Description = "Rock uruguayo",
-                    ImageURL = "",
-                    Name = "Rock uruguayo",
-                    Contents = new List<PlayableContent> { auxPlayableContent }
-                }
-            }.AsQueryable();
+                auxPlaylist
+            };
 
-            categoryMockSet = new Mock<DbSet<Category>>();
-            categoryMockSet.As<IQueryable<Category>>().Setup(m => m.Expression).Returns(dataCategory.Expression);
-            categoryMockSet.As<IQueryable<Category>>().Setup(m => m.ElementType).Returns(dataCategory.ElementType);
-            categoryMockSet.As<IQueryable<Category>>().Setup(m => m.GetEnumerator()).Returns(dataCategory.GetEnumerator());
-            categoryMockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => dataCategory.FirstOrDefault(d => d.Id == (int)pk[0]));
+            categoryRepoMock = new Mock<IRepository<Category>>(MockBehavior.Strict);
+            contentRepoMock = new Mock<IRepository<PlayableContent>>(MockBehavior.Strict);
+            playlistRepoMock = new Mock<IRepository<Playlist>>(MockBehavior.Strict);
 
-            contentMockSet = new Mock<DbSet<PlayableContent>>();
-            contentMockSet.As<IQueryable<PlayableContent>>().Setup(m => m.Expression).Returns(dataPlayableContent.Expression);
-            contentMockSet.As<IQueryable<PlayableContent>>().Setup(m => m.ElementType).Returns(dataPlayableContent.ElementType);
-            contentMockSet.As<IQueryable<PlayableContent>>().Setup(m => m.GetEnumerator()).Returns(dataPlayableContent.GetEnumerator());
-            contentMockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => dataPlayableContent.FirstOrDefault(d => d.Id == (int)pk[0]));
-
-            playlistMockSet = new Mock<DbSet<Playlist>>();
-            playlistMockSet.As<IQueryable<Playlist>>().Setup(m => m.Expression).Returns(dataPlaylist.Expression);
-            playlistMockSet.As<IQueryable<Playlist>>().Setup(m => m.ElementType).Returns(dataPlaylist.ElementType);
-            playlistMockSet.As<IQueryable<Playlist>>().Setup(m => m.GetEnumerator()).Returns(dataPlaylist.GetEnumerator());
-            playlistMockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => dataPlaylist.FirstOrDefault(d => d.Id == (int)pk[0]));
-
-            DbOptions = new DbContextOptions<Context>();
-            mockContext = new Mock<Context>(DbOptions);
-
-            mockContext.Setup(v => v.PlayableContents).Returns(contentMockSet.Object);
-            playableContentRepository = new PlayableContentRepository(mockContext.Object);
-
-            mockContext.Setup(v => v.Categories).Returns(categoryMockSet.Object);
-            categoryRepository = new CategoryRepository(mockContext.Object);
-
-            mockContext.Setup(v => v.Playlists).Returns(playlistMockSet.Object);
-            playlistRepository = new PlaylistRepository(mockContext.Object);
-
-
-            playerBL = new PlayerBL(categoryRepository, playableContentRepository, playlistRepository);
+            playerBL = new PlayerBL(categoryRepoMock.Object, contentRepoMock.Object, playlistRepoMock.Object);
         }
 
         [TestMethod]
         public void GetCategoriesTest()
         {
-            List<Category> categories = playerBL.GetCategories();
+            categoryRepoMock.Setup(x => x.GetAll()).Returns(categories.AsQueryable);
+            List<Category> _categories = playerBL.GetCategories();
 
-            Assert.AreEqual(4, categories.Count);
+            Assert.AreEqual(4, _categories.Count);
+            categoryRepoMock.VerifyAll();
         }
 
         [TestMethod]
         public void GetPlaylistTest()
         {
+            playlistRepoMock.Setup(x => x.Get(1)).Returns(auxPlaylist);
             Playlist playlistElement = playerBL.GetPlaylist(1);
 
             Assert.AreEqual(1, playlistElement.Id);
+            playlistRepoMock.VerifyAll();
         }
 
         [TestMethod]
@@ -176,10 +158,15 @@ namespace UnitTests.BusinessLogicTests
                 ImageURL = "",
                 Name = "Mi Revolución"
             };
-            playerBL.AddIndependentContent(newContent);
 
-            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            contentRepoMock.Setup(x => x.GetAll()).
+                .Returns(contents.Append(newContent).AsQueryable);
+            contentRepoMock.Setup(x => x.Add(newContent));
+            //aca es imposible assertear porque accede 2 veces el metodo al GetAll y no se ocmo hacer que retorne distinto
+            var cont = playerBL.AddIndependentContent(newContent);
+
+            Assert.AreEqual(newContent, cont);
+            contentRepoMock.VerifyAll();
         }
 
         [TestMethod]
@@ -204,9 +191,6 @@ namespace UnitTests.BusinessLogicTests
 
             playerBL.AddIndependentContent(newContent);
 
-            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
-
         }
 
         [TestMethod]
@@ -217,9 +201,6 @@ namespace UnitTests.BusinessLogicTests
             Playlist playlist = playerBL.GetPlaylist(1);
 
             Playlist auxPlaulist = playerBL.AddContentToPlaylist(playlist.Id, content.Id);
-
-            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(0));
-            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(0));
 
         }
 
@@ -253,11 +234,7 @@ namespace UnitTests.BusinessLogicTests
                 Contents = new List<PlayableContent> { }
             };
 
-            playableContentRepository.Add(newContent);
             playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
-
-            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Exactly(2));
-            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(3));
         }
 
         [TestMethod]
@@ -291,9 +268,6 @@ namespace UnitTests.BusinessLogicTests
 
             playerBL.AddIndependentContent(newContent);
             playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
-
-            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Exactly(3));
         }
 
         [TestMethod]
@@ -328,8 +302,6 @@ namespace UnitTests.BusinessLogicTests
 
             playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
 
-            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
 
         }
 
@@ -372,9 +344,6 @@ namespace UnitTests.BusinessLogicTests
             };
 
             playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
-
-            contentMockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
         }
 
         [TestMethod]
@@ -400,8 +369,6 @@ namespace UnitTests.BusinessLogicTests
             Playlist p = new Playlist { Id = 3, Category = c, CategoryId = c.Id, Description = "asd", Name = "asd", ImageURL = "asd" };
             playerBL.AddPlaylist(p);
 
-            playlistMockSet.Verify(v => v.Add(It.IsAny<Playlist>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
         }
 
         [TestMethod]
@@ -409,7 +376,6 @@ namespace UnitTests.BusinessLogicTests
         {
             playerBL.DeleteContent(2);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
         }
     }
 }
