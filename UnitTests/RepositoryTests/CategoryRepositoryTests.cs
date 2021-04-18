@@ -11,16 +11,13 @@ using Domain;
 using DataAccess;
 using IDataAccess;
 
-namespace UnitTests
+namespace UnitTests.RepositoryTests
 {
     [TestClass]
     public class CategoryRepositoryTests
     {
 
         CategoryRepository repository;
-        Mock<DbSet<Category>> mockSet;
-        Mock<Context> mockContext;
-        DbContextOptions<Context> DbOptions;
 
         [TestInitialize]
         public void SetUp()
@@ -33,17 +30,17 @@ namespace UnitTests
                 new Category {Id = 4, Name = "Cuerpo"},
             }.AsQueryable();
 
-            mockSet = new Mock<DbSet<Category>>();
-            mockSet.As<IQueryable<Category>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Category>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Category>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            mockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => data.FirstOrDefault(d => d.Id == (int)pk[0]));
+            var options = new DbContextOptionsBuilder<Context>()
+                .UseInMemoryDatabase("BetterCalmDB")
+                .Options;
 
-            DbOptions = new DbContextOptions<Context>();
-            mockContext = new Mock<Context>(DbOptions);
-            mockContext.Setup(v => v.Categories).Returns(mockSet.Object);
+            Context context = new Context(options);
 
-            repository = new CategoryRepository(mockContext.Object);
+            context.Database.EnsureDeleted();
+            context.Set<Category>().AddRange(data);
+            context.SaveChanges();
+
+            repository = new CategoryRepository(context);
         }
 
         [TestMethod]
@@ -66,20 +63,23 @@ namespace UnitTests
         public void AddCategoryTest()
         {
             var category = new Category { Id = 5, Name = "Aprender" };
+            
             repository.Add(category);
+            
+            var count = repository.GetAll().Count();
 
-            mockSet.Verify(v => v.Add(It.IsAny<Category>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            Assert.AreEqual(5, count);
         }
 
         [TestMethod]
         public void UpdateCategoryTest()
         {
             var category = new Category { Id = 1, Name = "Bailar" };
+
             repository.Update(1, category);
+
             var modifiedCategory = repository.Get(1);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
             Assert.AreEqual("Bailar", modifiedCategory.Name);
         }
 
@@ -88,7 +88,9 @@ namespace UnitTests
         {
             repository.Delete(1);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            var count = repository.GetAll().Count();
+
+            Assert.AreEqual(3, count);
         }
     }
 }
