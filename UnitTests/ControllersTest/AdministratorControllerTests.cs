@@ -200,7 +200,7 @@ namespace UnitTests.ControllersTest
                 Name = "juan",
                 Password = "juan"
             };
-            mock.Setup(x => x.UpdateAdministrator(0, admin));
+            mock.Setup(x => x.UpdateAdministrator(0, admin)).Throws(new Exception());
             var result = controller.UpdateAdministrator(0, admin);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
