@@ -190,7 +190,11 @@ namespace BusinessLogic
 
         public void DeletePlaylist(int playlistId)
         {
-            playlistRepository.Delete(playlistId);
+            if (playlistId <= playlistRepository.GetAll().ToList().Count() && playlistId > 0)
+            {
+                playlistRepository.Delete(playlistId);
+            }
+            else throw new Exception("No playlist associated to given id");
         }
 
     }
