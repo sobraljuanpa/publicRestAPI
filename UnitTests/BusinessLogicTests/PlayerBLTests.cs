@@ -214,6 +214,7 @@ namespace UnitTests.BusinessLogicTests
             contentRepoMock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
             playlistRepoMock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
             playlistRepoMock.Setup(x => x.Get(1)).Returns(auxPlaylist);
+            playlistRepoMock.Setup(x => x.Update(1, auxPlaylist));
 
             PlayableContent content = playerBL.GetPlayableContent(2);
             Playlist playlist = playerBL.GetPlaylist(1);

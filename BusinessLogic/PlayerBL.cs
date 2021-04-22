@@ -169,8 +169,8 @@ namespace BusinessLogic
             AlreadyOnPlaylist(playlistId, contentId);
 
             playlist.Contents.Add(content);
-            //TODO 
-            //ACA NO SE ESTA GUARDANDO NUNCA A BD EL CAMBIO, OJO
+
+            playlistRepository.Update(playlistId, playlist);
 
             return playlist;
         }

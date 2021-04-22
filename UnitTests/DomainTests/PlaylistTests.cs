@@ -75,7 +75,7 @@ namespace UnitTests
 
             p.Contents.Add(c);
 
-            Assert.AreEqual(p.Contents[0], c);
+            Assert.AreEqual(p.Contents.Count, 1);
         }
     }
 }
