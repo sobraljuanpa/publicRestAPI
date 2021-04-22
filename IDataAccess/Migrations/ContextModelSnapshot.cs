@@ -155,14 +155,9 @@ namespace IDataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PlaylistId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("PlaylistId");
 
                     b.ToTable("PlayableContents");
                 });
@@ -237,6 +232,21 @@ namespace IDataAccess.Migrations
                     b.ToTable("Psychologists");
                 });
 
+            modelBuilder.Entity("PlayableContentPlaylist", b =>
+                {
+                    b.Property<int>("ContentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlaylistsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ContentsId", "PlaylistsId");
+
+                    b.HasIndex("PlaylistsId");
+
+                    b.ToTable("PlayableContentPlaylist");
+                });
+
             modelBuilder.Entity("Domain.Consultation", b =>
                 {
                     b.HasOne("Domain.Problem", "Problem")
@@ -260,10 +270,6 @@ namespace IDataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Playlist", null)
-                        .WithMany("Contents")
-                        .HasForeignKey("PlaylistId");
-
                     b.Navigation("Category");
                 });
 
@@ -285,9 +291,19 @@ namespace IDataAccess.Migrations
                         .HasForeignKey("PsychologistId");
                 });
 
-            modelBuilder.Entity("Domain.Playlist", b =>
+            modelBuilder.Entity("PlayableContentPlaylist", b =>
                 {
-                    b.Navigation("Contents");
+                    b.HasOne("Domain.PlayableContent", null)
+                        .WithMany()
+                        .HasForeignKey("ContentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Playlist", null)
+                        .WithMany()
+                        .HasForeignKey("PlaylistsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Psychologist", b =>

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IDataAccess.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class newModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,6 +53,30 @@ namespace IDataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlayableContents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Duration = table.Column<double>(type: "float", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContentURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlayableContents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlayableContents_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Playlists",
                 columns: table => new
                 {
@@ -95,34 +119,27 @@ namespace IDataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlayableContents",
+                name: "PlayableContentPlaylist",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Duration = table.Column<double>(type: "float", nullable: false),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContentURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PlaylistId = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    ContentsId = table.Column<int>(type: "int", nullable: false),
+                    PlaylistsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayableContents", x => x.Id);
+                    table.PrimaryKey("PK_PlayableContentPlaylist", x => new { x.ContentsId, x.PlaylistsId });
                     table.ForeignKey(
-                        name: "FK_PlayableContents_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        name: "FK_PlayableContentPlaylist_PlayableContents_ContentsId",
+                        column: x => x.ContentsId,
+                        principalTable: "PlayableContents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_PlayableContents_Playlists_PlaylistId",
-                        column: x => x.PlaylistId,
+                        name: "FK_PlayableContentPlaylist_Playlists_PlaylistsId",
+                        column: x => x.PlaylistsId,
                         principalTable: "Playlists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,14 +213,14 @@ namespace IDataAccess.Migrations
                 column: "PsychologistId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlayableContentPlaylist_PlaylistsId",
+                table: "PlayableContentPlaylist",
+                column: "PlaylistsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlayableContents_CategoryId",
                 table: "PlayableContents",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayableContents_PlaylistId",
-                table: "PlayableContents",
-                column: "PlaylistId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Playlists_CategoryId",
@@ -225,10 +242,13 @@ namespace IDataAccess.Migrations
                 name: "Consultations");
 
             migrationBuilder.DropTable(
-                name: "PlayableContents");
+                name: "PlayableContentPlaylist");
 
             migrationBuilder.DropTable(
                 name: "Problems");
+
+            migrationBuilder.DropTable(
+                name: "PlayableContents");
 
             migrationBuilder.DropTable(
                 name: "Playlists");
