@@ -11,16 +11,13 @@ using Domain;
 using DataAccess;
 using IDataAccess;
 
-namespace UnitTests
+namespace UnitTests.RepositoryTests
 {
     [TestClass]
     public class PlayableContentRepositoryTests
     {
 
         PlayableContentRepository repository;
-        Mock<DbSet<PlayableContent>> mockSet;
-        Mock<Context> mockContext;
-        DbContextOptions<Context> DbOptions;
 
         [TestInitialize]
         public void SetUp()
@@ -32,17 +29,17 @@ namespace UnitTests
                 new PlayableContent { Id = 2, Author = "Buitres", Category = auxCategory, Duration = 2.2, ContentURL = "http://cadillac-solitario.mp3", ImageURL = "", Name = "Cadillac solitario"}
             }.AsQueryable();
 
-            mockSet = new Mock<DbSet<PlayableContent>>();
-            mockSet.As<IQueryable<PlayableContent>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<PlayableContent>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<PlayableContent>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            mockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => data.FirstOrDefault(d => d.Id == (int)pk[0]));
+            var options = new DbContextOptionsBuilder<Context>()
+                .UseInMemoryDatabase("BetterCalmDB")
+                .Options;
 
-            DbOptions = new DbContextOptions<Context>();
-            mockContext = new Mock<Context>(DbOptions);
-            mockContext.Setup(v => v.PlayableContents).Returns(mockSet.Object);
+            Context context = new Context(options);
 
-            repository = new PlayableContentRepository(mockContext.Object);
+            context.Database.EnsureDeleted();
+            context.Set<PlayableContent>().AddRange(data);
+            context.SaveChanges();
+
+            repository = new PlayableContentRepository(context);
         }
 
         [TestMethod]
@@ -64,23 +61,23 @@ namespace UnitTests
         [TestMethod]
         public void AddContentTest()
         {
-            var auxCategory = new Category { Id = 3, Name = "Musica" };
-            var content = new PlayableContent { Id = 3, Author = "The Smiths", Category = auxCategory, Duration = 3.2, ContentURL = "http://this-charming-man.mp3", ImageURL = "", Name = "This Charming Man" };
+            var content = new PlayableContent { Id = 3, Author = "The Smiths",CategoryId=3, Duration = 3.2, ContentURL = "http://this-charming-man.mp3", ImageURL = "", Name = "This Charming Man" };
             repository.Add(content);
 
-            mockSet.Verify(v => v.Add(It.IsAny<PlayableContent>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            var count = repository.GetAll().Count();
+
+            Assert.AreEqual(3, count);
         }
 
         [TestMethod]
         public void UpdateContentTest()
         {
-            var auxCategory = new Category { Id = 3, Name = "Musica" };
-            var content = new PlayableContent { Id = 2, Author = "Buitres", Category = auxCategory, Duration = 3.2, ContentURL = "http://carretera-perdida.mp3", ImageURL = "", Name = "Carretera Perdida" };
+            var content = new PlayableContent { Id = 2, Author = "Buitres", Duration = 3.2, ContentURL = "http://carretera-perdida.mp3", ImageURL = "", Name = "Carretera Perdida" };
+
             repository.Update(2, content);
+
             var modifiedContent = repository.Get(2);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
             Assert.AreEqual("Carretera Perdida", modifiedContent.Name);
         }
 
@@ -89,7 +86,9 @@ namespace UnitTests
         {
             repository.Delete(1);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            var count = repository.GetAll().Count();
+
+            Assert.AreEqual(1, count);
         }
     }
 }

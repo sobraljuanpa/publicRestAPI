@@ -23,7 +23,7 @@ namespace BusinessLogic
             return administratorRepository.Authenticate(email, password);
         }
 
-        private bool ValidEmail(string email)
+        public bool ValidEmail(string email)
         {
             bool isValid = true;
             List<Administrator> administrators = administratorRepository.GetAll().ToList();

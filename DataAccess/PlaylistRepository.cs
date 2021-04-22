@@ -26,7 +26,10 @@ namespace DataAccess
         {
             //TODO determinar por que no anda esto y si lo de abajo
             //return _context.Categories.FirstOrDefault(c => c.Id == id);
-            return _context.Playlists.Find(id);
+            return _context.Playlists
+                .Include(p => p.Category)
+                .Include(p => p.Contents)
+                .FirstOrDefault(p => p.Id == id);
         }
 
         public void Add(Playlist playlist)
@@ -38,7 +41,7 @@ namespace DataAccess
         public void Update(int id, Playlist playlist)
         {
             Get(id).Contents = playlist.Contents;
-            Get(id).Category = playlist.Category;
+            Get(id).CategoryId = playlist.CategoryId;
             Get(id).Description = playlist.Description;
             Get(id).ImageURL = playlist.ImageURL;
             Get(id).Name = playlist.Name;

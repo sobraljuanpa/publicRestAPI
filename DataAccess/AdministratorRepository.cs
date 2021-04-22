@@ -22,11 +22,8 @@ namespace DataAccess
 
         public Administrator Authenticate(string email, string password)
         {
-            Administrator aux = null;
-            foreach(Administrator admin in _context.Administrators.ToList())
-            {
-                if (admin.Email == email && admin.Password == password) aux = admin;
-            }
+            Administrator aux = _context.Administrators.FirstOrDefault(
+                a => a.Email == email && a.Password == password);
 
             if (aux == null) return null;
 

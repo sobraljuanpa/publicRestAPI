@@ -12,6 +12,7 @@ using WebAPI.Controllers;
 using DataAccess;
 using IDataAccess;
 using BusinessLogic;
+using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UnitTests.ControllersTests
@@ -19,39 +20,86 @@ namespace UnitTests.ControllersTests
     [TestClass]
     public class CategoriesControllerTests
     {
-
-        Mock<DbSet<PlayableContent>> contentMockSet;
-        Mock<DbSet<Category>> categoryMockSet;
-        Mock<DbSet<Playlist>> playlistMockSet;
-        PlayableContentRepository playableContentRepository;
-        CategoryRepository categoryRepository;
-        PlaylistRepository playlistRepository;
-        PlayerBL playerBL;
-        Mock<Context> mockContext;
-        DbContextOptions<Context> DbOptions;
-        CategoriesController controller;
+        private Mock<IPlayerBL> mock;
+        private Category category;
+        private PlayableContent content;
+        private Playlist playlist;
+        private IEnumerable<Category> categories;
+        private IEnumerable<PlayableContent> contents;
+        private IEnumerable<Playlist> playlists;
+        private IEnumerable<Object> elements;
+        private CategoriesController controller;
 
         [TestInitialize]
         public void SetUp()
         {
+            mock = new Mock<IPlayerBL>(MockBehavior.Strict);
 
-            var auxCategory = new Category
+             category = new Category
             {
                 Id = 3,
                 Name = "Musica"
             };
-            var auxPlayableContent = new PlayableContent
+
+             content = new PlayableContent
             {
-                Id = 1,
-                Author = "Buenos Muchachos",
-                Category = auxCategory,
-                Duration = 1.2,
-                ContentURL = "http://sin-hogar.mp3",
+                Id = 2,
+                Author = "Jamiroquai",
+                Category = category,
+                Duration = 4.2,
+                ContentURL = "http://La-octava-de-octavio.mp3",
                 ImageURL = "",
-                Name = "Sin hogar"
+                Name = "Alright"
             };
 
-            var dataCategory = new List<Category>
+             playlist = new Playlist
+            {
+                Id = 1,
+                Category = category,
+                Description = "",
+                ImageURL = "",
+                Name = "Trevelling without moving",
+                Contents = new List<PlayableContent> { content }
+            };
+
+            contents = new List<PlayableContent>
+            {
+                new PlayableContent
+                {
+                    Id = 1,
+                    Author = "Jamiroquai",
+                    Category = category,
+                    Duration = 5.4,
+                    ContentURL = "http://aguitaecoco.mp3",
+                    ImageURL = "",
+                    Name = "Virtual Insanity"
+                },
+                new PlayableContent
+                {
+                    Id = 2,
+                    Author = "Jamiroquai",
+                    Category = category,
+                    Duration = 4.2,
+                    ContentURL = "http://La-octava-de-octavio.mp3",
+                    ImageURL = "",
+                    Name = "Alright"
+                }
+            }.AsQueryable();
+
+            playlists = new List<Playlist>
+            {
+                new Playlist 
+                {
+                    Id = 1,
+                    Category = category,
+                    Description = "",
+                    ImageURL = "",
+                    Name = "Trevelling without moving",
+                    Contents = new List<PlayableContent> { content }
+                }
+            }.AsQueryable();
+
+            categories = new List<Category>
             {
                 new Category
                 {
@@ -75,106 +123,50 @@ namespace UnitTests.ControllersTests
                 },
             }.AsQueryable();
 
-            var dataPlayableContent = new List<PlayableContent>
-            {
-                new PlayableContent
-                {
-                    Id = 1,
-                    Author = "Buenos Muchachos",
-                    Category = auxCategory,
-                    Duration = 1.2,
-                    ContentURL = "http://sin-hogar.mp3",
-                    ImageURL = "",
-                    Name = "Sin hogar"
-                },
-                new PlayableContent
-                {
-                  Id = 2,
-                  Author = "Buitres",
-                  Category = auxCategory,
-                  Duration = 2.2,
-                  ContentURL = "http://cadillac-solitario.mp3",
-                  ImageURL = "",
-                  Name = "Cadillac solitario"
-                }
-            }.AsQueryable();
+            elements = contents;
+                
 
-            var dataPlaylist = new List<Playlist>
-            {
-                new Playlist
-                {
-                    Id = 1,
-                    Category = auxCategory,
-                    Description = "Rock uruguayo",
-                    ImageURL = "",
-                    Name = "Rock uruguayo",
-                    Contents = new List<PlayableContent> { auxPlayableContent }
-                }
-            }.AsQueryable();
-
-            categoryMockSet = new Mock<DbSet<Category>>();
-            categoryMockSet.As<IQueryable<Category>>().Setup(m => m.Expression).Returns(dataCategory.Expression);
-            categoryMockSet.As<IQueryable<Category>>().Setup(m => m.ElementType).Returns(dataCategory.ElementType);
-            categoryMockSet.As<IQueryable<Category>>().Setup(m => m.GetEnumerator()).Returns(dataCategory.GetEnumerator());
-            categoryMockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => dataCategory.FirstOrDefault(d => d.Id == (int)pk[0]));
-
-            contentMockSet = new Mock<DbSet<PlayableContent>>();
-            contentMockSet.As<IQueryable<PlayableContent>>().Setup(m => m.Expression).Returns(dataPlayableContent.Expression);
-            contentMockSet.As<IQueryable<PlayableContent>>().Setup(m => m.ElementType).Returns(dataPlayableContent.ElementType);
-            contentMockSet.As<IQueryable<PlayableContent>>().Setup(m => m.GetEnumerator()).Returns(dataPlayableContent.GetEnumerator());
-            contentMockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => dataPlayableContent.FirstOrDefault(d => d.Id == (int)pk[0]));
-
-            playlistMockSet = new Mock<DbSet<Playlist>>();
-            playlistMockSet.As<IQueryable<Playlist>>().Setup(m => m.Expression).Returns(dataPlaylist.Expression);
-            playlistMockSet.As<IQueryable<Playlist>>().Setup(m => m.ElementType).Returns(dataPlaylist.ElementType);
-            playlistMockSet.As<IQueryable<Playlist>>().Setup(m => m.GetEnumerator()).Returns(dataPlaylist.GetEnumerator());
-            playlistMockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => dataPlaylist.FirstOrDefault(d => d.Id == (int)pk[0]));
-
-            DbOptions = new DbContextOptions<Context>();
-            mockContext = new Mock<Context>(DbOptions);
-
-            mockContext.Setup(v => v.PlayableContents).Returns(contentMockSet.Object);
-            playableContentRepository = new PlayableContentRepository(mockContext.Object);
-
-            mockContext.Setup(v => v.Categories).Returns(categoryMockSet.Object);
-            categoryRepository = new CategoryRepository(mockContext.Object);
-
-            mockContext.Setup(v => v.Playlists).Returns(playlistMockSet.Object);
-            playlistRepository = new PlaylistRepository(mockContext.Object);
-
-
-            playerBL = new PlayerBL(categoryRepository, playableContentRepository, playlistRepository);
-            controller = new CategoriesController(playerBL);
+            controller = new CategoriesController(mock.Object);
         }
 
         [TestMethod]
         public void GetCategoriesTest()
         {
+            mock.Setup(x => x.GetCategories())
+                .Returns(categories.ToList());
             var result = controller.GetCategories();
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(200, statusCode);
+            mock.VerifyAll();
         }
 
         [TestMethod]
         public void GetCategoryContentsByIdTest()
         {
+
+            mock.Setup(x => x.GetCategoryElements(1)).Returns(elements.ToList());
+
             var result = controller.GetCategoryContents(1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(200, statusCode);
+            mock.VerifyAll();
         }
 
         [TestMethod]
         public void GetCategoryContentsByInvalidIdTest()
         {
+            mock.Setup(x => x.GetCategoryElements(0)).Throws(new Exception());
+
             var result = controller.GetCategoryContents(0);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(404, statusCode);
+            mock.VerifyAll();
         }
 
     }

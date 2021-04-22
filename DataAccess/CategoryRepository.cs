@@ -23,7 +23,7 @@ namespace DataAccess
         {
             //TODO determinar por que no anda esto y si lo de abajo
             //return _context.Categories.FirstOrDefault(c => c.Id == id);
-            return _context.Categories.Find(id);
+            return _context.Categories.FirstOrDefault(c => c.Id == id);
         }
 
         public void Add(Category category)

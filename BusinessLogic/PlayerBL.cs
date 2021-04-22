@@ -83,7 +83,7 @@ namespace BusinessLogic
         {
             contentValidator.ValidateContent(content);
             contentRepository.Add(content);
-            return contentRepository.GetAll().ToList().FindLast(x => x.Id != 0);
+            return contentRepository.GetAll().ToList().FindLast(x => x.Name != null);
         }
 
         public void DeleteContent (int contentId)
@@ -169,6 +169,8 @@ namespace BusinessLogic
             AlreadyOnPlaylist(playlistId, contentId);
 
             playlist.Contents.Add(content);
+            //TODO 
+            //ACA NO SE ESTA GUARDANDO NUNCA A BD EL CAMBIO, OJO
 
             return playlist;
         }
@@ -188,7 +190,11 @@ namespace BusinessLogic
 
         public void DeletePlaylist(int playlistId)
         {
-            playlistRepository.Delete(playlistId);
+            if (playlistId <= playlistRepository.GetAll().ToList().Count() && playlistId > 0)
+            {
+                playlistRepository.Delete(playlistId);
+            }
+            else throw new Exception("No playlist associated to given id");
         }
 
     }

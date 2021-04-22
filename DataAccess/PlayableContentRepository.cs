@@ -23,7 +23,7 @@ namespace DataAccess
         {
             //TODO determinar por que no anda esto y si lo de abajo
             //return _context.Categories.FirstOrDefault(c => c.Id == id);
-            return _context.PlayableContents.Find(id);
+            return _context.PlayableContents.FirstOrDefault(p => p.Id == id);
         }
 
         public void Add(PlayableContent content)
@@ -35,7 +35,7 @@ namespace DataAccess
         public void Update(int id, PlayableContent content)
         {
             Get(id).Author = content.Author;
-            Get(id).Category = content.Category;
+            Get(id).CategoryId = content.CategoryId;
             Get(id).ContentURL = content.ContentURL;
             Get(id).Duration = content.Duration;
             Get(id).ImageURL = content.ImageURL;
