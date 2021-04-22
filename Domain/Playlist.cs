@@ -6,6 +6,6 @@ namespace Domain
     {
         public string Description { get; set; }
 
-        public List<PlayableContent> Contents { get; set; }
+        public ICollection<PlayableContent> Contents { get; set; }
     }
 }
