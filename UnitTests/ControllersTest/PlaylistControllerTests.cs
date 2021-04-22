@@ -215,8 +215,28 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void AddContentToPlaylistTest()
         {
+            PlayableContent auxContent = new PlayableContent
+            {
+                Id = 2,
+                Author = "Buitres",
+                Category = category,
+                CategoryId = category.Id,
+                Duration = 2.2,
+                ContentURL = "http://cadillac-solitario.mp3",
+                ImageURL = "",
+                Name = "Cadillac solitario"
+            };
 
-            mock.Setup(x => x.AddContentToPlaylist(playlist.Id, 2));
+            mock.Setup(x => x.AddContentToPlaylist(playlist.Id, 2)).Returns(new Playlist
+            {
+                Id = 1,
+                Category = category,
+                CategoryId = category.Id,
+                Description = "Rock uruguayo",
+                ImageURL = "",
+                Name = "Rock uruguayo",
+                Contents = new List<PlayableContent> { content, auxContent }
+            });
             var result = controller.AddContentToPlaylist(playlist.Id,2);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
