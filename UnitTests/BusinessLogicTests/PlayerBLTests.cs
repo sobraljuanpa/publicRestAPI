@@ -135,6 +135,7 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void GetPlaylistTest()
         {
+            playlistRepoMock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
             playlistRepoMock.Setup(x => x.Get(1)).Returns(auxPlaylist);
             Playlist playlistElement = playerBL.GetPlaylist(1);
 
@@ -340,7 +341,7 @@ namespace UnitTests.BusinessLogicTests
         {
 
             Category c = new Category { Id = 1, Name = "q" };
-            Playlist p = new Playlist { Id = 3, Category = c, CategoryId = c.Id, Description = "asd", Name = "asd", ImageURL = "asd" };
+            Playlist p = new Playlist { Id = 2, Category = c, CategoryId = c.Id, Description = "asd", Name = "asd", ImageURL = "asd" };
 
             playlistRepoMock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
             playlistRepoMock.Setup(x => x.Add(p));
