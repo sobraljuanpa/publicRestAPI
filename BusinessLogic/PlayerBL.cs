@@ -19,6 +19,8 @@ namespace BusinessLogic
 
         private readonly IRepository<Playlist> playlistRepository;
 
+        private readonly PlaylistValidator playlistValidator;
+
         public PlayerBL(IRepository<Category> categoryRepository,
                         IRepository<PlayableContent> contentRepository,
                         IRepository<Playlist> playlistRepository)
@@ -27,6 +29,7 @@ namespace BusinessLogic
             this.contentRepository = contentRepository;
             this.contentValidator = new PlayableContentValidator(this.contentRepository);
             this.playlistRepository = playlistRepository;
+            this.playlistValidator = new PlaylistValidator(this.playlistRepository);
         }
 
         public List<Category> GetCategories()
@@ -60,14 +63,9 @@ namespace BusinessLogic
 
         public Playlist GetPlaylist(int playlistId)
         {
-            if (playlistId > 0) 
-            {
-                return playlistRepository.Get(playlistId);
-            }
-            else
-            {
-                throw new Exception("No playlist associated to given id.");
-            }
+            playlistValidator.IdInValidRange(playlistId);
+
+            return playlistRepository.Get(playlistId);
         }
 
         public PlayableContent GetPlayableContent(int contentId)
@@ -89,78 +87,22 @@ namespace BusinessLogic
             contentRepository.Delete(contentId);
         }
 
-        public void ValidId(int id)
-        {
-            if (id <= 0)
-            {
-                throw new Exception("Invalid id");
-            }
-        }
-
-        public void ValidatePlaylist (Playlist playlist)
-        {
-            foreach (Playlist auxPlaylist in playlistRepository.GetAll().ToList())
-            {
-                if (playlist.Name == auxPlaylist.Name && playlist.Description == auxPlaylist.Description)
-                {
-                    throw new Exception($"The playlist you are trying to create already exists at index {auxPlaylist.Id}");
-                }
-            }
-        }
-
         public void AddPlaylist (Playlist playlist)
         {
 
+            playlistValidator.ValidPlaylist(playlist);
 
-            ValidatePlaylist(playlist);
-            ValidId(playlist.CategoryId);
             playlistRepository.Add(playlist);
-        }
-
-        public void AlreadyOnPlaylist(int playlistId, int contentId)
-        {
-            Playlist auxPlaylist = playlistRepository.Get(playlistId);
-            PlayableContent auxContent = contentRepository.Get(contentId);
-
-            foreach (PlayableContent content in auxPlaylist.Contents)
-            {
-                if (content.Name == auxContent.Name && content.Author == auxContent.Author )
-                {
-                    throw new Exception($"The playable content you are trying to create already exists");
-                }
-
-            }
-        }
-
-        public void PlaylistExists(int playlistId)
-        {
-            Playlist auxPlaylist = playlistRepository.Get(playlistId);
-
-            if (!playlistRepository.GetAll().ToList().Contains(auxPlaylist))
-            {
-
-                throw new Exception("There's no playlist associated to given id");
-            }
-        }
-
-        public void ContentExists(int contentId)
-        {
-            PlayableContent auxContent = contentRepository.Get(contentId);
-
-            if (auxContent == null)
-            {
-                throw new Exception("There's no playable content associated to given id");
-            }
-        }
+        } 
 
         public Playlist AddContentToPlaylist(int playlistId, int contentId)
         {
             Playlist playlist = playlistRepository.Get(playlistId);
             PlayableContent content = contentRepository.Get(contentId);
 
-            ContentExists(contentId);
-            PlaylistExists(playlistId);
-            AlreadyOnPlaylist(playlistId, contentId);
+            contentValidator.Exists(content);
+            playlistValidator.Exists(playlist);
+            playlistValidator.AlreadyOnPlaylist(playlist, content);
 
             playlist.Contents.Add(content);
 
@@ -169,26 +111,10 @@ namespace BusinessLogic
             return playlist;
         }
 
-        public void RemoveContentsFromPlaylist(int playlistId)
-        {
-            Playlist playlist = GetPlaylist(playlistId);
-
-            if (playlist.Contents.ToList().Count != 0)
-            {
-                foreach (PlayableContent content in playlist.Contents)
-                {
-                    playlist.Contents.ToList().Remove(content);
-                }
-            }
-        }
-
         public void DeletePlaylist(int playlistId)
         {
-            if (playlistId <= playlistRepository.GetAll().ToList().Count() && playlistId > 0)
-            {
-                playlistRepository.Delete(playlistId);
-            }
-            else throw new Exception("No playlist associated to given id");
+            playlistValidator.IdInValidRange(playlistId);
+            playlistRepository.Delete(playlistId);
         }
 
     }

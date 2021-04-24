@@ -38,5 +38,13 @@ namespace BusinessLogic
                 }
             }
         }
+
+        public void Exists (PlayableContent content)
+        {
+            if (content == null)
+            {
+                throw new Exception("There's no playable content associated to given id");
+            }
+        }
     }
 }
