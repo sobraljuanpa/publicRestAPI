@@ -14,15 +14,6 @@ namespace BusinessLogic
         {
             playlistRepository = repository;
         }
-        //public void IdInValidRange(int id)
-        //{
-        //    if (id <= 0 && id <= playlistRepository.GetAll().ToList().FindLast(x => x.Id != 0).Id)
-        //    { }
-        //    else
-        //    {
-        //        throw new Exception("No playlist associated to given id");
-        //    }
-        //}
 
         public void IdInValidRange(int id)
         {

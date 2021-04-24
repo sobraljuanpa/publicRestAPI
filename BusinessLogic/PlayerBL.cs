@@ -97,7 +97,6 @@ namespace BusinessLogic
         {
 
             playlistValidator.ValidPlaylist(playlist);
-            //playlistValidator.IdInValidRange(playlist.Id);
 
             playlistRepository.Add(playlist);
         } 

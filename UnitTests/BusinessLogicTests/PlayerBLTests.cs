@@ -270,47 +270,6 @@ namespace UnitTests.BusinessLogicTests
             contentRepoMock.VerifyAll();
         }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(Exception))]
-        //public void AddContentToPlaylistWithDifferentCategoriesTest()
-        //{
-
-        //    var bodyCategory = new Category
-        //    {
-        //        Id = 4,
-        //        Name = "Cuerpo"
-        //    };
-        //    var musicCategory = new Category
-        //    {
-        //        Id = 3,
-        //        Name = "Musica"
-        //    };
-
-        //    PlayableContent newContent = new PlayableContent
-        //    {
-        //        Id = 3,
-        //        Author = "Peter Scherer",
-        //        Category = bodyCategory,
-        //        CategoryId = bodyCategory.Id,
-        //        Duration = 1.1,
-        //        ContentURL = "http://The-flight.mp3",
-        //        ImageURL = "",
-        //        Name = "The flight"
-        //    };
-        //    Playlist auxPlaylist = new Playlist
-        //    {
-        //        Id = 1,
-        //        Category = musicCategory,
-        //        CategoryId = musicCategory.Id,
-        //        Description = "Rock uruguayo",
-        //        ImageURL = "",
-        //        Name = "Rock uruguayo",
-        //        Contents = new List<PlayableContent> { }
-        //    };
-
-        //    playerBL.AddContentToPlaylist(auxPlaylist.Id, newContent.Id);
-        //}
-
         [TestMethod]
         public void GetCategoryElementsTest()
         {
