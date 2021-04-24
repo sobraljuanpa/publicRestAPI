@@ -26,7 +26,7 @@ namespace BusinessLogic
 
         public void IdInValidRange(int id)
         {
-            if (id <= 0 && id > playlistRepository.GetAll().ToList().Count())
+            if (id <= 0 || id > playlistRepository.GetAll().ToList().Count())
             {
                 throw new Exception("No playlist associated to given id");
             }
