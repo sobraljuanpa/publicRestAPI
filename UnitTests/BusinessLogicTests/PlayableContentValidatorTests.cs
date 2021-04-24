@@ -63,15 +63,16 @@ namespace UnitTests.BusinessLogicTests
         public void IdInValidRangeTest()
         {
             mock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
-            Assert.IsTrue(validator.IdInValidRange(2));
+            validator.IdInValidRange(2);
             mock.VerifyAll();
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void IdNotInValidRangeTest()
         {
             mock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
-            Assert.IsFalse(validator.IdInValidRange(5));
+            validator.IdInValidRange(5);
             mock.VerifyAll();
         }
 

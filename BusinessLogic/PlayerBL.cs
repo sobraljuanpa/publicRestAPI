@@ -72,11 +72,8 @@ namespace BusinessLogic
 
         public PlayableContent GetPlayableContent(int contentId)
         {
-            if (contentValidator.IdInValidRange(contentId))
-            {
-                return contentRepository.Get(contentId);
-            }
-            else throw new Exception("No content associated to given id.");
+            contentValidator.IdInValidRange(contentId);
+            return contentRepository.Get(contentId);
         }
 
         public PlayableContent AddIndependentContent (PlayableContent content)
@@ -88,11 +85,8 @@ namespace BusinessLogic
 
         public void DeleteContent (int contentId)
         {
-            if (contentValidator.IdInValidRange(contentId))
-            {
-                contentRepository.Delete(contentId);
-            }
-            else throw new Exception("No content associated to given id.");
+            contentValidator.IdInValidRange(contentId);
+            contentRepository.Delete(contentId);
         }
 
         public void ValidId(int id)

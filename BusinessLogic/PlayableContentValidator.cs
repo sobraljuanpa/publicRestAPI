@@ -15,11 +15,12 @@ namespace BusinessLogic
             contentRepository = repository;
         }
 
-        public bool IdInValidRange (int id)
+        public void IdInValidRange (int id)
         {
-            return id > 0 && 
-                   id <= contentRepository.GetAll().ToList()
-                        .FindLast(x => x.Id != 0).Id;
+            if(id <= 0 || id > contentRepository.GetAll().Count())
+            {
+                throw new Exception("No content associated to given id");
+            }
         }
 
         public void ValidateContent (PlayableContent content)
