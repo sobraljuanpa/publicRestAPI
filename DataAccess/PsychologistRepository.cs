@@ -34,6 +34,7 @@ namespace DataAccess
         public void Update(int id, Psychologist psychologist)
         {
             Get(id).Expertise = psychologist.Expertise;
+            Get(id).Schedule = psychologist.Schedule;
             _Context.SaveChanges();
         }
 
