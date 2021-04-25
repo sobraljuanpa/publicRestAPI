@@ -7,7 +7,9 @@ namespace IBusinessLogic
 {
     public interface IConsultationBL
     {
-        public List<Consultation> GetConsultationsByPsychologist();
+        public List<Consultation> GetConsultationsByPsychologist(int id);
+
+        public List<Consultation> GetConsultations();
 
         public Consultation Get(int id);
 
