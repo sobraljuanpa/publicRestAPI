@@ -74,7 +74,7 @@ namespace UnitTests
 
             ps.Expertise.Add(p);
 
-            Assert.AreEqual(ps.Expertise[0], p);
+            Assert.AreEqual(ps.Expertise.Count, 1);
         }
     }
 }

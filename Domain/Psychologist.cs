@@ -18,6 +18,8 @@ namespace Domain
 
         public string Address { get; set; }
 
-        public List<Problem> Expertise { get; set; }
+        public Schedule Schedule { get; set; }
+
+        public ICollection<Problem> Expertise { get; set; }
     }
 }
