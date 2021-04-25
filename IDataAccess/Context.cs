@@ -18,6 +18,8 @@ namespace IDataAccess
         public virtual DbSet<Administrator> Administrators { get; set; }
         public virtual DbSet<Consultation> Consultations { get; set; }
 
+        public virtual DbSet<Schedule> Schedules { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Administrator>().HasIndex(a => a.Email).IsUnique();
