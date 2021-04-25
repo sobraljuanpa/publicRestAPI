@@ -90,7 +90,7 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void GetNonExistantContentByIdTest()
         {
-            mock.Setup(x => x.GetPlayableContent(0)).Throws(new Exception());
+            mock.Setup(x => x.GetPlayableContent(0)).Throws(new NullReferenceException());
             
             var result = controller.GetContentById(0);
             var objectResult = result as ObjectResult;
@@ -121,7 +121,7 @@ namespace UnitTests.ControllersTests
         {
             Category c = new Category { Id = 3, Name = "Musica" };
             PlayableContent p = new PlayableContent { Author = "Buitres", Category = c, ContentURL = "http://disorder.mp3", Duration = 1.2, ImageURL = "", Name = "Cadillac solitario" };
-            mock.Setup(x => x.AddIndependentContent(p)).Throws(new Exception());
+            mock.Setup(x => x.AddIndependentContent(p)).Throws(new ArgumentException());
 
             var result = controller.CreateContent(p);
             var objectResult = result as ObjectResult;
@@ -146,7 +146,7 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void DeleteInvalidContentByIdTest()
         {
-            mock.Setup(x => x.DeleteContent(30)).Throws(new Exception());
+            mock.Setup(x => x.DeleteContent(30)).Throws(new NullReferenceException());
             var result = controller.DeleteContentById(30);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;

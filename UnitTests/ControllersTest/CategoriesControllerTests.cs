@@ -157,9 +157,10 @@ namespace UnitTests.ControllersTests
         }
 
         [TestMethod]
+
         public void GetCategoryContentsByInvalidIdTest()
         {
-            mock.Setup(x => x.GetCategoryElements(0)).Throws(new Exception());
+            mock.Setup(x => x.GetCategoryElements(0)).Throws(new NullReferenceException());
 
             var result = controller.GetCategoryContents(0);
             var objectResult = result as ObjectResult;
