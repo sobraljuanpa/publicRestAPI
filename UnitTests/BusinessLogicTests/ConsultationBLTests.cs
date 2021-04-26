@@ -35,7 +35,11 @@ namespace UnitTests.BusinessLogicTests
             {
                 Id = 1,
                 Name = "Depresión",
-                Specialists = null
+            };
+            var anotherProblem = new Problem
+            {
+                Id = 2,
+                Name = "Estrés"
             };
             var schedule = new Schedule
             {
@@ -48,14 +52,15 @@ namespace UnitTests.BusinessLogicTests
 
             var psychologistExperties = new List<Problem>
             {
-                problem
+                problem,
+                anotherProblem
             };
-
              psychologist = new Psychologist
             {
                 Id = 1,
                 PsychologistName = "",
                 PsychologistSurname = "",
+                ActiveYears = 4,
                 Schedule = schedule,
                 Expertise = psychologistExperties
             };
@@ -95,7 +100,16 @@ namespace UnitTests.BusinessLogicTests
 
             psychologists = new List<Psychologist>
             {
-                psychologist
+                psychologist,
+                new Psychologist
+                {
+                    Id = 2,
+                    PsychologistName = "",
+                    PsychologistSurname = "",
+                    ActiveYears = 3,
+                    Schedule = schedule,
+                    Expertise = psychologistExperties
+                }
 
             }.AsQueryable();
 
@@ -189,7 +203,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientPhone = "098000000",
                 Problem = problem,
                 Psychologist = psychologist,
-                Address = "https://betterCalm.com.uy/meeting_id/codigo_autogenerado",
+                Address = "https://betterCalm.com.uy/meeting_id/codigo",
                 IsRemote = true,
                 Date = 0
             };
@@ -220,7 +234,7 @@ namespace UnitTests.BusinessLogicTests
                 Psychologist = psychologist,
                 Address = "",
                 IsRemote = false,
-                Date = 0
+                Date = 2
             };
 
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
@@ -247,7 +261,7 @@ namespace UnitTests.BusinessLogicTests
                 Psychologist = psychologist,
                 Address = "abc.de",
                 IsRemote = true,
-                Date = 0
+                Date = 2
             };
 
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
@@ -259,8 +273,62 @@ namespace UnitTests.BusinessLogicTests
             mockConsultation.VerifyAll();
         }
 
-        
+        [TestMethod]
+        public void MoreThanOnePsychologistTest()
+        {
 
-        
+            var newConsultation = new Consultation
+            {
+                Id = 3,
+                PatientName = "Nicolas",
+                PatientBirthDate = new DateTime(1992, 01, 01),
+                PatientEmail = "nico@hotmial.com",
+                PatientPhone = "098000000",
+                Problem = problem,
+                Address = "https://betterCalm.com.uy/meeting_id/codigo",
+                IsRemote = true,
+                Date = 1
+            };
+
+            mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockPsychologist.Setup(x => x.Update(psychologist.Id, psychologist));
+            mockConsultation.Setup(x => x.Add(newConsultation));
+
+            Consultation auxConsultation = businessLogic.CreateConsultation(newConsultation);
+
+            Assert.AreEqual(1, auxConsultation.Psychologist.Id);
+            mockConsultation.VerifyAll();
+        }
+
+        [TestMethod]
+        public void OnePsychologistForConsultationTest ()
+        {
+
+            var auxProblem = new Problem
+            {
+                Id = 2,
+                Name = "Estrés"
+            };
+            var newConsultation = new Consultation
+            {
+                Id = 3,
+                PatientName = "Nicolas",
+                PatientBirthDate = new DateTime(1992, 01, 01),
+                PatientEmail = "nico@hotmial.com",
+                PatientPhone = "098000000",
+                Problem = auxProblem,
+                Address = "https://betterCalm.com.uy/meeting_id/codigo",
+                IsRemote = true,
+                Date = 1
+            };
+
+            mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockPsychologist.Setup(x => x.Update(psychologist.Id, psychologist));
+            mockConsultation.Setup(x => x.Add(newConsultation));
+
+            businessLogic.CreateConsultation(newConsultation);
+
+            mockConsultation.VerifyAll();
+        }
     }
 }
