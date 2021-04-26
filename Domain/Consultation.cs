@@ -25,5 +25,7 @@ namespace Domain
         public bool IsRemote { get; set; }
 
         public string Address { get; set; }
+
+        public int Date { get; set; }
     }
 }

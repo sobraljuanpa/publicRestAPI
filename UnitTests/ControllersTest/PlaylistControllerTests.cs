@@ -144,7 +144,7 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void GetNonExistantPlaylistByIdTest()
         {
-            mock.Setup(x => x.GetPlaylist(-1)).Throws(new Exception());
+            mock.Setup(x => x.GetPlaylist(-1)).Throws(new NullReferenceException());
             var result = controller.GetPlaylistById(-1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -202,7 +202,7 @@ namespace UnitTests.ControllersTests
                 Contents = new List<PlayableContent> { content }
             };
 
-            mock.Setup(x => x.AddPlaylist(p)).Throws(new Exception());
+            mock.Setup(x => x.AddPlaylist(p)).Throws(new ArgumentException());
             var result = controller.CreatePlaylist(p);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -297,7 +297,7 @@ namespace UnitTests.ControllersTests
         public void DeleteInvalidPlaylistByIdTest()
         {
 
-            mock.Setup(x => x.DeletePlaylist(-1)).Throws(new Exception());
+            mock.Setup(x => x.DeletePlaylist(-1)).Throws(new NullReferenceException());
             var result = controller.DeletePlaylistById(-1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;

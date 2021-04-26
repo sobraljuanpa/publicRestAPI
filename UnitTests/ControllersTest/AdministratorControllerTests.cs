@@ -58,7 +58,7 @@ namespace UnitTests.ControllersTest
         public void GetNonExistingAdministratorByIdTest()
         {
             mock.Setup(x => x.Get(0))
-                .Throws(new Exception());
+                .Throws(new NullReferenceException());
             var result = controller.GetAdministratorById(0);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -137,7 +137,7 @@ namespace UnitTests.ControllersTest
                 Name = "admin",
                 Password = "admin"
             };
-            mock.Setup(x => x.AddAdministrator(admin)).Throws(new Exception());
+            mock.Setup(x => x.AddAdministrator(admin)).Throws(new ArgumentException());
             var result = controller.AddAdministrator(admin);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -162,7 +162,7 @@ namespace UnitTests.ControllersTest
         [TestMethod]
         public void DeleteInvalidAdministratorTest ()
         {
-            mock.Setup(x => x.DeleteAdministrator(0)).Throws(new Exception());
+            mock.Setup(x => x.DeleteAdministrator(0)).Throws(new NullReferenceException());
             var result = controller.DeleteAdministrator(0);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -200,7 +200,7 @@ namespace UnitTests.ControllersTest
                 Name = "juan",
                 Password = "juan"
             };
-            mock.Setup(x => x.UpdateAdministrator(0, admin)).Throws(new Exception());
+            mock.Setup(x => x.UpdateAdministrator(0, admin)).Throws(new NullReferenceException());
             var result = controller.UpdateAdministrator(0, admin);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
