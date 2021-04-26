@@ -17,9 +17,6 @@ namespace UnitTests.RepositoryTests
     {
 
         PsychologistRepository repository;
-        Mock<DbSet<Psychologist>> mockSet;
-        Mock<Context> mockContext;
-        DbContextOptions<Context> DbOptions;
 
         [TestInitialize]
         public void SetUp()
@@ -32,17 +29,17 @@ namespace UnitTests.RepositoryTests
                 new Psychologist { Id = 2, PsychologistName = "María", PsychologistSurname = "Lopez", IsRemote = false, Address = "", Expertise = new List<Problem> { expertiseStress } }
             }.AsQueryable();
 
-            mockSet = new Mock<DbSet<Psychologist>>();
-            mockSet.As<IQueryable<Psychologist>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Psychologist>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Psychologist>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            mockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => data.FirstOrDefault(d => d.Id == (int)pk[0]));
+            var options = new DbContextOptionsBuilder<Context>()
+                .UseInMemoryDatabase("BetterCalmDB")
+                .Options;
 
-            DbOptions = new DbContextOptions<Context>();
-            mockContext = new Mock<Context>(DbOptions);
-            mockContext.Setup(v => v.Psychologists).Returns(mockSet.Object);
+            Context context = new Context(options);
 
-            repository = new PsychologistRepository(mockContext.Object);
+            context.Database.EnsureDeleted();
+            context.Set<Psychologist>().AddRange(data);
+            context.SaveChanges();
+
+            repository = new PsychologistRepository(context);
         }
 
         [TestMethod]
@@ -64,26 +61,22 @@ namespace UnitTests.RepositoryTests
         [TestMethod]
         public void AddPsychologistTest()
         {
-            var expertiseDespression = new Problem { Id = 1, Name = "Depresión" };
-            var expertiseAnger = new Problem { Id = 5, Name = "Enojo" };
+            var expertiseDespression = new Problem { Name = "Depresión" };
+            var expertiseAnger = new Problem { Name = "Enojo" };
             var psychologist = new Psychologist { Id = 3, PsychologistName = "Pedro", PsychologistSurname = "Martinez", IsRemote = true, Address = "1414141", Expertise = new List<Problem> { expertiseDespression, expertiseAnger } };
             repository.Add(psychologist);
-
-            mockSet.Verify(v => v.Add(It.IsAny<Psychologist>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            Assert.AreEqual(3, repository.GetAll().Count());
         }
 
         [TestMethod]
         public void UpdatePsychologistTest()
         {
 
-            var expertiseDespression = new Problem { Id = 1, Name = "Depresión" };
-            var expertiseStress = new Problem { Id = 2, Name = "Estrés" };
+            var expertiseDespression = new Problem {Name = "Depresión" };
+            var expertiseStress = new Problem { Name = "Estrés" };
             var psychologist = new Psychologist { Id = 2, PsychologistName = "María", PsychologistSurname = "Lopez", IsRemote = false, Address = "", Expertise = new List<Problem> { expertiseStress, expertiseDespression } };
             repository.Update(2, psychologist);
             var modifiedPsychologist = repository.Get(2);
-
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
             Assert.AreEqual(2, modifiedPsychologist.Expertise.Count);
         }
 
@@ -92,7 +85,7 @@ namespace UnitTests.RepositoryTests
         {
             repository.Delete(1);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            Assert.AreEqual(1, repository.GetAll().Count());
         }
 
 
