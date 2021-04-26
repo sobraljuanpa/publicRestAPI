@@ -43,6 +43,8 @@ namespace WebAPI
             services.AddScoped<IRepository<Category>, CategoryRepository>();
             services.AddScoped<IRepository<PlayableContent>, PlayableContentRepository>();
             services.AddScoped<IPlayerBL, PlayerBL>();
+            services.AddScoped<IRepository<Psychologist>, PsychologistRepository>();
+            services.AddScoped<IPsychologistBL, PsychologistBL>();
             //esta parte es la de autenticacion
             var key = Encoding.ASCII.GetBytes("Ahora este es nuestro secreto.");
             services.AddAuthentication(x =>
