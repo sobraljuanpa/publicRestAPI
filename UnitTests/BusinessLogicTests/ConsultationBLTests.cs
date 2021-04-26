@@ -128,6 +128,7 @@ namespace UnitTests.BusinessLogicTests
 
             Assert.AreEqual(2, consultations.ToList().Count);
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -165,7 +166,7 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void CreateValidConsultationTest ()
         {
-
+            var guid = Guid.NewGuid();
             var newConsultation = new Consultation
             {
                 Id = 3,
@@ -175,7 +176,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientPhone = "098000000",
                 Problem = problem,
                 Psychologist = psychologist,
-                Address =  "https://betterCalm.com.uy/meeting_id/codigo",
+                Address =  "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
                 Date = 3
             };
@@ -187,12 +188,14 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void CreateConsultationFullScheduleTest()
         {
+            var guid = Guid.NewGuid();
 
             var newConsultation = new Consultation
             {
@@ -203,7 +206,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientPhone = "098000000",
                 Problem = problem,
                 Psychologist = psychologist,
-                Address = "https://betterCalm.com.uy/meeting_id/codigo",
+                Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
                 Date = 0
             };
@@ -215,6 +218,7 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -244,6 +248,7 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -271,11 +276,13 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
         public void MoreThanOnePsychologistTest()
         {
+            var guid = Guid.NewGuid();
 
             var newConsultation = new Consultation
             {
@@ -285,7 +292,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = problem,
-                Address = "https://betterCalm.com.uy/meeting_id/codigo",
+                Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
                 Date = 1
             };
@@ -298,11 +305,13 @@ namespace UnitTests.BusinessLogicTests
 
             Assert.AreEqual(1, auxConsultation.Psychologist.Id);
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
         public void OnePsychologistForConsultationTest ()
         {
+            var guid = Guid.NewGuid();
 
             var auxProblem = new Problem
             {
@@ -317,7 +326,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = auxProblem,
-                Address = "https://betterCalm.com.uy/meeting_id/codigo",
+                Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
                 Date = 1
             };
@@ -329,6 +338,7 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
     }
 }
