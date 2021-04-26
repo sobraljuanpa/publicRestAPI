@@ -128,6 +128,7 @@ namespace UnitTests.BusinessLogicTests
 
             Assert.AreEqual(2, consultations.ToList().Count);
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -187,6 +188,7 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -215,6 +217,7 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -244,6 +247,7 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -271,6 +275,7 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -298,6 +303,7 @@ namespace UnitTests.BusinessLogicTests
 
             Assert.AreEqual(1, auxConsultation.Psychologist.Id);
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
 
         [TestMethod]
@@ -329,6 +335,7 @@ namespace UnitTests.BusinessLogicTests
             businessLogic.CreateConsultation(newConsultation);
 
             mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
         }
     }
 }
