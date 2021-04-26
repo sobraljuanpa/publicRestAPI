@@ -62,6 +62,8 @@ namespace UnitTests.BusinessLogicTests
                 Expertise = psychologistExperties
             };
 
+            var guid = Guid.NewGuid();
+
             consultation = new Consultation
             {
                 Id = 2,
@@ -71,7 +73,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientPhone = "098000000",
                 Problem = problem,
                 Psychologist = psychologist,
-                Address = "https://betterCalm.com.uy/meeting_id/codigo",
+                Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
                 Date = 1
 
@@ -256,6 +258,8 @@ namespace UnitTests.BusinessLogicTests
         [ExpectedException(typeof(Exception))]
         public void FullScheduleTest()
         {
+            var guid = Guid.NewGuid();
+
             var newConsultation = new Consultation
             {
                 Id = 3,
@@ -265,7 +269,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientPhone = "098000000",
                 Problem = problem,
                 Psychologist = psychologist,
-                Address = "https://betterCalm.com.uy/meeting_id/codigo",
+                Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
                 Date = 0
 
