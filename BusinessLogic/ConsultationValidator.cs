@@ -120,7 +120,7 @@ namespace BusinessLogic
 
         public void ValidRemoteAddress(String address)
         {
-            string format = @"\A[https]+(\://)[betterCalm]+(\.)[com]+(\.)[uy]+(\/)[meeting_id]+(\/)[codigo]";
+            string format = @"\A[https]+(\://)[betterCalm]+(\.)[com]+(\.)[uy]+(\/)[meeting_id]+(\/)[a-z0-9]";
             if (!Regex.Match(address, format).Success)
             {
                 throw new Exception("Address with wrong format.");
