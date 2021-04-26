@@ -84,8 +84,61 @@ namespace BusinessLogic
 
         }
 
+        public bool IsOnList(Psychologist psychologist, Problem problem)
+        {
+            bool ok = false;
+
+            foreach (Problem auxProblem in psychologist.Expertise.ToList())
+            {
+                if (auxProblem.Id == problem.Id)
+                {
+                    ok = true;
+                }
+            }
+
+            return ok;
+        }
+
+        public List<Psychologist> PsychologistsWithExpertise(Problem problem)
+        {
+            List<Psychologist> expertise = new List<Psychologist>();
+
+            foreach (Psychologist auxPsychologist in psychologistRepository.GetAll().ToList())
+            {
+                if (IsOnList(auxPsychologist,problem))
+                {
+                    expertise.Add(auxPsychologist);
+                }
+            }
+
+            return expertise;
+        }
+        
+        public Psychologist GetExpert (List<Psychologist> experts)
+        {
+            Psychologist expert = new Psychologist();
+            expert.ActiveYears = 0;
+
+            foreach (Psychologist auxPsychologist in experts)
+            {
+                if (auxPsychologist.ActiveYears > expert.ActiveYears)
+                {
+                    expert = auxPsychologist;
+                }
+            }
+
+            return expert;
+        }
+
+        public void AssignPsychologist(Consultation consultation)
+        {
+            List<Psychologist> experts = PsychologistsWithExpertise(consultation.Problem);
+            consultation.Psychologist = GetExpert(experts);
+        }
+
         public Consultation CreateConsultation(Consultation consultation)
         {
+            AssignPsychologist(consultation);
             IdValidRangePs(consultation.Psychologist.Id);
             ValidSchedule(consultation.Psychologist);
             ValidAddress(consultation);
