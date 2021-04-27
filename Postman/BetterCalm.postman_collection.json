@@ -2027,7 +2027,7 @@
 					"response": []
 				},
 				{
-					"name": "Get newly created psychologist Copy",
+					"name": "Get newly created psychologist Copy 2",
 					"event": [
 						{
 							"listen": "test",
@@ -2158,6 +2158,47 @@
 							]
 						},
 						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/psychologists/{{psychologistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"psychologists",
+								"{{psychologistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete psychologist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Psychologist deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "{{baseUrl}}/psychologists/{{psychologistId}}",
