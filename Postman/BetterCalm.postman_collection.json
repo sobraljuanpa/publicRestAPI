@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a3eb8dbb-b967-43c4-87ad-cfc0a7e67017",
+		"_postman_id": "244fd8d3-1ade-4f6d-a9b9-66bf54885296",
 		"name": "BetterCalm",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1927,6 +1927,252 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Full psychologist maintenance as administrator",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.json().token);\r",
+									"pm.test(\"Authentication successful\", function () {\r",
+									"    pm.response.to.have.status(202)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/administrators/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"administrators",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new psychologist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"psychologistId\", jsonResponse.id);\r",
+									"pm.environment.set(\"psychologistName\", jsonResponse.psychologistName);\r",
+									"\r",
+									"pm.test(\"Psychologist created successfully\", function () {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PsychologistName\": \"Pedro\",\r\n    \"PsychologistSurname\": \"Perez\",\r\n    \"IsRemote\": true,\r\n    \"Address\": \"BetterCalm 1234\",\r\n    \"ActiveYears\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/psychologists",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"psychologists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get newly created psychologist Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Psychologist retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct psychologist retrieved\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.psychologistName).to.eq(pm.environment.get(\"psychologistName\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/psychologists/{{psychologistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"psychologists",
+								"{{psychologistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update created psychologist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var aux = JSON.parse(pm.request.toJSON().body.raw)\r",
+									"console.log(aux.PsychologistSurname)\r",
+									"pm.environment.set(\"psychologistSurname\", JSON.parse(pm.request.toJSON().body.raw).PsychologistSurname);\r",
+									"\r",
+									"pm.test(\"Psychologist updated successfully\", function () {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PsychologistName\": \"Pedro\",\r\n    \"PsychologistSurname\": \"Picapiedra\",\r\n    \"IsRemote\": true,\r\n    \"Address\": \"BetterCalm 1234\",\r\n    \"ActiveYears\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/psychologists/{{psychologistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"psychologists",
+								"{{psychologistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get newly updated psychologist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Psychologist retrieved successfully\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Psychologist updated successfully\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.psychologistSurname).to.eq(pm.environment.get(\"psychologistSurname\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/psychologists/{{psychologistId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"psychologists",
+								"{{psychologistId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -1953,6 +2199,10 @@
 		{
 			"key": "baseUrl",
 			"value": "http://localhost:5000/api"
+		},
+		{
+			"key": "variable_key",
+			"value": ""
 		}
 	]
 }
