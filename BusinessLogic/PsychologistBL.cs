@@ -19,7 +19,7 @@ namespace BusinessLogic
 
         private void ValidateId(int id)
         {
-            if(id <= 0 || id > repository.GetAll().Last().Id)
+            if(id <= 0 || id > repository.GetAll().OrderBy(x => x.Id).Last().Id)
             {
                 throw new Exception($"There is no psychologist associated to given id {id}.");
             }
