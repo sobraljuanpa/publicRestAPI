@@ -24,8 +24,4 @@
     <ProjectReference Include="..\WebAPI\WebAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FilterTests\" />
-  </ItemGroup>
-
 </Project>

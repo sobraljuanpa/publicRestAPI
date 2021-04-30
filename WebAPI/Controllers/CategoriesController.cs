@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using IBusinessLogic;
+using Microsoft.AspNetCore.Mvc.Filters;
+using WebAPI.Filters;
 
 namespace WebAPI.Controllers
 {
 
     [ApiController]
+    [ExceptionFilter]
     [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
     {
@@ -19,30 +22,17 @@ namespace WebAPI.Controllers
         [HttpGet()]
         public IActionResult GetCategories()
         {
-            try
-            {
-                var categories = playerBL.GetCategories();
-                return Ok(categories);
-            }
-            catch (Exception e)
-            {
-                return Problem(e.Message);
-            }
 
+            var categories = playerBL.GetCategories();
+            return Ok(categories);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetCategoryContents(int id)
         {
-            try
-            {
-                var contents = playerBL.GetCategoryElements(id);
-                return Ok(contents);
-            }
-            catch (Exception e)
-            {
-                return NotFound(e.Message);
-            }
+
+            var contents = playerBL.GetCategoryElements(id);
+            return Ok(contents);
         }
 
     }

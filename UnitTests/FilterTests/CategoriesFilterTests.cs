@@ -15,10 +15,10 @@ using BusinessLogic;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace UnitTests.ControllersTests
+namespace UnitTests.FilterTests
 {
-    [TestClass]
-    public class CategoriesControllerTests
+   [TestClass]
+    class CategoriesFilterTests
     {
         private Mock<IPlayerBL> mock;
         private Category category;
@@ -35,13 +35,13 @@ namespace UnitTests.ControllersTests
         {
             mock = new Mock<IPlayerBL>(MockBehavior.Strict);
 
-             category = new Category
+            category = new Category
             {
                 Id = 3,
                 Name = "Musica"
             };
 
-             content = new PlayableContent
+            content = new PlayableContent
             {
                 Id = 2,
                 Author = "Jamiroquai",
@@ -52,7 +52,7 @@ namespace UnitTests.ControllersTests
                 Name = "Alright"
             };
 
-             playlist = new Playlist
+            playlist = new Playlist
             {
                 Id = 1,
                 Category = category,
@@ -88,7 +88,7 @@ namespace UnitTests.ControllersTests
 
             playlists = new List<Playlist>
             {
-                new Playlist 
+                new Playlist
                 {
                     Id = 1,
                     Category = category,
@@ -124,36 +124,22 @@ namespace UnitTests.ControllersTests
             }.AsQueryable();
 
             elements = contents;
-                
+
 
             controller = new CategoriesController(mock.Object);
         }
 
         [TestMethod]
-        public void GetCategoriesTest()
+
+        public void GetCategoryContentsByInvalidIdTest()
         {
-            mock.Setup(x => x.GetCategories())
-                .Returns(categories.ToList());
-            var result = controller.GetCategories();
+            mock.Setup(x => x.GetCategoryElements(0)).Throws(new NullReferenceException());
+
+            var result = controller.GetCategoryContents(0);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
-            Assert.AreEqual(200, statusCode);
-            mock.VerifyAll();
-        }
-
-        [TestMethod]
-        public void GetCategoryContentsByIdTest()
-        {
-
-            mock.Setup(x => x.GetCategoryElements(1))
-                .Returns(elements.ToList());
-
-            var result = controller.GetCategoryContents(1);
-            var objectResult = result as ObjectResult;
-            var statusCode = objectResult.StatusCode;
-
-            Assert.AreEqual(200, statusCode);
+            Assert.AreEqual(404, statusCode);
             mock.VerifyAll();
         }
 
