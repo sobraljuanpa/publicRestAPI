@@ -129,6 +129,7 @@ namespace UnitTests.ControllersTests
         public void GetPlaylistByIdTest()
         {
             mock.Setup(x => x.GetPlaylist(1)).Returns(playlist);
+
             var result = controller.GetPlaylistById(1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -140,7 +141,9 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void GetNonExistantPlaylistByIdTest()
         {
-            mock.Setup(x => x.GetPlaylist(-1)).Throws(new NullReferenceException());
+            mock.Setup(x => x.GetPlaylist(-1)).
+                Throws(new NullReferenceException());
+
             var result = controller.GetPlaylistById(-1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -164,7 +167,7 @@ namespace UnitTests.ControllersTests
                 Name = "This charming man" 
             };
 
-            Playlist p = new Playlist { 
+            Playlist newPlaylist = new Playlist { 
                 Id = 2,
                 Category = category,
                 CategoryId = category.Id,
@@ -174,8 +177,9 @@ namespace UnitTests.ControllersTests
                 Contents = new List<PlayableContent> { auxContent } 
             };
 
-            mock.Setup(x => x.AddPlaylist(p));
-            var result = controller.CreatePlaylist(p);
+            mock.Setup(x => x.AddPlaylist(newPlaylist));
+
+            var result = controller.CreatePlaylist(newPlaylist);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
@@ -187,7 +191,7 @@ namespace UnitTests.ControllersTests
         public void AddExistingPlaylistTest ()
         {
 
-            Playlist p = new Playlist
+            Playlist newPlaylist = new Playlist
             {
                 Id = 1,
                 Category = category,
@@ -198,8 +202,10 @@ namespace UnitTests.ControllersTests
                 Contents = new List<PlayableContent> { content }
             };
 
-            mock.Setup(x => x.AddPlaylist(p)).Throws(new ArgumentException());
-            var result = controller.CreatePlaylist(p);
+            mock.Setup(x => x.AddPlaylist(newPlaylist)).
+                Throws(new ArgumentException());
+
+            var result = controller.CreatePlaylist(newPlaylist);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
@@ -223,7 +229,8 @@ namespace UnitTests.ControllersTests
                 Name = "Cadillac solitario"
             };
 
-            mock.Setup(x => x.AddContentToPlaylist(playlist.Id, 2)).Returns(new Playlist
+            mock.Setup(x => x.AddContentToPlaylist(playlist.Id, 2)).
+                Returns(new Playlist
             {
                 Id = 1,
                 Category = category,
@@ -233,6 +240,7 @@ namespace UnitTests.ControllersTests
                 Name = "Rock uruguayo",
                 Contents = new List<PlayableContent> { content, auxContent }
             });
+
             var result = controller.AddContentToPlaylist(playlist.Id,2);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -245,7 +253,7 @@ namespace UnitTests.ControllersTests
         public void AddContentToNonExistingPlaylistTest()
         {
 
-            Playlist playlist = new Playlist
+            Playlist newPlaylist = new Playlist
             {
                 Id = 2,
                 Category = category,
@@ -256,7 +264,8 @@ namespace UnitTests.ControllersTests
                 Contents = new List<PlayableContent> {  }
             };
 
-            mock.Setup(x => x.AddContentToPlaylist(2,content.Id)).Returns(new Playlist
+            mock.Setup(x => x.AddContentToPlaylist(2,content.Id)).
+                Returns(new Playlist
             {
                 Id = 2,
                 Category = category,
@@ -267,7 +276,8 @@ namespace UnitTests.ControllersTests
                 Contents = new List<PlayableContent> { content }
             }
             );
-            var result = controller.AddContentToPlaylist(playlist.Id, content.Id);
+
+            var result = controller.AddContentToPlaylist(newPlaylist.Id, content.Id);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
@@ -280,6 +290,7 @@ namespace UnitTests.ControllersTests
         public void DeletePlaylistByIdTest()
         {
             mock.Setup(x => x.DeletePlaylist(1));
+
             var result = controller.DeletePlaylistById(1);
             var objectResult = result as NoContentResult;
             var statusCode = objectResult.StatusCode;
@@ -293,7 +304,9 @@ namespace UnitTests.ControllersTests
         public void DeleteInvalidPlaylistByIdTest()
         {
 
-            mock.Setup(x => x.DeletePlaylist(-1)).Throws(new NullReferenceException());
+            mock.Setup(x => x.DeletePlaylist(-1)).
+                Throws(new NullReferenceException());
+
             var result = controller.DeletePlaylistById(-1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;

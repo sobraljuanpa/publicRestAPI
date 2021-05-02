@@ -82,6 +82,7 @@ namespace UnitTests.ControllersTest
         public void GetConsultationTest()
         {
             mock.Setup(x => x.Get(1)).Returns(consultation);
+
             var result = controller.GetConsultation(1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -94,6 +95,7 @@ namespace UnitTests.ControllersTest
         public void GetConsultationByInvalidIdTest()
         {
             mock.Setup(x => x.Get(-1)).Throws(new Exception());
+
             var result = controller.GetConsultation(-1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -105,7 +107,9 @@ namespace UnitTests.ControllersTest
         [TestMethod]
         public void GetConsultationsTest()
         {
-            mock.Setup(x => x.GetConsultations()).Returns(consultations.ToList());
+            mock.Setup(x => x.GetConsultations()).
+                Returns(consultations.ToList());
+
             var result = controller.GetConsultations();
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -117,7 +121,9 @@ namespace UnitTests.ControllersTest
         [TestMethod]
         public void GetConsultationsByPsychologistTest()
         {
-            mock.Setup(x => x.GetConsultationsByPsychologist(1)).Returns(consultations.ToList());
+            mock.Setup(x => x.GetConsultationsByPsychologist(1)).
+                Returns(consultations.ToList());
+
             var result = controller.GetConsultationsByPsychologist(1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -129,7 +135,9 @@ namespace UnitTests.ControllersTest
         [TestMethod]
         public void GetConsultationsByInvalidPsychologistTest()
         {
-            mock.Setup(x => x.GetConsultationsByPsychologist(-1)).Throws(new Exception());
+            mock.Setup(x => x.GetConsultationsByPsychologist(-1)).
+                Throws(new Exception());
+
             var result = controller.GetConsultationsByPsychologist(-1);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -155,7 +163,9 @@ namespace UnitTests.ControllersTest
                 Date = 3
             };
 
-            mock.Setup(x => x.CreateConsultation(newConsultation)).Returns(newConsultation);
+            mock.Setup(x => x.CreateConsultation(newConsultation)).
+                Returns(newConsultation);
+
             var result = controller.CreateConsultation(newConsultation);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
@@ -168,7 +178,9 @@ namespace UnitTests.ControllersTest
         {
             Consultation newConsultation = null;
 
-            mock.Setup(x => x.CreateConsultation(newConsultation)).Throws(new Exception());
+            mock.Setup(x => x.CreateConsultation(newConsultation)).
+                Throws(new Exception());
+
             var result = controller.CreateConsultation(newConsultation);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;

@@ -130,6 +130,7 @@ namespace UnitTests.ControllersTests
         {
             mock.Setup(x => x.GetCategories())
                 .Returns(categories.ToList());
+
             var result = controller.GetCategories();
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
