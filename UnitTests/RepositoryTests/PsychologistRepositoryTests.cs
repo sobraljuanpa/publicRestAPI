@@ -19,12 +19,36 @@ namespace UnitTests.RepositoryTests
         [TestInitialize]
         public void SetUp()
         {
-            var expertiseDespression = new Problem { Id = 1, Name = "Depresión"};
-            var expertiseStress = new Problem { Id = 2, Name = "Estrés"};
+            var expertiseDespression = new Problem 
+            { 
+                Id = 1, 
+                Name = "Depresión"
+            };
+            var expertiseStress = new Problem 
+            { 
+                Id = 2, 
+                Name = "Estrés"
+            };
             var data = new List<Psychologist>
             {
-                new Psychologist { Id = 1, PsychologistName = "Martin", PsychologistSurname = "Perez", IsRemote = true, Address = "1234567", Expertise = new List<Problem> { expertiseDespression } },
-                new Psychologist { Id = 2, PsychologistName = "María", PsychologistSurname = "Lopez", IsRemote = false, Address = "", Expertise = new List<Problem> { expertiseStress } }
+                new Psychologist 
+                { 
+                    Id = 1, 
+                    PsychologistName = "Martin", 
+                    PsychologistSurname = "Perez", 
+                    IsRemote = true, 
+                    Address = "1234567", 
+                    Expertise = new List<Problem> { expertiseDespression } 
+                },
+                new Psychologist 
+                { 
+                    Id = 2, 
+                    PsychologistName = "María",
+                    PsychologistSurname = "Lopez", 
+                    IsRemote = false, 
+                    Address = "", 
+                    Expertise = new List<Problem> { expertiseStress } 
+                }
             }.AsQueryable();
 
             var options = new DbContextOptionsBuilder<Context>()
@@ -45,37 +69,80 @@ namespace UnitTests.RepositoryTests
         {
             var pyschologist = repository.GetAll();
 
-            Assert.AreEqual(2, pyschologist.ToList().Count);
+            int result = 2;
+            int actual = pyschologist.ToList().Count;
+
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
         public void GetByIdTest()
         {
+            string result = "Perez";
+
             var pyschologist = repository.Get(1);
 
-            Assert.AreEqual("Perez", pyschologist.PsychologistSurname);
+            Assert.AreEqual(result, pyschologist.PsychologistSurname);
         }
 
         [TestMethod]
         public void AddPsychologistTest()
         {
-            var expertiseDespression = new Problem { Name = "Depresión" };
-            var expertiseAnger = new Problem { Name = "Enojo" };
-            var psychologist = new Psychologist { Id = 3, PsychologistName = "Pedro", PsychologistSurname = "Martinez", IsRemote = true, Address = "1414141", Expertise = new List<Problem> { expertiseDespression, expertiseAnger } };
+            var expertiseDespression = new Problem 
+            { 
+                Name = "Depresión" 
+            };
+            var expertiseAnger = new Problem 
+            { 
+                Name = "Enojo" 
+            };
+            var psychologist = new Psychologist 
+            { 
+                Id = 3, 
+                PsychologistName = "Pedro", 
+                PsychologistSurname = "Martinez", 
+                IsRemote = true, 
+                Address = "1414141", 
+                Expertise = new List<Problem> { expertiseDespression, expertiseAnger } 
+            };
+
             repository.Add(psychologist);
-            Assert.AreEqual(3, repository.GetAll().Count());
+
+            int result = 3;
+            int actual = repository.GetAll().Count();
+
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
         public void UpdatePsychologistTest()
         {
 
-            var expertiseDespression = new Problem {Name = "Depresión" };
-            var expertiseStress = new Problem { Name = "Estrés" };
-            var psychologist = new Psychologist { Id = 2, PsychologistName = "María", PsychologistSurname = "Lopez", IsRemote = false, Address = "", Expertise = new List<Problem> { expertiseStress, expertiseDespression } };
+            var expertiseDespression = new Problem 
+            {
+                Name = "Depresión" 
+            };
+            var expertiseStress = new Problem 
+            { 
+                Name = "Estrés" 
+            };
+            var psychologist = new Psychologist 
+            { 
+                Id = 2, 
+                PsychologistName = "María", 
+                PsychologistSurname = "Lopez", 
+                IsRemote = false, 
+                Address = "", 
+                Expertise = new List<Problem> { expertiseStress, expertiseDespression } 
+            };
+
             repository.Update(2, psychologist);
             var modifiedPsychologist = repository.Get(2);
-            Assert.AreEqual(2, modifiedPsychologist.Expertise.Count);
+
+            int result = 2;
+            int actual = modifiedPsychologist.Expertise.Count;
+
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
@@ -83,7 +150,9 @@ namespace UnitTests.RepositoryTests
         {
             repository.Delete(1);
 
-            Assert.AreEqual(1, repository.GetAll().Count());
+            int actual = repository.GetAll().Count();
+
+            Assert.AreEqual(1, actual);
         }
 
 

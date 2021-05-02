@@ -46,39 +46,46 @@ namespace UnitTests.RepositoryTests
         {
             var categories = repository.GetAll();
 
-            Assert.AreEqual(4, categories.ToList().Count);
+            int actual = categories.ToList().Count;
+            int result = 4;
+
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
         public void GetByIdTest()
         {
+            string result = "Dormir";
+
             var category = repository.Get(1);
 
-            Assert.AreEqual("Dormir", category.Name);
+            Assert.AreEqual(result, category.Name);
         }
 
         [TestMethod]
         public void AddCategoryTest()
         {
             var category = new Category { Id = 5, Name = "Aprender" };
+            int result = category.Id;
             
             repository.Add(category);
             
-            var count = repository.GetAll().Count();
+            int actual = repository.GetAll().Count();
 
-            Assert.AreEqual(5, count);
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
         public void UpdateCategoryTest()
         {
             var category = new Category { Id = 1, Name = "Bailar" };
+            string result = category.Name;
 
             repository.Update(1, category);
 
             var modifiedCategory = repository.Get(1);
 
-            Assert.AreEqual("Bailar", modifiedCategory.Name);
+            Assert.AreEqual(result, modifiedCategory.Name);
         }
 
         [TestMethod]
@@ -86,9 +93,10 @@ namespace UnitTests.RepositoryTests
         {
             repository.Delete(1);
 
-            var count = repository.GetAll().Count();
+            int actual = repository.GetAll().Count();
+            int result = 3;
 
-            Assert.AreEqual(3, count);
+            Assert.AreEqual(result, actual);
         }
     }
 }
