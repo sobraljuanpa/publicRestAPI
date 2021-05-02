@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -9,30 +10,45 @@ namespace UnitTests
 		[TestMethod]
 		public void EmptyConstructorTest()
         {
-			Problem p = new Problem();
+			Problem problem = new Problem();
 
-			Assert.IsNotNull(p);
+			Assert.IsNotNull(problem);
         }
 
 		[TestMethod]
 		public void SetAndGetIdTest() 
 		{
-			Problem p = new Problem();
+			Problem problem = new Problem();
 
-			p.Id = 1;
+			problem.Id = 1;
 
-			Assert.AreEqual(1, p.Id);
+			Assert.AreEqual(1, problem.Id);
 		}
 
 		[TestMethod]
 		public void SetAndGetNameTest()
         {
-			Problem p = new Problem();
+			string name = "Depresión";
 
-			p.Name = "Depresión";
+			Problem problem = new Problem();
 
-			Assert.AreEqual("Depresión", p.Name);
+			problem.Name = name;
+
+			Assert.AreEqual(name, problem.Name);
         }
+
+		[TestMethod]
+		public void SetAndGetSpecialistTest()
+        {
+			Problem problem = new Problem();
+			problem.Specialists = new System.Collections.Generic.List<Psychologist>();
+			Psychologist psychologist = new Psychologist();
+
+			problem.Specialists.Add(psychologist);
+			int result = problem.Specialists.Count;
+
+			Assert.AreEqual(result, 1);
+		}
 
 		
 	}
