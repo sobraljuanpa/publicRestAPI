@@ -154,5 +154,19 @@ namespace UnitTests.ControllersTests
             mock.VerifyAll();
         }
 
+        [TestMethod]
+        public void GetCategoryContentsByInvalidIdTest()
+        {
+            mock.Setup(x => x.GetCategoryElements(1)).
+                Throws(new NullReferenceException());
+
+            var result = controller.GetCategoryContents(1);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(404, statusCode);
+            mock.VerifyAll();
+        }
+
     }
 }

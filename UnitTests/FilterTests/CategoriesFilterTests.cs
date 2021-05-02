@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace UnitTests.FilterTests
 {
    [TestClass]
-    class CategoriesFilterTests
+    public class CategoriesFilterTests
     {
         private Mock<IPlayerBL> mock;
         private Category category;
@@ -129,19 +129,6 @@ namespace UnitTests.FilterTests
             controller = new CategoriesController(mock.Object);
         }
 
-        [TestMethod]
-
-        public void GetCategoryContentsByInvalidIdTest()
-        {
-            mock.Setup(x => x.GetCategoryElements(0)).Throws(new NullReferenceException());
-
-            var result = controller.GetCategoryContents(0);
-            var objectResult = result as ObjectResult;
-            var statusCode = objectResult.StatusCode;
-
-            Assert.AreEqual(404, statusCode);
-            mock.VerifyAll();
-        }
 
     }
 }
