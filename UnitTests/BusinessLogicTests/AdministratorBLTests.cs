@@ -27,19 +27,45 @@ namespace UnitTests.BusinessLogicTests
             businessLogic = new AdministratorBL(mock.Object);
             administrators = new List<Administrator>
             {
-                 new Administrator { Id = 1, Email = "chiara@hotmail.com", Name = "Chiara", Password= "123chiara987"},
-                 new Administrator { Id = 2, Email = "juanPablo@gmail.com", Name = "Juan Pablo", Password = "987juan123" }
+                 new Administrator 
+                 { 
+                     Id = 1, 
+                     Email = "chiara@hotmail.com", 
+                     Name = "Chiara", 
+                     Password= "123chiara987"
+                 },
+                 new Administrator 
+                 { 
+                     Id = 2,
+                     Email = "juanPablo@gmail.com", 
+                     Name = "Juan Pablo", 
+                     Password = "987juan123" 
+                 }
             };
 
-            admin = new Administrator { Id = 3, Email = "lorenzo@gmail.com", Name = "Lorenzo", Password = "123lorenzo" };
+            admin = new Administrator 
+            { 
+                Id = 3, 
+                Email = "lorenzo@gmail.com", 
+                Name = "Lorenzo", 
+                Password = "123lorenzo" 
+            };
         }
 
         [TestMethod]
         public void AuthenticateValidCredentialsTest()
         {
             mock.Setup(x => x.Authenticate("chiara@hotmail.com", "123chiara987"))
-                .Returns(new Administrator { Id = 1, Email = "chiara@hotmail.com", Name = "Chiara", Password = null });
+                .Returns(new Administrator 
+                { 
+                    Id = 1,
+                    Email = "chiara@hotmail.com",
+                    Name = "Chiara", 
+                    Password = null 
+                });
+
             businessLogic.Authenticate("chiara@hotmail.com", "123chiara987");
+
             mock.VerifyAll();
         }
 
@@ -48,7 +74,9 @@ namespace UnitTests.BusinessLogicTests
         {
             mock.Setup(x => x.GetAll()).Returns(administrators.AsQueryable);
             mock.Setup(x => x.Add(admin));
+
             businessLogic.AddAdministrator(admin);
+
             mock.VerifyAll();
         }
 
@@ -57,7 +85,9 @@ namespace UnitTests.BusinessLogicTests
         {
             mock.Setup(x => x.GetAll()).Returns(administrators.AsQueryable);
             mock.Setup(x => x.Delete(1));
+
             businessLogic.DeleteAdministrator(1);
+
             mock.VerifyAll();
         }
 
@@ -66,7 +96,9 @@ namespace UnitTests.BusinessLogicTests
         public void DeleteOutOfRangeAdministratorTest()
         {
             mock.Setup(x => x.GetAll()).Returns(administrators.AsQueryable);
+
             businessLogic.DeleteAdministrator(10);
+
             mock.VerifyAll();
         }
 
@@ -74,7 +106,9 @@ namespace UnitTests.BusinessLogicTests
         public void UpdateAdministratorTest()
         {
             mock.Setup(x => x.Update(1, admin));
+
             businessLogic.UpdateAdministrator(1, admin);
+
             mock.VerifyAll();
         }
 

@@ -26,12 +26,35 @@ namespace UnitTests.BusinessLogicTests
             mock = new Mock<IRepository<Psychologist>>(MockBehavior.Strict);
             businessLogic = new PsychologistBL(mock.Object);
 
-            expertiseDepression = new Problem { Id = 1, Name = "Depresión" };
-            expertiseStress = new Problem { Id = 2, Name = "Estrés" };
+            expertiseDepression = new Problem 
+            { 
+                Id = 1, 
+                Name = "Depresión" 
+            };
+            expertiseStress = new Problem 
+            { 
+                Id = 2, 
+                Name = "Estrés" 
+            };
             data = new List<Psychologist>
             {
-                new Psychologist { Id = 1, PsychologistName = "Martin", PsychologistSurname = "Perez", IsRemote = true, Address = "1234567", Expertise = new List<Problem> { expertiseDepression } },
-                new Psychologist { Id = 2, PsychologistName = "María", PsychologistSurname = "Lopez", IsRemote = false, Address = "", Expertise = new List<Problem> { expertiseStress } }
+                new Psychologist 
+                { 
+                    Id = 1, 
+                    PsychologistName = "Martin", 
+                    PsychologistSurname = "Perez", 
+                    IsRemote = true, 
+                    Address = "1234567", 
+                    Expertise = new List<Problem> { expertiseDepression } 
+                },
+                new Psychologist 
+                { 
+                    Id = 2, 
+                    PsychologistName = "María", 
+                    PsychologistSurname = "Lopez", 
+                    IsRemote = false, Address = "", 
+                    Expertise = new List<Problem> { expertiseStress } 
+                }
             }.AsQueryable();
 
             
@@ -40,20 +63,28 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void AddPsychologistTest()
         {
-            Psychologist p = new Psychologist
+            Psychologist psychologist = new Psychologist
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
                 Expertise = new List<Problem> { expertiseStress },
                 IsRemote = false,
-                Schedule = new Schedule { MondayConsultations = 0, TuesdayConsultations = 0, WednesdayConsultations = 0, ThursdayConsultations = 0, FridayConsultations = 0}
+                Schedule = new Schedule 
+                { 
+                    MondayConsultations = 0, 
+                    TuesdayConsultations = 0, 
+                    WednesdayConsultations = 0, 
+                    ThursdayConsultations = 0, 
+                    FridayConsultations = 0
+                }
             };
 
-            mock.Setup(x => x.Add(p));
-            mock.Setup(x => x.Get(p.Id)).Returns(p);
+            mock.Setup(x => x.Add(psychologist));
+            mock.Setup(x => x.Get(psychologist.Id)).Returns(psychologist);
             
-            businessLogic.AddPsychologist(p);
+            businessLogic.AddPsychologist(psychologist);
+
             mock.VerifyAll();
         }
 
@@ -61,18 +92,28 @@ namespace UnitTests.BusinessLogicTests
         public void DeletePsychologistTest()
         {
             mock.Setup(x => x.Delete(1));
+
             businessLogic.DeletePsychologist(1);
+
             mock.VerifyAll();
         }
 
         [TestMethod]
         public void GetPsychologistTest()
         {
-            mock.Setup(x => x.Get(1)).Returns(new Psychologist { Id = 1, PsychologistName = "Martin", PsychologistSurname = "Perez", IsRemote = true, Address = "1234567", Expertise = new List<Problem> { expertiseDepression } });
+            mock.Setup(x => x.Get(1)).Returns(new Psychologist 
+                                             { 
+                                                Id = 1, 
+                                                PsychologistName = "Martin",
+                                                PsychologistSurname = "Perez", 
+                                                IsRemote = true, 
+                                                Address = "1234567", 
+                                                Expertise = new List<Problem> { expertiseDepression } 
+                                             });
             
             var aux = businessLogic.GetPsychologist(1);
+
             Assert.AreEqual("Martin", aux.PsychologistName);
-            
             mock.VerifyAll();
         }
 
@@ -103,29 +144,56 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void UpdatePsychologistTest()
         {
-            Psychologist p = new Psychologist
+            Psychologist psychologist = new Psychologist
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
                 Expertise = new List<Problem> { expertiseStress },
                 IsRemote = false,
-                Schedule = new Schedule { MondayConsultations = 0, TuesdayConsultations = 0, WednesdayConsultations = 0, ThursdayConsultations = 0, FridayConsultations = 0 }
+                Schedule = new Schedule 
+                { 
+                    MondayConsultations = 0, 
+                    TuesdayConsultations = 0, 
+                    WednesdayConsultations = 0, 
+                    ThursdayConsultations = 0, 
+                    FridayConsultations = 0 
+                }
             };
-            mock.Setup(x => x.Update(1, p));
-            businessLogic.UpdatePsychologist(1, p);
+            mock.Setup(x => x.Update(1, psychologist));
+
+            businessLogic.UpdatePsychologist(1, psychologist);
+
             mock.VerifyAll();
         }
 
         [TestMethod]
         public void UpdateScheduleTest()
         {
-            var psy = new Psychologist { Id = 1, PsychologistName = "Martin", PsychologistSurname = "Perez", IsRemote = true, Address = "1234567", Expertise = new List<Problem> { expertiseDepression } };
-            var schedule =  new Schedule { MondayConsultations = 0, TuesdayConsultations = 0, WednesdayConsultations = 0, ThursdayConsultations = 0, FridayConsultations = 0 };
-            mock.Setup(x => x.Get(1)).Returns(psy);
-            psy.Schedule = schedule;
-            mock.Setup(x => x.Update(1, psy));
+            var psychologist = new Psychologist 
+            { 
+                Id = 1, 
+                PsychologistName = "Martin", 
+                PsychologistSurname = "Perez", 
+                IsRemote = true,
+                Address = "1234567", 
+                Expertise = new List<Problem> { expertiseDepression } 
+            };
+            var schedule =  new Schedule 
+            { 
+                MondayConsultations = 0, 
+                TuesdayConsultations = 0, 
+                WednesdayConsultations = 0, 
+                ThursdayConsultations = 0, 
+                FridayConsultations = 0
+            };
+
+            mock.Setup(x => x.Get(1)).Returns(psychologist);
+            psychologist.Schedule = schedule;
+            mock.Setup(x => x.Update(1, psychologist));
+
             businessLogic.UpdateSchedule(1, schedule);
+
             mock.VerifyAll();
         }
 

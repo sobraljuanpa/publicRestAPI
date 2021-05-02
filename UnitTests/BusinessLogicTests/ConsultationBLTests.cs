@@ -121,7 +121,8 @@ namespace UnitTests.BusinessLogicTests
         {
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
-            List<Consultation> _consultations = businessLogic.GetConsultationsByPsychologist(1);
+
+            List<Consultation> auxConsultations = businessLogic.GetConsultationsByPsychologist(1);
 
             Assert.AreEqual(2, consultations.ToList().Count);
             mockConsultation.VerifyAll();
@@ -133,7 +134,8 @@ namespace UnitTests.BusinessLogicTests
         public void GetInvalidConsultationsTest ()
         {
             mockConsultation.Setup(x => x.GetAll()).Throws(new Exception());
-            List<Consultation> _consultations = businessLogic.GetConsultationsByPsychologist(-1);
+
+            List<Consultation> auxConsultations = businessLogic.GetConsultationsByPsychologist(-1);
 
             mockConsultation.VerifyAll();
         }
@@ -143,9 +145,10 @@ namespace UnitTests.BusinessLogicTests
         {
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable);
             mockConsultation.Setup(x => x.Get(2)).Returns(consultation);
-            Consultation _consultation = businessLogic.Get(2);
 
-            Assert.AreEqual(2, _consultation.Id);
+            Consultation auxConsultations = businessLogic.Get(2);
+
+            Assert.AreEqual(2, auxConsultations.Id);
             mockConsultation.VerifyAll();
         }
 
@@ -155,7 +158,8 @@ namespace UnitTests.BusinessLogicTests
         {
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable);
             mockConsultation.Setup(x => x.Get(-1)).Throws(new Exception());
-            Consultation _consultation = businessLogic.Get(-1);
+
+            Consultation auxConsultations = businessLogic.Get(-1);
 
             mockConsultation.VerifyAll();
         }

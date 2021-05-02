@@ -60,7 +60,9 @@ namespace UnitTests.BusinessLogicTests
         public void IdInValidRangeTest()
         {
             mock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
+
             validator.IdInValidRange(2);
+
             mock.VerifyAll();
         }
 
@@ -69,7 +71,9 @@ namespace UnitTests.BusinessLogicTests
         public void IdNotInValidRangeTest()
         {
             mock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
+
             validator.IdInValidRange(5);
+
             mock.VerifyAll();
         }
 
@@ -77,12 +81,16 @@ namespace UnitTests.BusinessLogicTests
         [ExpectedException(typeof(Exception))]
         public void ValidateRepeatedContentTest()
         {
-            mock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
-            PlayableContent newContent = new PlayableContent {
+            PlayableContent newContent = new PlayableContent
+            {
                 Author = "Buenos Muchachos",
                 Name = "Sin hogar"
             };
+
+            mock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
+
             validator.ValidateContent(newContent);
+
             mock.VerifyAll();
         }
 
@@ -90,11 +98,15 @@ namespace UnitTests.BusinessLogicTests
         [ExpectedException(typeof(Exception))]
         public void ValidateInvalidContentTest()
         {
-            mock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
-            PlayableContent newContent = new PlayableContent {
+            PlayableContent newContent = new PlayableContent
+            {
                 Id = 1
             };
+
+            mock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
+
             validator.ValidateContent(newContent);
+
             mock.VerifyAll();
         }
     }

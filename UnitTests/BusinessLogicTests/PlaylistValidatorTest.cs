@@ -70,7 +70,9 @@ namespace UnitTests.BusinessLogicTests
         public void IdInValidRangeTest()
         {
             mock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
+
             validator.IdInValidRange(1);
+
             mock.VerifyAll();
         }
 
@@ -79,7 +81,9 @@ namespace UnitTests.BusinessLogicTests
         public void IdNotInValidRangeTest()
         {
             mock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
+
             validator.IdInValidRange(0);
+
             mock.VerifyAll();
         }
 
@@ -88,8 +92,10 @@ namespace UnitTests.BusinessLogicTests
         public void NonExistingPlaylistTest()
         {
             mock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
+
             Playlist playlist = null;
             validator.Exists(playlist);
+
             mock.VerifyAll();
         }
 
@@ -98,7 +104,9 @@ namespace UnitTests.BusinessLogicTests
         public void AlreadyOnPlaylistTest()
         {
             mock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
+
             validator.AlreadyOnPlaylist(playlist,content);
+
             mock.VerifyAll();
         }
 
@@ -111,7 +119,9 @@ namespace UnitTests.BusinessLogicTests
                 Description = "Nothing",
                 Name = "Nothing"
             };
+
             validator.ValidPlaylist(newPlaylist);
+
             mock.VerifyAll();
         }
 
@@ -120,7 +130,9 @@ namespace UnitTests.BusinessLogicTests
         public void InvalidPlaylistTest()
         {
             mock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
+
             validator.ValidPlaylist(playlist);
+            
             mock.VerifyAll();
         }
     }
