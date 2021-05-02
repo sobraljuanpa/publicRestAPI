@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using IBusinessLogic;
-using Microsoft.AspNetCore.Mvc.Filters;
 using WebAPI.Filters;
 
 namespace WebAPI.Controllers
 {
-
     [ApiController]
     [ExceptionFilter]
     [Route("api/[controller]")]

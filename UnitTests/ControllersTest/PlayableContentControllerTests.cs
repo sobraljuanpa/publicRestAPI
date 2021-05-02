@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.EntityFrameworkCore;
 
 using Moq;
 
 using Domain;
 using WebAPI.Controllers;
-using DataAccess;
-using IDataAccess;
-using BusinessLogic;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 

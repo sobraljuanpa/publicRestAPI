@@ -3,12 +3,9 @@ using System.Linq;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Microsoft.EntityFrameworkCore;
-
 using Moq;
 
 using Domain;
-using DataAccess;
 using IDataAccess;
 using BusinessLogic;
 using System;
