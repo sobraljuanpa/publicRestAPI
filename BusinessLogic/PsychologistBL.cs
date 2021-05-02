@@ -20,6 +20,7 @@ namespace BusinessLogic
         public Psychologist AddPsychologist(Psychologist psychologist)
         {
             repository.Add(psychologist);
+
             return repository.Get(psychologist.Id);
         }
 

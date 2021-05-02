@@ -58,7 +58,7 @@ namespace BusinessLogic
                 return auxReturn;
             }
 
-            throw new Exception("There is no category associated to given id.");
+            throw new NullReferenceException("There is no category associated to given id.");
         }
 
         public Playlist GetPlaylist(int playlistId)
@@ -71,6 +71,7 @@ namespace BusinessLogic
         public PlayableContent GetPlayableContent(int contentId)
         {
             contentValidator.IdInValidRange(contentId);
+
             return contentRepository.Get(contentId);
         }
 
@@ -78,6 +79,7 @@ namespace BusinessLogic
         {
             contentValidator.ValidateContent(content);
             contentRepository.Add(content);
+
             return contentRepository.GetAll().ToList().FindLast(x => x.Name != null);
         }
 
@@ -89,9 +91,7 @@ namespace BusinessLogic
 
         public void AddPlaylist (Playlist playlist)
         {
-
             playlistValidator.ValidPlaylist(playlist);
-
             playlistRepository.Add(playlist);
         } 
 
