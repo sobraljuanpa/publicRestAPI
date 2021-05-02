@@ -7,11 +7,11 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PlaylistController : ControllerBase
+    public class PlaylistsController : ControllerBase
     {
         private readonly IPlayerBL playerBL;
 
-        public PlaylistController(IPlayerBL playerBL)
+        public PlaylistsController(IPlayerBL playerBL)
         {
             this.playerBL = playerBL;
         }

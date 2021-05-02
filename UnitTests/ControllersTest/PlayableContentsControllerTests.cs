@@ -13,14 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace UnitTests.ControllersTests
 {
     [TestClass]
-    public class PlayableContentControllerTests
+    public class PlayableContentsControllerTests
     {
 
         private Mock<IPlayerBL> mock;
         private IEnumerable<PlayableContent> contents;
         private Category auxCategory;
         private PlayableContent auxPlayableContent;
-        PlayableContentController controller;
+        PlayableContentsController controller;
 
         [TestInitialize]
         public void SetUp()
@@ -66,7 +66,7 @@ namespace UnitTests.ControllersTests
             };
 
             mock = new Mock<IPlayerBL>(MockBehavior.Strict);
-            controller = new PlayableContentController(mock.Object);
+            controller = new PlayableContentsController(mock.Object);
         }
 
         [TestMethod]

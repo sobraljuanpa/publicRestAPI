@@ -15,7 +15,7 @@ namespace UnitTests.ControllersTest
 {
     [TestClass]
 
-    public class ConsultationControllerTests
+    public class ConsultationsControllerTests
     {
 
         private Mock<IConsultationBL> mock;

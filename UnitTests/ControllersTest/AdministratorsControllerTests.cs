@@ -14,7 +14,7 @@ namespace UnitTests.ControllersTest
 {
     [TestClass]
 
-    public class AdministratorControllerTests
+    public class AdministratorsControllerTests
     {
 
         private Mock<IAdministratorBL> mock;

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace UnitTests.ControllersTests
 {
     [TestClass]
-    public class PlaylistControllerTests
+    public class PlaylistsControllerTests
     {
         private Mock<IPlayerBL> mock;
         private Category category;
@@ -23,7 +23,7 @@ namespace UnitTests.ControllersTests
         private IEnumerable<Category> categories;
         private IEnumerable<PlayableContent> contents;
         private IEnumerable<Playlist> playlists;
-        private PlaylistController controller;
+        private PlaylistsController controller;
 
         [TestInitialize]
         public void SetUp()
@@ -121,7 +121,7 @@ namespace UnitTests.ControllersTests
                 }
             }.AsQueryable();
 
-            controller = new PlaylistController(mock.Object);
+            controller = new PlaylistsController(mock.Object);
 
         }
 
