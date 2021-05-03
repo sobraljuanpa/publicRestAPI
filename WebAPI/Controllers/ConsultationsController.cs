@@ -2,9 +2,11 @@
 using System;
 using IBusinessLogic;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
-{ 
+{
+	[Authorize]
 	[ApiController]
 	[Route("api/[Controller]")]
 	public class ConsultationController : ControllerBase
