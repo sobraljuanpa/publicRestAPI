@@ -41,8 +41,13 @@ namespace WebAPI
             //registro repositorios y logica para playablecontent
             services.AddScoped<IRepository<Playlist>, PlaylistRepository>();
             services.AddScoped<IRepository<Category>, CategoryRepository>();
+            services.AddScoped<IRepository<Problem>, ProblemRepository>();
             services.AddScoped<IRepository<PlayableContent>, PlayableContentRepository>();
             services.AddScoped<IPlayerBL, PlayerBL>();
+            services.AddScoped<IRepository<Psychologist>, PsychologistRepository>();
+            services.AddScoped<IPsychologistBL, PsychologistBL>();
+            services.AddScoped<IRepository<Consultation>, ConsultationRepository>();
+            services.AddScoped<IConsultationBL, ConsultationBL>();
             //esta parte es la de autenticacion
             var key = Encoding.ASCII.GetBytes("Ahora este es nuestro secreto.");
             services.AddAuthentication(x =>
