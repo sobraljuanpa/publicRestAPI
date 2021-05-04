@@ -23,7 +23,7 @@ namespace UnitTests.ControllersTest
         private Psychologist psychologist;
         private Problem problem;
         private IEnumerable<Consultation> consultations;
-        private ConsultationController controller;
+        private ConsultationsController controller;
 
         [TestInitialize]
         public void SetUp()
@@ -75,7 +75,7 @@ namespace UnitTests.ControllersTest
 
             }.AsQueryable();
 
-            controller = new ConsultationController(mock.Object);
+            controller = new ConsultationsController(mock.Object);
         }
 
         [TestMethod]

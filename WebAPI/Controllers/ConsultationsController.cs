@@ -9,16 +9,16 @@ namespace WebAPI.Controllers
 	[Authorize]
 	[ApiController]
 	[Route("api/[Controller]")]
-	public class ConsultationController : ControllerBase
+	public class ConsultationsController : ControllerBase
 	{
 		private readonly IConsultationBL consultationBL;
 
-		public ConsultationController(IConsultationBL consultationBL)
+		public ConsultationsController(IConsultationBL consultationBL)
 		{
 			this.consultationBL = consultationBL;
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet]
 		public IActionResult GetConsultations()
 		{
 			var consultations = consultationBL.GetConsultations();
@@ -26,21 +26,22 @@ namespace WebAPI.Controllers
 
 		}
 
-		[HttpGet("{id}")]
-		public IActionResult GetConsultationsByPsychologist(int id)
-		{
-            try { 
+        [HttpGet("{id}")]
+        public IActionResult GetConsultationsByPsychologist(int id)
+        {
+            try
+            {
 
-				var consultations = consultationBL.GetConsultationsByPsychologist(id);
-				return Ok(consultations);
-			}
-			catch (Exception e)
-			{
-				return NotFound(e.Message);
-			}
-		}
+                var consultations = consultationBL.GetConsultationsByPsychologist(id);
+                return Ok(consultations);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
 
-		[HttpGet("{id}")]
+        [HttpGet("{id}")]
 		public IActionResult GetConsultation(int id)
 		{
             try { 
