@@ -196,6 +196,69 @@ namespace UnitTests.ControllersTests
         }
 
         [TestMethod]
+        public void AddProblemToPsychologistTest()
+        {
+            Psychologist newPsychologist = new Psychologist
+            {
+                PsychologistName = "juan",
+                Address = "juan 1234",
+                PsychologistSurname = "perez",
+                Expertise = new List<Problem> { expertiseStress },
+                IsRemote = false,
+                Schedule = new Schedule
+                {
+                    MondayConsultations = 0,
+                    TuesdayConsultations = 0,
+                    WednesdayConsultations = 0,
+                    ThursdayConsultations = 0,
+                    FridayConsultations = 0
+                }
+            };
+
+            mock.Setup(x => x.AddProblemToPsychologist(newPsychologist,expertiseDepression.Id));
+
+            var result = controller.AddProblemToPsychologist(expertiseDepression.Id, newPsychologist);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(400, statusCode);
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public void AddAlreadyExistingProblemToPsychologistTest()
+        {
+            Psychologist newPsychologist = new Psychologist
+            {
+                PsychologistName = "juan",
+                Address = "juan 1234",
+                PsychologistSurname = "perez",
+                Expertise = new List<Problem> { expertiseStress },
+                IsRemote = false,
+                Schedule = new Schedule
+                {
+                    MondayConsultations = 0,
+                    TuesdayConsultations = 0,
+                    WednesdayConsultations = 0,
+                    ThursdayConsultations = 0,
+                    FridayConsultations = 0
+                }
+
+                
+            };
+
+            mock.Setup(x => x.AddProblemToPsychologist(newPsychologist, 
+                expertiseDepression.Id)).Throws(new Exception());
+
+            var result = controller.AddProblemToPsychologist(expertiseDepression.Id, newPsychologist);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(400, statusCode);
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
         public void UpdateAdministratorTest()
         {
             Psychologist newPsychologist = new Psychologist
