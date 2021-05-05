@@ -115,6 +115,7 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void GetPsychologistTest()
         {
+            mock.Setup(x => x.GetAll()).Returns(data.AsQueryable());
             mock.Setup(x => x.Get(1)).Returns(new Psychologist 
             { 
                 Id = 1, 
@@ -189,6 +190,8 @@ namespace UnitTests.BusinessLogicTests
                     FridayConsultations = 0 
                 }
             };
+
+            mock.Setup(x => x.GetAll()).Returns(data.AsQueryable());
             mock.Setup(x => x.Update(1, psychologist));
 
             businessLogic.UpdatePsychologist(1, psychologist);
@@ -235,6 +238,7 @@ namespace UnitTests.BusinessLogicTests
                 FridayConsultations = 0
             };
 
+            mock.Setup(x => x.GetAll()).Returns(data.AsQueryable());
             mock.Setup(x => x.Get(1)).Returns(psychologist);
             psychologist.Schedule = schedule;
             mock.Setup(x => x.Update(1, psychologist));
