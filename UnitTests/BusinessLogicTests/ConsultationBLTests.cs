@@ -17,6 +17,7 @@ namespace UnitTests.BusinessLogicTests
     {
         private Mock<IRepository<Consultation>> mockConsultation;
         private Mock<IRepository<Psychologist>> mockPsychologist;
+        private Mock<IRepository<Problem>> mockProblem;
         private ConsultationBL businessLogic;
         private Psychologist psychologist;
         private Consultation consultation;
@@ -112,8 +113,10 @@ namespace UnitTests.BusinessLogicTests
 
             mockConsultation = new Mock<IRepository<Consultation>>(MockBehavior.Strict);
             mockPsychologist = new Mock<IRepository<Psychologist>>(MockBehavior.Strict);
+            mockProblem = new Mock<IRepository<Problem>>(MockBehavior.Strict);
 
-            businessLogic = new ConsultationBL(mockConsultation.Object, mockPsychologist.Object);
+            businessLogic = new ConsultationBL(mockConsultation.Object, mockPsychologist.Object,
+                                                mockProblem.Object);
         }
 
         [TestMethod]
@@ -176,6 +179,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = problem,
+                ProblemId = 1,
                 Psychologist = psychologist,
                 Address =  "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
@@ -183,6 +187,7 @@ namespace UnitTests.BusinessLogicTests
             };
 
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
             mockPsychologist.Setup(x => x.Update(psychologist.Id,psychologist));
             mockConsultation.Setup(x => x.Add(newConsultation));
 
@@ -206,6 +211,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = problem,
+                ProblemId = 1,
                 Psychologist = psychologist,
                 Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
@@ -214,6 +220,7 @@ namespace UnitTests.BusinessLogicTests
 
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
             mockConsultation.Setup(x => x.Add(newConsultation));
 
             businessLogic.CreateConsultation(newConsultation);
@@ -236,6 +243,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = problem,
+                ProblemId = 1,
                 Psychologist = psychologist,
                 Address = "",
                 IsRemote = false,
@@ -244,6 +252,7 @@ namespace UnitTests.BusinessLogicTests
 
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
             mockConsultation.Setup(x => x.Add(newConsultation));
 
             businessLogic.CreateConsultation(newConsultation);
@@ -264,6 +273,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = problem,
+                ProblemId = 1,
                 Psychologist = psychologist,
                 Address = "abc.de",
                 IsRemote = true,
@@ -272,6 +282,7 @@ namespace UnitTests.BusinessLogicTests
 
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
             mockConsultation.Setup(x => x.Add(newConsultation));
 
             businessLogic.CreateConsultation(newConsultation);
@@ -293,12 +304,14 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = problem,
+                ProblemId = 1,
                 Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
                 Date = 1
             };
 
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
             mockPsychologist.Setup(x => x.Update(psychologist.Id, psychologist));
             mockConsultation.Setup(x => x.Add(newConsultation));
 
@@ -327,12 +340,14 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = auxProblem,
+                ProblemId = 2,
                 Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
                 Date = 1
             };
 
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(2)).Returns(problem);
             mockPsychologist.Setup(x => x.Update(psychologist.Id, psychologist));
             mockConsultation.Setup(x => x.Add(newConsultation));
 

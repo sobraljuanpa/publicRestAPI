@@ -18,6 +18,7 @@ namespace UnitTests.BusinessLogicTests
 
         private Mock<IRepository<Consultation>> mockConsultation;
         private Mock<IRepository<Psychologist>> mockPsychologist;
+        private Mock<IRepository<Problem>> mockProblem;
         private IEnumerable<Consultation> consultations;
         private IEnumerable<Psychologist> psychologists;
         private Consultation consultation;
@@ -31,7 +32,9 @@ namespace UnitTests.BusinessLogicTests
         {
             mockConsultation = new Mock<IRepository<Consultation>>(MockBehavior.Strict);
             mockPsychologist = new Mock<IRepository<Psychologist>>(MockBehavior.Strict);
-            validator = new ConsultationValidator(mockConsultation.Object, mockPsychologist.Object);
+            mockProblem = new Mock<IRepository<Problem>>(MockBehavior.Strict);
+            validator = new ConsultationValidator(mockConsultation.Object, mockPsychologist.Object,
+                                                  mockProblem.Object);
 
             problem = new Problem
             {
@@ -71,6 +74,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "matias@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = problem,
+                ProblemId = 1,
                 Psychologist = psychologist,
                 Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
@@ -88,6 +92,7 @@ namespace UnitTests.BusinessLogicTests
                     PatientEmail = "sofia@hotmial.com",
                     PatientPhone = "098999999",
                     Problem = problem,
+                    ProblemId = 1,
                     Psychologist = psychologist ,
                     Address = "",
                     IsRemote = true ,
@@ -158,8 +163,9 @@ namespace UnitTests.BusinessLogicTests
         public void GetPsychologistWithExpertiseTest()
         {
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
 
-            validator.PsychologistsWithExpertise(problem);
+            validator.PsychologistsWithExpertise(problem.Id);
 
             mockPsychologist.VerifyAll();
         }
@@ -176,6 +182,7 @@ namespace UnitTests.BusinessLogicTests
         public void AssignPsychologistToConsultationTest()
         {
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
 
             validator.AssignPsychologist(consultation);
 

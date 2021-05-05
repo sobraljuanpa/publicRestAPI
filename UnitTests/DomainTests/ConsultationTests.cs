@@ -72,6 +72,18 @@ namespace UnitTests
             Assert.AreEqual(patientPhone, consultation.PatientPhone);
         }
 
+        [TestMethod]
+        public void SetAndGetProblemIdTest()
+        {
+            int problemId = 1;
+
+            Consultation consultation = new Consultation();
+
+            consultation.ProblemId = problemId;
+
+            Assert.AreEqual(problemId, consultation.ProblemId);
+        }
+
 
     }
 }
