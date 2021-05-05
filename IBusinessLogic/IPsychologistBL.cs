@@ -18,6 +18,8 @@ namespace IBusinessLogic
 
         public Psychologist AddPsychologist(Psychologist psychologist);
 
+        public Psychologist AddProblemToPsychologist(Psychologist psychologist, int problem);
+
         public Psychologist GetPsychologist(int id);
 
         public void DeletePsychologist(int id);

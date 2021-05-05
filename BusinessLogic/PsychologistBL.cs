@@ -12,9 +12,13 @@ namespace BusinessLogic
     {
         private readonly IRepository<Psychologist> repository;
 
-        public PsychologistBL(IRepository<Psychologist> psychologistRepository)
+        private readonly IRepository<Problem> problemRepository;
+
+        public PsychologistBL(IRepository<Psychologist> psychologistRepository,
+                              IRepository<Problem> repositoryProblem)
         {
             repository = psychologistRepository;
+            problemRepository = repositoryProblem;
         }
 
         public Psychologist AddPsychologist(Psychologist psychologist)
@@ -22,6 +26,29 @@ namespace BusinessLogic
             repository.Add(psychologist);
 
             return repository.Get(psychologist.Id);
+        }
+
+        public void AlreadyOnList(Psychologist psychologist, int problemId)
+        {
+            foreach (Problem problem in psychologist.Expertise)
+            {
+                if(problem.Id == problemId)
+                {
+                    throw new Exception("The expertise your trying to add already exists.");
+                }
+            }
+        }
+
+        public Psychologist AddProblemToPsychologist(Psychologist psychologist, int problemId)
+        {
+            Problem problem = problemRepository.Get(problemId);
+            AlreadyOnList(psychologist, problemId);
+
+            psychologist.Expertise.Add(problem);
+
+            repository.Update(psychologist.Id,psychologist);
+
+            return psychologist;
         }
 
         public void DeletePsychologist(int id)
