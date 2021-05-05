@@ -72,9 +72,9 @@ namespace WebAPI.Controllers
             {
                 return NotFound(e.Message);
             }
-        }
+        }   
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateAdministrator (int id, [FromBody] Administrator admin)
         {
             try
