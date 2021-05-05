@@ -10,72 +10,79 @@ namespace UnitTests
         [TestMethod]
         public void EmptyConstructorTest()
         {
-            Playlist p = new Playlist();
+            Playlist playlist = new Playlist();
 
-            Assert.IsNotNull(p);
+            Assert.IsNotNull(playlist);
         }
 
         [TestMethod]
         public void SetAndGetIdTest()
         {
-            Playlist p = new Playlist();
+            Playlist playlist = new Playlist();
 
-            p.Id = 1;
+            playlist.Id = 1;
 
-            Assert.AreEqual(1, p.Id);
+            Assert.AreEqual(1, playlist.Id);
         }
 
         [TestMethod]
         public void SetAndGetNameTest()
         {
-            Playlist p = new Playlist();
+            string name = "Rock uruguayo";
 
-            p.Name = "Rock uruguayo";
+            Playlist playlist = new Playlist();
 
-            Assert.AreEqual("Rock uruguayo", p.Name);
+            playlist.Name = name;
+
+            Assert.AreEqual(name, playlist.Name);
         }
 
         [TestMethod]
         public void SetAndGetImageURLTest()
         {
-            Playlist p = new Playlist();
+            string contentURL = "http://imagen";
 
-            p.ImageURL = "http://imagen";
+            Playlist playlist = new Playlist();
 
-            Assert.AreEqual("http://imagen", p.ImageURL);
+            playlist.ImageURL = contentURL;
+
+            Assert.AreEqual(contentURL, playlist.ImageURL);
         }
 
         [TestMethod]
         public void SetAndGetCategoryTest()
         {
-            Category c = new Category();
-            Playlist p = new Playlist();
+            Category category = new Category();
+            Playlist playlist = new Playlist();
 
-            p.Category = c;
+            playlist.Category = category;
 
-            Assert.AreEqual(c, p.Category);
+            Assert.AreEqual(category, playlist.Category);
         }
 
         [TestMethod]
         public void SetAndGetDescriptionTest()
         {
-            Playlist p = new Playlist();
+            string description = "Lo mejor del rock nacional";
 
-            p.Description = "Lo mejor del rock nacional";
+            Playlist playlist = new Playlist();
 
-            Assert.AreEqual("Lo mejor del rock nacional", p.Description);
+            playlist.Description = description;
+
+            Assert.AreEqual(description, playlist.Description);
         }
 
         [TestMethod]
         public void SetContentsTest()
         {
-            Playlist p = new Playlist();
-            p.Contents = new System.Collections.Generic.List<PlayableContent>();
-            PlayableContent c = new PlayableContent();
+            Playlist playlist = new Playlist();
+            playlist.Contents = new System.Collections.Generic.List<PlayableContent>();
+            PlayableContent content = new PlayableContent();
 
-            p.Contents.Add(c);
+            playlist.Contents.Add(content);
+            int result = playlist.Contents.Count;
 
-            Assert.AreEqual(p.Contents.Count, 1);
+            Assert.AreEqual(result, 1);
         }
     }
 }

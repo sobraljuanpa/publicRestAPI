@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using IBusinessLogic;
 using Domain;
 
@@ -26,10 +24,12 @@ namespace WebAPI.Controllers
         {
 
             Administrator auxAdmin = administratorBL.Authenticate(admin.Email, admin.Password);
+
             if(auxAdmin != null)
             {
                 return Accepted(auxAdmin);
             }
+
             return Unauthorized(new { message = "Username or password incorrect" });
         }
 
@@ -74,9 +74,9 @@ namespace WebAPI.Controllers
             {
                 return NotFound(e.Message);
             }
-        }
+        }   
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateAdministrator (int id, [FromBody] Administrator admin)
         {
             try

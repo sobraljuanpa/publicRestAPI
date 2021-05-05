@@ -3,12 +3,9 @@ using System.Linq;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Microsoft.EntityFrameworkCore;
-
 using Moq;
 
 using Domain;
-using DataAccess;
 using IDataAccess;
 using BusinessLogic;
 using System;
@@ -126,9 +123,10 @@ namespace UnitTests.BusinessLogicTests
         public void GetCategoriesTest()
         {
             categoryRepoMock.Setup(x => x.GetAll()).Returns(categories.AsQueryable);
-            List<Category> _categories = playerBL.GetCategories();
 
-            Assert.AreEqual(4, _categories.Count);
+            List<Category> auxCategories = playerBL.GetCategories();
+
+            Assert.AreEqual(4, auxCategories.Count);
             categoryRepoMock.VerifyAll();
         }
 
@@ -137,6 +135,7 @@ namespace UnitTests.BusinessLogicTests
         {
             playlistRepoMock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
             playlistRepoMock.Setup(x => x.Get(1)).Returns(auxPlaylist);
+
             Playlist playlistElement = playerBL.GetPlaylist(1);
 
             Assert.AreEqual(1, playlistElement.Id);
@@ -146,14 +145,14 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void AddIndependentContentTest()
         {
-            var auxCategory = new Category
+            var contentCategory = new Category
             {
                 Id = 3,
                 Name = "Musica"
             };
             PlayableContent newContent = new PlayableContent {
                 Author = "Cuatro Pesos de Propina",
-                Category = auxCategory,
+                Category = contentCategory,
                 Duration = 4.4,
                 ContentURL = "http://mi-revolucion.mp3",
                 ImageURL = "",
@@ -173,7 +172,7 @@ namespace UnitTests.BusinessLogicTests
         [ExpectedException(typeof(Exception))]
         public void AddExistingIndependentContentTest()
         {
-            var auxCategory = new Category
+            var contentCategory = new Category
             {
                 Id = 3,
                 Name = "Musica"
@@ -182,7 +181,7 @@ namespace UnitTests.BusinessLogicTests
             {
                 Id = 1,
                 Author = "Buenos Muchachos",
-                Category = auxCategory,
+                Category = contentCategory,
                 Duration = 1.2,
                 ContentURL = "http://sin-hogar.mp3",
                 ImageURL = "",
@@ -219,11 +218,9 @@ namespace UnitTests.BusinessLogicTests
 
             PlayableContent content = playerBL.GetPlayableContent(2);
             Playlist playlist = playerBL.GetPlaylist(1);
-
             Playlist auxPlaulist = playerBL.AddContentToPlaylist(playlist.Id, content.Id);
 
             Assert.AreEqual(2, auxPlaulist.Contents.Count);
-
             contentRepoMock.VerifyAll();
             playlistRepoMock.VerifyAll();
         }
@@ -232,8 +229,8 @@ namespace UnitTests.BusinessLogicTests
         [ExpectedException(typeof(Exception))]
         public void AddNotExistingContentToPlaylistTest()
         {
-            PlayableContent c = null;
-            contentRepoMock.Setup(x => x.Get(4)).Returns(c);
+            PlayableContent auxContent = null;
+            contentRepoMock.Setup(x => x.Get(4)).Returns(auxContent);
             playlistRepoMock.Setup(x => x.Get(1)).Returns(auxPlaylist);
 
             playerBL.AddContentToPlaylist(1, 4);
@@ -246,8 +243,8 @@ namespace UnitTests.BusinessLogicTests
         [ExpectedException(typeof(Exception))]
         public void AddContentToNotExistingPlaylistTest()
         {
-            Playlist p = null;
-            playlistRepoMock.Setup(x => x.Get(2)).Returns(p);
+            Playlist auxPlaylist = null;
+            playlistRepoMock.Setup(x => x.Get(2)).Returns(auxPlaylist);
             contentRepoMock.Setup(x => x.Get(1)).Returns(auxPlayableContent);
             playlistRepoMock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
 
@@ -277,10 +274,9 @@ namespace UnitTests.BusinessLogicTests
             playlistRepoMock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
             contentRepoMock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
 
-            var _contents = playerBL.GetCategoryElements(3);
+            var auxContents = playerBL.GetCategoryElements(3);
 
-            Assert.AreEqual(3, _contents.Count);
-
+            Assert.AreEqual(3, auxContents.Count);
             playlistRepoMock.VerifyAll();
             contentRepoMock.VerifyAll();
         }
@@ -290,6 +286,7 @@ namespace UnitTests.BusinessLogicTests
         {
             contentRepoMock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
             contentRepoMock.Setup(x => x.Get(1)).Returns(auxPlayableContent);
+
             var content = playerBL.GetPlayableContent(1);
 
             Assert.AreEqual("Buenos Muchachos", content.Author);
@@ -299,14 +296,26 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void AddPlaylistTest()
         {
-
-            Category c = new Category { Id = 1, Name = "q" };
-            Playlist p = new Playlist { Id = 2, Category = c, CategoryId = c.Id, Description = "asd", Name = "asd", ImageURL = "asd" };
+            
+            Category playlistCategory  = new Category 
+            { 
+                Id = 1, 
+                Name = "q" 
+            };
+            Playlist newPlaylist = new Playlist 
+            { 
+                Id = 2, 
+                Category = playlistCategory, 
+                CategoryId = playlistCategory.Id, 
+                Description = "asd", 
+                Name = "asd", 
+                ImageURL = "asd" 
+            };
 
             playlistRepoMock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
-            playlistRepoMock.Setup(x => x.Add(p));
+            playlistRepoMock.Setup(x => x.Add(newPlaylist));
 
-            playerBL.AddPlaylist(p);
+            playerBL.AddPlaylist(newPlaylist);
 
             playlistRepoMock.VerifyAll();
         }

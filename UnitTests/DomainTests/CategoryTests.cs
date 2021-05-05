@@ -10,29 +10,31 @@ namespace UnitTests
         [TestMethod]
         public void EmptyConstructorTest()
         {
-            Category c = new Category();
+            Category category = new Category();
 
-            Assert.IsNotNull(c);
+            Assert.IsNotNull(category);
         }
 
         [TestMethod]
         public void SetAndGetIdTest()
         {
-            Category c = new Category();
-            
-            c.Id = 1;
+            Category category  = new Category();
 
-            Assert.AreEqual(1, c.Id);
+            category.Id = 1;
+
+            Assert.AreEqual(1, category.Id);
         }
 
         [TestMethod]
         public void SetAndGetNameTest()
         {
-            Category c = new Category();
+            string name = "Deportes";
 
-            c.Name = "Deportes";
+            Category category  = new Category();
 
-            Assert.AreEqual("Deportes", c.Name);
+            category.Name = name;
+
+            Assert.AreEqual(name, category.Name);
         }
     }
 }

@@ -4,14 +4,16 @@ using IDataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IDataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20210504121710_AddedDefaultProblems")]
+    partial class AddedDefaultProblems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +126,7 @@ namespace IDataAccess.Migrations
                     b.Property<string>("PatientPhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProblemId")
+                    b.Property<int?>("ProblemId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PsychologistId")
@@ -351,9 +353,7 @@ namespace IDataAccess.Migrations
                 {
                     b.HasOne("Domain.Problem", "Problem")
                         .WithMany()
-                        .HasForeignKey("ProblemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProblemId");
 
                     b.HasOne("Domain.Psychologist", "Psychologist")
                         .WithMany()

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using IBusinessLogic;
+using System;
 
 namespace WebAPI.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
@@ -28,7 +27,6 @@ namespace WebAPI.Controllers
             {
                 return Problem(e.Message);
             }
-
         }
 
         [HttpGet("{id}")]

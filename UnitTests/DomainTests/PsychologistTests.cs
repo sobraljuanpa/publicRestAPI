@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain;
 
 namespace UnitTests
@@ -10,71 +9,101 @@ namespace UnitTests
         [TestMethod]
         public void EmptyConstructorTest()
         {
-            Psychologist ps = new Psychologist();
+            Psychologist psychologist = new Psychologist();
 
-            Assert.IsNotNull(ps);
+            Assert.IsNotNull(psychologist);
         }
 
         [TestMethod]
         public void SetAndGetIdTest()
         {
-            Psychologist ps = new Psychologist();
+            Psychologist psychologist = new Psychologist();
 
-            ps.Id = 1;
+            psychologist.Id = 1;
 
-            Assert.AreEqual(1, ps.Id);
+            Assert.AreEqual(1, psychologist.Id);
         }
 
         [TestMethod]
         public void SetAndGetPsychologistNameTest()
         {
-            Psychologist ps = new Psychologist();
+            string name = "Florencia";
 
-            ps.PsychologistName = "Florencia";
+            Psychologist psychologist = new Psychologist();
 
-            Assert.AreEqual("Florencia", ps.PsychologistName);
+            psychologist.PsychologistName = name;
+
+            Assert.AreEqual(name, psychologist.PsychologistName);
         }
 
         [TestMethod]
         public void SetAndGetPsychologistSurnameTest()
         {
-            Psychologist ps = new Psychologist();
+            string surname = "Lopez";
 
-            ps.PsychologistSurname = "Lopez";
+            Psychologist psychologist = new Psychologist();
 
-            Assert.AreEqual("Lopez", ps.PsychologistSurname);
+            psychologist.PsychologistSurname = surname;
+
+            Assert.AreEqual(surname, psychologist.PsychologistSurname);
         }
 
         [TestMethod]
         public void SetAndGetIsRemoteTest()
         {
-            Psychologist ps = new Psychologist();
+            Psychologist psychologist = new Psychologist();
 
-            ps.IsRemote = true;
+            psychologist.IsRemote = true;
 
-            Assert.IsTrue(ps.IsRemote);
+            Assert.IsTrue(psychologist.IsRemote);
         }
 
         [TestMethod]
         public void SetAndGetAddressTest()
         {
-            Psychologist ps = new Psychologist();
+            string address = "Bulevar General Artigas 1199";
 
-            ps.Address = "Bulevar General Artigas 1199";
+            Psychologist psychologist = new Psychologist();
 
-            Assert.AreEqual("Bulevar General Artigas 1199", ps.Address);
+            psychologist.Address = address;
+
+            Assert.AreEqual(address, psychologist.Address);
+        }
+
+        [TestMethod]
+        public void SetAndGetActiveYearsTest()
+        {
+            int activeYears = 3;
+
+            Psychologist psychologist = new Psychologist();
+
+            psychologist.ActiveYears = activeYears;
+
+            Assert.AreEqual(activeYears, psychologist.ActiveYears);
+        }
+
+        [TestMethod]
+        public void SetAndGetScheduleTest()
+        {
+            Schedule schedule = new Schedule();
+            Psychologist psychologist = new Psychologist();
+
+            psychologist.Schedule = schedule;
+
+            Assert.IsNotNull(psychologist.Schedule);
         }
 
         [TestMethod]
         public void SetExpertiseTest()
         {
-            Psychologist ps = new Psychologist();
-            ps.Expertise = new System.Collections.Generic.List<Problem>();
-            Problem p = new Problem();
+            Psychologist psychologist = new Psychologist();
+            psychologist.Expertise = new System.Collections.Generic.List<Problem>();
+            Problem problem = new Problem();
 
-            ps.Expertise.Add(p);
+            psychologist.Expertise.Add(problem);
+            int result = psychologist.Expertise.Count;
 
-            Assert.AreEqual(ps.Expertise.Count, 1);
+            Assert.AreEqual(result, 1);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 using Domain;
 using IDataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
@@ -26,6 +27,7 @@ namespace DataAccess
 
         public void Add(Consultation consultation)
         {
+            
             _context.Consultations.Add(consultation);
             _context.SaveChanges();
         }

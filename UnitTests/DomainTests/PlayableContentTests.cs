@@ -10,80 +10,90 @@ namespace UnitTests
         [TestMethod]
         public void EmptyConstructorTest()
         {
-            PlayableContent p = new PlayableContent();
+            PlayableContent content = new PlayableContent();
 
-            Assert.IsNotNull(p);
+            Assert.IsNotNull(content);
         }
 
         [TestMethod]
         public void SetAndGetIdTest()
         {
-            PlayableContent p = new PlayableContent();
+            PlayableContent content = new PlayableContent();
 
-            p.Id = 1;
+            content.Id = 1;
 
-            Assert.AreEqual(1, p.Id);
+            Assert.AreEqual(1, content.Id);
         }
 
         [TestMethod]
         public void SetAndGetNameTest()
         {
-            PlayableContent p = new PlayableContent();
+            string name = "Sin mas";
 
-            p.Name = "Sin mas";
+            PlayableContent content = new PlayableContent();
 
-            Assert.AreEqual("Sin mas", p.Name);
+            content.Name = name;
+
+            Assert.AreEqual(name, content.Name);
         }
 
         [TestMethod]
         public void SetAndGetImageURLTest()
         {
-            PlayableContent p = new PlayableContent();
+            string imageURL = "http://imagen";
 
-            p.ImageURL = "http://imagen";
+            PlayableContent content = new PlayableContent();
 
-            Assert.AreEqual("http://imagen", p.ImageURL);
+            content.ImageURL = imageURL;
+
+            Assert.AreEqual(imageURL, content.ImageURL);
         }
 
         [TestMethod]
         public void SetAndGetCategoryTest()
         {
-            Category c = new Category();
-            PlayableContent p = new PlayableContent();
+            Category category = new Category();
+            PlayableContent content = new PlayableContent();
 
-            p.Category = c;
+            content.Category = category;
 
-            Assert.AreEqual(c, p.Category);
+            Assert.AreEqual(category, content.Category);
         }
 
         [TestMethod]
         public void SetAndGetDurationTest()
         {
-            PlayableContent p = new PlayableContent();
+            double duration = 1.2;
 
-            p.Duration = 1.2;
+            PlayableContent content = new PlayableContent();
 
-            Assert.AreEqual(1.2, p.Duration);
+            content.Duration = duration;
+
+            Assert.AreEqual(duration, content.Duration);
         }
 
         [TestMethod]
         public void SetAndGetAuthorTest()
         {
-            PlayableContent p = new PlayableContent();
+            string author = "Buenos Muchachos";
 
-            p.Author = "Buenos Muchachos";
+            PlayableContent content = new PlayableContent();
 
-            Assert.AreEqual("Buenos Muchachos", p.Author);
+            content.Author = author;
+
+            Assert.AreEqual(author, content.Author);
         }
 
         [TestMethod]
         public void SetAndGetContentURLTest()
         {
-            PlayableContent p = new PlayableContent();
+            string contentURL = "http://sin-mas";
 
-            p.ContentURL = "http://sin-mas";
+            PlayableContent content = new PlayableContent();
 
-            Assert.AreEqual("http://sin-mas", p.ContentURL);
+            content.ContentURL = contentURL;
+
+            Assert.AreEqual(contentURL, content.ContentURL);
         }
     }
 }

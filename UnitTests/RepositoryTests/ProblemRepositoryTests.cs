@@ -55,21 +55,27 @@ namespace UnitTests.RepositoryTests
         {
             var problems = repository.GetAll();
 
-            Assert.AreEqual(8, problems.ToList().Count);
+            int actual = problems.ToList().Count;
+            int result = 8;
+
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
         public void GetByIdTest()
         {
+            string result = "Depresión";
+
             var problems = repository.Get(1);
 
-            Assert.AreEqual("Depresión", problems.Name);
+            Assert.AreEqual(result, problems.Name);
         }
 
         [TestMethod]
         public void AddProblemTest()
         {
             var problem = new Problem { Id = 9, Name = "Familiar" };
+
             repository.Add(problem);
 
             mockSet.Verify(v => v.Add(It.IsAny<Problem>()), Times.Once());
@@ -80,11 +86,12 @@ namespace UnitTests.RepositoryTests
         public void UpdateProblemTest()
         {
             var problem = new Problem { Id = 1, Name = "Discapacidad" };
+
             repository.Update(1, problem);
             var modifiedProblem = repository.Get(1);
 
             mockContext.Verify(e => e.SaveChanges(), Times.Once());
-            Assert.AreEqual("Discapacidad", modifiedProblem.Name);
+            Assert.AreEqual(problem.Name, modifiedProblem.Name);
         }
 
         [TestMethod]

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain;
 
 namespace UnitTests
@@ -10,49 +9,57 @@ namespace UnitTests
         [TestMethod]
         public void EmptyConstructorTest()
         {
-            Administrator a = new Administrator();
+            Administrator administrator = new Administrator();
 
-            Assert.IsNotNull(a);
+            Assert.IsNotNull(administrator);
         }
 
         [TestMethod]
         public void SetAndGetEmailTest()
         {
-            Administrator a = new Administrator();
+            string email = "juan@hotmail.com";
 
-            a.Email = "juan@hotmail.com";
+            Administrator administrator = new Administrator();
 
-            Assert.AreEqual("juan@hotmail.com", a.Email);
+            administrator.Email = email;
+
+            Assert.AreEqual(email, administrator.Email);
         }
 
         [TestMethod]
         public void SetAndGetNameTest()
         {
-            Administrator a = new Administrator();
+            string name = "Juan";
 
-            a.Name = "Juan";
+            Administrator administrator = new Administrator();
 
-            Assert.AreEqual("Juan",a.Name);
+            administrator.Name = name;
+
+            Assert.AreEqual(name, administrator.Name);
         }
 
         [TestMethod]
         public void SetAndGetPasswordTest()
         {
-            Administrator a = new Administrator();
+            string password = "123456";
 
-            a.Password = "123456";
+            Administrator administrator = new Administrator();
 
-            Assert.AreEqual("123456", a.Password);
+            administrator.Password = password;
+
+            Assert.AreEqual(password, administrator.Password);
         }
 
         [TestMethod]
         public void SetAndGetTokenTest()
         {
-            Administrator a = new Administrator();
+            string token = "unToken";
 
-            a.Token = "unToken";
+            Administrator administrator = new Administrator();
 
-            Assert.AreEqual("unToken", a.Token);
+            administrator.Token = token;
+
+            Assert.AreEqual(token, administrator.Token);
         }
     }
 }

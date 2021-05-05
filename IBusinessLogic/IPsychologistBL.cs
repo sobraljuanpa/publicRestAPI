@@ -18,7 +18,15 @@ namespace IBusinessLogic
 
         public Psychologist AddPsychologist(Psychologist psychologist);
 
+        public Schedule AddSchedule(Schedule schedule);
+
+        public Psychologist AddProblemToPsychologist(Psychologist psychologist, int problem);
+
+        public Psychologist AddScheduleToPsychologist(Psychologist psychologist, int id);
+
         public Psychologist GetPsychologist(int id);
+
+        public Schedule GetSchedule(int id);
 
         public void DeletePsychologist(int id);
        

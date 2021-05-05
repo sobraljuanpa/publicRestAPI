@@ -53,6 +53,50 @@ namespace IDataAccess
                     Name = "Cuerpo"
                 }
             });
+            modelBuilder.Entity<Problem>().HasIndex(p => p.Name).IsUnique();
+            modelBuilder.Entity<Problem>().HasData(new List<Problem>
+            {
+                new Problem 
+                { 
+                    Id = 1, 
+                    Name= "Depresión" 
+                },
+                new Problem 
+                { 
+                    Id = 2, 
+                    Name= "Estrés" 
+                },
+                new Problem 
+                { 
+                    Id = 3, 
+                    Name= "Ansiedad" 
+                },
+                new Problem 
+                { 
+                    Id = 4, 
+                    Name= "Autoestima" 
+                },
+                new Problem 
+                { 
+                    Id = 5, 
+                    Name= "Enojo" 
+                },
+                new Problem 
+                { 
+                    Id = 6, 
+                    Name= "Relaciones" 
+                },
+                new Problem 
+                { 
+                    Id = 7, 
+                    Name= "Duelo" 
+                },
+                new Problem 
+                { 
+                    Id = 8, 
+                    Name= "Y más" 
+                }
+            });
         }
     }
 }

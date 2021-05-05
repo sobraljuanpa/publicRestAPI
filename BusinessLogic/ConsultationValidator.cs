@@ -12,14 +12,16 @@ namespace BusinessLogic
     {
         private readonly IRepository<Consultation> consultationRepository;
         private readonly IRepository<Psychologist> psychologistRepository;
+        private readonly IRepository<Problem> problemRepository;
 
 
         public ConsultationValidator(IRepository<Consultation> repositoryConsultation,
-                                     IRepository<Psychologist> repositoryPsychologist)
+                                     IRepository<Psychologist> repositoryPsychologist,
+                                     IRepository<Problem> respositoryProblem)
         {
             consultationRepository = repositoryConsultation;
             psychologistRepository = repositoryPsychologist;
-
+            problemRepository = respositoryProblem;
         }
 
         public void IdValidRange(int id)
@@ -65,9 +67,10 @@ namespace BusinessLogic
             return ok;
         }
 
-        public List<Psychologist> PsychologistsWithExpertise(Problem problem)
+        public List<Psychologist> PsychologistsWithExpertise(int problemId)
         {
             List<Psychologist> expertise = new List<Psychologist>();
+            Problem problem = problemRepository.Get(problemId);
 
             foreach (Psychologist auxPsychologist in psychologistRepository.GetAll().ToList())
             {
@@ -98,7 +101,7 @@ namespace BusinessLogic
 
         public void AssignPsychologist(Consultation consultation)
         {
-            List<Psychologist> experts = PsychologistsWithExpertise(consultation.Problem);
+            List<Psychologist> experts = PsychologistsWithExpertise(consultation.ProblemId);
             consultation.Psychologist = GetExpert(experts);
         }
 
@@ -120,8 +123,12 @@ namespace BusinessLogic
 
         public void ValidRemoteAddress(String address)
         {
+            var guid = Guid.NewGuid();
+            string finalAddress = string.Join("",address+guid);
+
             string format = @"\A[https]+(\://)[betterCalm]+(\.)[com]+(\.)[uy]+(\/)[meeting_id]+(\/)[a-z0-9]";
-            if (!Regex.Match(address, format).Success)
+
+            if (!Regex.Match(finalAddress, format).Success)
             {
                 throw new Exception("Address with wrong format.");
             }

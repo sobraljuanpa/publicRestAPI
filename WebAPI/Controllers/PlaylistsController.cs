@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using IBusinessLogic;
 using Domain;
 
@@ -10,11 +7,11 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PlaylistController : ControllerBase
+    public class PlaylistsController : ControllerBase
     {
         private readonly IPlayerBL playerBL;
 
-        public PlaylistController(IPlayerBL playerBL)
+        public PlaylistsController(IPlayerBL playerBL)
         {
             this.playerBL = playerBL;
         }
@@ -50,7 +47,8 @@ namespace WebAPI.Controllers
         [HttpPost("{playlistId}/contents")]
         public IActionResult AddContentToPlaylist (int playlistId, [FromQuery] int contentId)
         {
-            try {
+            try 
+            {
                 Playlist playlist = playerBL.AddContentToPlaylist(playlistId,contentId);
                 return Ok(playlist);
             }

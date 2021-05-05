@@ -1,53 +1,53 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using IBusinessLogic;
 using Domain;
-using WebAPI.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
-{ 
+{
+	[Authorize]
 	[ApiController]
 	[Route("api/[Controller]")]
-	public class ConsultationController : ControllerBase
+	public class ConsultationsController : ControllerBase
 	{
 		private readonly IConsultationBL consultationBL;
 
-		public ConsultationController(IConsultationBL consultationBL)
+		public ConsultationsController(IConsultationBL consultationBL)
 		{
 			this.consultationBL = consultationBL;
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet]
 		public IActionResult GetConsultations()
 		{
 			var consultations = consultationBL.GetConsultations();
+
 			return Ok(consultations);
-
 		}
 
-		[HttpGet("{id}")]
-		public IActionResult GetConsultationsByPsychologist(int id)
-		{
-            try { 
+        [HttpGet("psychologist/{id}")]
+        public IActionResult GetConsultationsByPsychologist(int id)
+        {
+            try
+            {
+                var consultations = consultationBL.GetConsultationsByPsychologist(id);
+                return Ok(consultations);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
 
-				var consultations = consultationBL.GetConsultationsByPsychologist(id);
-				return Ok(consultations);
-			}
-			catch (Exception e)
-			{
-				return NotFound(e.Message);
-			}
-		}
-
-		[HttpGet("{id}")]
+		[AllowAnonymous]
+        [HttpGet("{id}")]
 		public IActionResult GetConsultation(int id)
 		{
-            try { 
-			var consultation = consultationBL.Get(id);
-			return Ok(consultation);
+            try 
+			{ 
+				var consultation = consultationBL.Get(id);
+				return Ok(consultation);
 			}
 			catch (Exception e)
 			{
@@ -58,9 +58,11 @@ namespace WebAPI.Controllers
 		[HttpPost]
 		public IActionResult CreateConsultation([FromBody] Consultation consultation)
 		{
-			try { 
-			consultationBL.CreateConsultation(consultation);
-			return Created($"Consultation created at /api/consultation/{consultation.Id}", consultation);
+			try 
+			{ 
+				consultationBL.CreateConsultation(consultation);
+				return Created($"Consultation created at /api/consultation/{consultation.Id}", 
+							   consultation);
 			}
 			catch (Exception e)
 			{

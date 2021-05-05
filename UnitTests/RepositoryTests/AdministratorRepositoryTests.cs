@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Microsoft.EntityFrameworkCore;
-
-using Moq;
 
 using Domain;
 using DataAccess;
@@ -45,44 +42,65 @@ namespace UnitTests.RepositoryTests
         [TestMethod]
         public void AuthenticateTest()
         {
-            Assert.IsNotNull(repository.Authenticate("chiara@hotmail.com", "123chiara987"));
+            string email = "chiara@hotmail.com";
+            string password = "123chiara987";
+
+            Assert.IsNotNull(repository.Authenticate(email, password));
         }
 
         [TestMethod]
         public void GetAllTest()
         {
             var administrators = repository.GetAll();
+            int actual = administrators.ToList().Count;
 
-            Assert.AreEqual(1, administrators.ToList().Count);
+            Assert.AreEqual(1, actual);
         }
 
         [TestMethod]
         public void GetByIdTest()
         {
+            string result = "chiara@hotmail.com";
+
             var administrator = repository.Get(1);
 
-            Assert.AreEqual("chiara@hotmail.com", administrator.Email);
+            Assert.AreEqual(result, administrator.Email);
         }
 
         [TestMethod]
         public void AddAdministratorTest()
         {
-            var administrator = new Administrator { Id = 3, Email = "lorenzo@gmail.com", Name = "Lorenzo", Password = "123lorenzo" };
+            var administrator = new Administrator 
+            { 
+                Id = 3, 
+                Email = "lorenzo@gmail.com", 
+                Name = "Lorenzo", 
+                Password = "123lorenzo" 
+            };
             
             repository.Add(administrator);
             
-            var count = repository.GetAll().Count();
+            var actual = repository.GetAll().Count();
+            int result = 2;
             
-            Assert.AreEqual(2, count);
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
         public void UpdateAdministratorTest()
         {
-            var administrator = new Administrator { Id = 1, Email = "chiara@hotmail.com", Name = "Chiara", Password = "chiara123987" };
+            var administrator = new Administrator 
+            { 
+                Id = 1, 
+                Email = "chiara@hotmail.com", 
+                Name = "Chiara", 
+                Password = "chiara123987" 
+            };
+
             repository.Update(1, administrator);
             var modifiedAdministrator = repository.Get(1);
-            Assert.AreEqual("chiara123987", modifiedAdministrator.Password);
+
+            Assert.AreEqual(administrator.Password, modifiedAdministrator.Password);
         }
 
         [TestMethod]
@@ -90,9 +108,9 @@ namespace UnitTests.RepositoryTests
         {
             repository.Delete(1);
 
-            var count = repository.GetAll().Count();
+            var actual = repository.GetAll().Count();
 
-            Assert.AreEqual(0, count);
+            Assert.AreEqual(0, actual);
         }
     }
 }

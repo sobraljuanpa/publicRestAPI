@@ -33,6 +33,7 @@ namespace DataAccess
 
         public void Add(Psychologist psychologist)
         {
+            this._Context.Entry(psychologist).State = EntityState.Added;
             _Context.Psychologists.Add(psychologist);
             _Context.SaveChanges();
         }

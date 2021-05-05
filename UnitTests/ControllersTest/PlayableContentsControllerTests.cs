@@ -1,31 +1,26 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.EntityFrameworkCore;
 
 using Moq;
 
 using Domain;
 using WebAPI.Controllers;
-using DataAccess;
-using IDataAccess;
-using BusinessLogic;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UnitTests.ControllersTests
 {
     [TestClass]
-    public class PlayableContentControllerTests
+    public class PlayableContentsControllerTests
     {
 
         private Mock<IPlayerBL> mock;
         private IEnumerable<PlayableContent> contents;
         private Category auxCategory;
         private PlayableContent auxPlayableContent;
-        PlayableContentController controller;
+        PlayableContentsController controller;
 
         [TestInitialize]
         public void SetUp()
@@ -71,13 +66,14 @@ namespace UnitTests.ControllersTests
             };
 
             mock = new Mock<IPlayerBL>(MockBehavior.Strict);
-            controller = new PlayableContentController(mock.Object);
+            controller = new PlayableContentsController(mock.Object);
         }
 
         [TestMethod]
         public void GetContentByIdTest()
         {
-            mock.Setup(x => x.GetPlayableContent(1)).Returns(auxPlayableContent);
+            mock.Setup(x => x.GetPlayableContent(1)).
+                Returns(auxPlayableContent);
 
             var result = controller.GetContentById(1);
             var objectResult = result as ObjectResult;
@@ -90,7 +86,8 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void GetNonExistantContentByIdTest()
         {
-            mock.Setup(x => x.GetPlayableContent(0)).Throws(new NullReferenceException());
+            mock.Setup(x => x.GetPlayableContent(0)).
+                Throws(new NullReferenceException());
             
             var result = controller.GetContentById(0);
             var objectResult = result as ObjectResult;
@@ -103,12 +100,25 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void AddContentTest()
         {
-            Category c = new Category { Id = 3, Name = "Musica"};
-            PlayableContent p = new PlayableContent { Author = "Joy Division", Category = c, ContentURL = "http://disorder.mp3", Duration = 1.2, ImageURL = "", Name = "Disorder" };
+            Category category = new Category 
+            { 
+                Id = 3, 
+                Name = "Musica"
+            };
+            PlayableContent content = new PlayableContent 
+            { 
+                Author = "Joy Division", 
+                Category = category, 
+                ContentURL = "http://disorder.mp3", 
+                Duration = 1.2, 
+                ImageURL = "", 
+                Name = "Disorder" 
+            };
 
-            mock.Setup(x => x.AddIndependentContent(p)).Returns(p);
+            mock.Setup(x => x.AddIndependentContent(content)).
+                Returns(content);
             
-            var result = controller.CreateContent(p);
+            var result = controller.CreateContent(content);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
@@ -119,9 +129,23 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void AddRepeatedContentTest()
         {
-            Category c = new Category { Id = 3, Name = "Musica" };
-            PlayableContent p = new PlayableContent { Author = "Buitres", Category = c, ContentURL = "http://disorder.mp3", Duration = 1.2, ImageURL = "", Name = "Cadillac solitario" };
-            mock.Setup(x => x.AddIndependentContent(p)).Throws(new ArgumentException());
+            Category c = new Category 
+            { 
+                Id = 3, 
+                Name = "Musica" 
+            };
+            PlayableContent p = new PlayableContent 
+            { 
+                Author = "Buitres", 
+                Category = c, 
+                ContentURL = "http://disorder.mp3", 
+                Duration = 1.2, 
+                ImageURL = "", 
+                Name = "Cadillac solitario" 
+            };
+
+            mock.Setup(x => x.AddIndependentContent(p)).
+                Throws(new ArgumentException());
 
             var result = controller.CreateContent(p);
             var objectResult = result as ObjectResult;
@@ -135,6 +159,7 @@ namespace UnitTests.ControllersTests
         public void DeleteContentByIdTest()
         {
             mock.Setup(x => x.DeleteContent(1));
+
             var result = controller.DeleteContentById(1);
             var objectResult = result as NoContentResult;
             var statusCode = objectResult.StatusCode;
@@ -146,7 +171,9 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void DeleteInvalidContentByIdTest()
         {
-            mock.Setup(x => x.DeleteContent(30)).Throws(new NullReferenceException());
+            mock.Setup(x => x.DeleteContent(30)).
+                Throws(new NullReferenceException());
+
             var result = controller.DeleteContentById(30);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;

@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Domain;
-using DataAccess;
 using IDataAccess;
 using BusinessLogic;
 using System;
@@ -19,6 +18,7 @@ namespace UnitTests.BusinessLogicTests
 
         private Mock<IRepository<Consultation>> mockConsultation;
         private Mock<IRepository<Psychologist>> mockPsychologist;
+        private Mock<IRepository<Problem>> mockProblem;
         private IEnumerable<Consultation> consultations;
         private IEnumerable<Psychologist> psychologists;
         private Consultation consultation;
@@ -32,7 +32,9 @@ namespace UnitTests.BusinessLogicTests
         {
             mockConsultation = new Mock<IRepository<Consultation>>(MockBehavior.Strict);
             mockPsychologist = new Mock<IRepository<Psychologist>>(MockBehavior.Strict);
-            validator = new ConsultationValidator(mockConsultation.Object, mockPsychologist.Object);
+            mockProblem = new Mock<IRepository<Problem>>(MockBehavior.Strict);
+            validator = new ConsultationValidator(mockConsultation.Object, mockPsychologist.Object,
+                                                  mockProblem.Object);
 
             problem = new Problem
             {
@@ -72,6 +74,7 @@ namespace UnitTests.BusinessLogicTests
                 PatientEmail = "matias@hotmial.com",
                 PatientPhone = "098000000",
                 Problem = problem,
+                ProblemId = 1,
                 Psychologist = psychologist,
                 Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
@@ -89,6 +92,7 @@ namespace UnitTests.BusinessLogicTests
                     PatientEmail = "sofia@hotmial.com",
                     PatientPhone = "098999999",
                     Problem = problem,
+                    ProblemId = 1,
                     Psychologist = psychologist ,
                     Address = "",
                     IsRemote = true ,
@@ -117,6 +121,7 @@ namespace UnitTests.BusinessLogicTests
         public void IdValidRangeTest()
         {
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable);
+
             validator.IdValidRange(2);
 
             mockConsultation.VerifyAll();
@@ -127,6 +132,7 @@ namespace UnitTests.BusinessLogicTests
         public void IdInvalidRangeTest()
         {
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable);
+
             validator.IdValidRange(-1);
 
             mockConsultation.VerifyAll();
@@ -136,6 +142,7 @@ namespace UnitTests.BusinessLogicTests
         public void FindConsultationsTest()
         {
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
+
             validator.FindConsultations(1);
 
             mockConsultation.VerifyAll();
@@ -146,6 +153,7 @@ namespace UnitTests.BusinessLogicTests
         public void EmptyConsultationsTest()
         {
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
+
             validator.FindConsultations(2);
 
             mockConsultation.VerifyAll();
@@ -155,7 +163,9 @@ namespace UnitTests.BusinessLogicTests
         public void GetPsychologistWithExpertiseTest()
         {
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
-            validator.PsychologistsWithExpertise(problem);
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
+
+            validator.PsychologistsWithExpertise(problem.Id);
 
             mockPsychologist.VerifyAll();
         }
@@ -172,6 +182,8 @@ namespace UnitTests.BusinessLogicTests
         public void AssignPsychologistToConsultationTest()
         {
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
+
             validator.AssignPsychologist(consultation);
 
             mockPsychologist.VerifyAll();
@@ -181,6 +193,7 @@ namespace UnitTests.BusinessLogicTests
         public void IdValidRangePsychologistTest()
         {
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+
             validator.IdValidRangePs(psychologist.Id);
 
             mockPsychologist.VerifyAll();
@@ -191,6 +204,7 @@ namespace UnitTests.BusinessLogicTests
         public void IdInvalidRangePsychologistTest()
         {
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+
             validator.IdValidRangePs(-1);
 
             mockPsychologist.VerifyAll();
@@ -218,6 +232,7 @@ namespace UnitTests.BusinessLogicTests
                 Expertise = null
             };
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+
             validator.ValidSchedule(newPsychologist);
 
             mockPsychologist.VerifyAll();
@@ -292,6 +307,7 @@ namespace UnitTests.BusinessLogicTests
         public void AddToScheduleTest()
         {
             mockPsychologist.Setup(x => x.Update(psychologist.Id,psychologist));
+
             validator.AddToSchedule(1,psychologist);
 
             mockPsychologist.VerifyAll();

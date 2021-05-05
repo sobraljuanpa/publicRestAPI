@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using IBusinessLogic;
 using Domain;
 
@@ -10,16 +7,15 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PlayableContentController : ControllerBase
+    public class PlayableContentsController : ControllerBase
     {
         private readonly IPlayerBL playerBL;
 
-        public PlayableContentController(IPlayerBL playerBL)
+        public PlayableContentsController(IPlayerBL playerBL)
         {
             this.playerBL = playerBL;
         }
 
-        //GET: /api/playablecontent/{id}
         [HttpGet("{id}")]
         public IActionResult GetContentById(int id)
         {
@@ -34,7 +30,6 @@ namespace WebAPI.Controllers
             }
         }
 
-        //POST: /api/playablecontent
         [HttpPost]
         public IActionResult CreateContent([FromBody] PlayableContent content)
         {
@@ -49,7 +44,6 @@ namespace WebAPI.Controllers
             }
         }
 
-        //DELETE: /api/playablecontent/{id}
         [HttpDelete("{id}")]
         public IActionResult DeleteContentById(int id)
         {

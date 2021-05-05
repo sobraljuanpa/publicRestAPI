@@ -10,60 +10,78 @@ namespace UnitTests
         [TestMethod]
         public void EmptyConstructorTest()
         {
-            Consultation c = new Consultation();
+            Consultation consultation = new Consultation();
 
-            Assert.IsNotNull(c);
+            Assert.IsNotNull(consultation);
         }
 
         [TestMethod]
         public void SetAndGetIdTest()
         {
-            Consultation c = new Consultation();
+            Consultation consultation = new Consultation();
 
-            c.Id = 1;
+            consultation.Id = 1;
 
-            Assert.AreEqual(1, c.Id);
+            Assert.AreEqual(1, consultation.Id);
         }
 
         [TestMethod]
         public void SetAndGetPatientNameTest()
         {
-            Consultation c = new Consultation();
+            string patientName = "Maria";
 
-            c.PatientName = "Maria";
+            Consultation consultation = new Consultation();
 
-            Assert.AreEqual("Maria", c.PatientName);
+            consultation.PatientName = patientName;
+
+            Assert.AreEqual(patientName, consultation.PatientName);
         }
 
         [TestMethod]
         public void SetAndGetPatientBirthDateTest()
         {
-            Consultation c = new Consultation();
+            Consultation consultation = new Consultation();
 
             DateTime date = new DateTime(1998, 01, 01);
-            c.PatientBirthDate = date;
+            consultation.PatientBirthDate = date;
 
-            Assert.AreEqual(date, c.PatientBirthDate);
+            Assert.AreEqual(date, consultation.PatientBirthDate);
         }
 
         [TestMethod]
         public void SetAndGetPatientEmailTest()
         {
-            Consultation c = new Consultation();
+            string patientEmail = "maria@hotmail.com";
 
-            c.PatientEmail = "maria@hotmail.com";
+            Consultation consultation = new Consultation();
 
-            Assert.AreEqual("maria@hotmail.com", c.PatientEmail);
+            consultation.PatientEmail = patientEmail;
+
+            Assert.AreEqual(patientEmail, consultation.PatientEmail);
         }
 
         [TestMethod]
         public void SetAndGetPatientPhoneTest()
         {
-            Consultation c = new Consultation();
+            string patientPhone = "099887766";
 
-            c.PatientPhone = "099887766";
+            Consultation consultation = new Consultation();
 
-            Assert.AreEqual("099887766", c.PatientPhone);
+            consultation.PatientPhone = patientPhone;
+
+            Assert.AreEqual(patientPhone, consultation.PatientPhone);
+        }
+
+        [TestMethod]
+        public void SetAndGetProblemIdTest()
+        {
+            int problemId = 1;
+
+            Consultation consultation = new Consultation();
+
+            consultation.ProblemId = problemId;
+
+            Assert.AreEqual(problemId, consultation.ProblemId);
         }
 
 

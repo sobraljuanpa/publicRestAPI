@@ -5,8 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Microsoft.EntityFrameworkCore;
 
-using Moq;
-
 using Domain;
 using DataAccess;
 using IDataAccess;
@@ -22,11 +20,33 @@ namespace UnitTests.RepositoryTests
         [TestInitialize]
         public void SetUp()
         {
-            var auxCategory = new Category { Id = 3, Name = "Musica" };
+            var auxCategory = new Category 
+            { 
+                Id = 3, 
+                Name = "Musica" 
+            };
             var data = new List<PlayableContent>
             {
-                new PlayableContent { Id = 1, Author = "Buenos Muchachos", Category = auxCategory, Duration = 1.2, ContentURL = "http://sin-hogar.mp3", ImageURL = "", Name = "Sin hogar"},
-                new PlayableContent { Id = 2, Author = "Buitres", Category = auxCategory, Duration = 2.2, ContentURL = "http://cadillac-solitario.mp3", ImageURL = "", Name = "Cadillac solitario"}
+                new PlayableContent 
+                { 
+                    Id = 1, 
+                    Author = "Buenos Muchachos", 
+                    Category = auxCategory, 
+                    Duration = 1.2, 
+                    ContentURL = "http://sin-hogar.mp3", 
+                    ImageURL = "", 
+                    Name = "Sin hogar"
+                },
+                new PlayableContent 
+                { 
+                    Id = 2, 
+                    Author = "Buitres", 
+                    Category = auxCategory, 
+                    Duration = 2.2, 
+                    ContentURL = "http://cadillac-solitario.mp3", 
+                    ImageURL = "", 
+                    Name = "Cadillac solitario"
+                }
             }.AsQueryable();
 
             var options = new DbContextOptionsBuilder<Context>()
@@ -47,38 +67,61 @@ namespace UnitTests.RepositoryTests
         {
             var contents = repository.GetAll();
 
-            Assert.AreEqual(2, contents.ToList().Count);
+            int actual = contents.ToList().Count;
+            int result = 2;
+
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
         public void GetByIdTest()
         {
+            string result = "Sin hogar";
+
             var content = repository.Get(1);
 
-            Assert.AreEqual("Sin hogar", content.Name);
+            Assert.AreEqual(result, content.Name);
         }
 
         [TestMethod]
         public void AddContentTest()
         {
-            var content = new PlayableContent { Id = 3, Author = "The Smiths",CategoryId=3, Duration = 3.2, ContentURL = "http://this-charming-man.mp3", ImageURL = "", Name = "This Charming Man" };
+            var content = new PlayableContent 
+            { 
+                Id = 3, 
+                Author = "The Smiths",
+                CategoryId=3, 
+                Duration = 3.2, 
+                ContentURL = "http://this-charming-man.mp3", 
+                ImageURL = "", 
+                Name = "This Charming Man" 
+            };
             repository.Add(content);
 
-            var count = repository.GetAll().Count();
+            int actual = repository.GetAll().Count();
+            int result = 3;
 
-            Assert.AreEqual(3, count);
+            Assert.AreEqual(result, actual);
         }
 
         [TestMethod]
         public void UpdateContentTest()
         {
-            var content = new PlayableContent { Id = 2, Author = "Buitres", Duration = 3.2, ContentURL = "http://carretera-perdida.mp3", ImageURL = "", Name = "Carretera Perdida" };
+            var content = new PlayableContent 
+            { 
+                Id = 2, 
+                Author = "Buitres", 
+                Duration = 3.2, 
+                ContentURL = "http://carretera-perdida.mp3", 
+                ImageURL = "", 
+                Name = "Carretera Perdida" 
+            };
 
             repository.Update(2, content);
 
             var modifiedContent = repository.Get(2);
 
-            Assert.AreEqual("Carretera Perdida", modifiedContent.Name);
+            Assert.AreEqual(content.Name, modifiedContent.Name);
         }
 
         [TestMethod]
@@ -86,9 +129,9 @@ namespace UnitTests.RepositoryTests
         {
             repository.Delete(1);
 
-            var count = repository.GetAll().Count();
+            var actual = repository.GetAll().Count();
 
-            Assert.AreEqual(1, count);
+            Assert.AreEqual(1, actual);
         }
     }
 }
