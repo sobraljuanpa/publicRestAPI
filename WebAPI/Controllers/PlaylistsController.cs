@@ -47,7 +47,8 @@ namespace WebAPI.Controllers
         [HttpPost("{playlistId}/contents")]
         public IActionResult AddContentToPlaylist (int playlistId, [FromQuery] int contentId)
         {
-            try {
+            try 
+            {
                 Playlist playlist = playerBL.AddContentToPlaylist(playlistId,contentId);
                 return Ok(playlist);
             }

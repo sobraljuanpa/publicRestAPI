@@ -107,17 +107,17 @@ namespace UnitTests.BusinessLogicTests
         public void GetPsychologistTest()
         {
             mock.Setup(x => x.Get(1)).Returns(new Psychologist 
-                                             { 
-                                                Id = 1, 
-                                                PsychologistName = "Martin",
-                                                PsychologistSurname = "Perez", 
-                                                IsRemote = true, 
-                                                Address = "1234567", 
-                                                Expertise = new List<Problem> 
-                                                { 
-                                                    expertiseDepression 
-                                                }
-                                             });
+            { 
+                Id = 1, 
+                PsychologistName = "Martin",
+                PsychologistSurname = "Perez", 
+                IsRemote = true, 
+                Address = "1234567", 
+                Expertise = new List<Problem> 
+                { 
+                    expertiseDepression 
+                }
+            });
             
             var aux = businessLogic.GetPsychologist(1);
 

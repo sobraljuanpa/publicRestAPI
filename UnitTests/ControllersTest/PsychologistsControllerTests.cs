@@ -32,19 +32,19 @@ namespace UnitTests.ControllersTests
             mock = new Mock<IPsychologistBL>(MockBehavior.Strict);
             controller = new PsychologistsController(mock.Object);
 
-            expertiseDepression = new Problem 
-            { 
+            expertiseDepression = new Problem
+            {
                 Id = 1,
-                Name = "Depresión" 
+                Name = "Depresión"
             };
-            expertiseStress = new Problem 
-            { 
-                Id = 2, 
-                Name = "Estrés" 
+            expertiseStress = new Problem
+            {
+                Id = 2,
+                Name = "Estrés"
             };
             schedule = new Schedule
             {
-                Id = 1,
+                Id = 2,
                 MondayConsultations = 1,
                 TuesdayConsultations = 2,
                 WednesdayConsultations = 3,
@@ -55,7 +55,7 @@ namespace UnitTests.ControllersTests
             {
                  new Schedule
                 {
-                    Id = 2,
+                    Id = 1,
                     MondayConsultations = 0,
                     TuesdayConsultations = 1,
                     WednesdayConsultations = 2,
@@ -66,22 +66,22 @@ namespace UnitTests.ControllersTests
             }.AsQueryable();
             data = new List<Psychologist>
             {
-                new Psychologist 
-                { 
-                    Id = 1, 
-                    PsychologistName = "Martin", 
-                    PsychologistSurname = "Perez", 
-                    IsRemote = true, 
-                    Address = "1234567", 
-                    Expertise = new List<Problem> { expertiseDepression } 
+                new Psychologist
+                {
+                    Id = 1,
+                    PsychologistName = "Martin",
+                    PsychologistSurname = "Perez",
+                    IsRemote = true,
+                    Address = "1234567",
+                    Expertise = new List<Problem> { expertiseDepression }
                 },
-                new Psychologist 
-                { 
-                    Id = 2, 
-                    PsychologistName = "María", 
-                    PsychologistSurname = "Lopez", 
-                    IsRemote = false, 
-                    Address = "", 
+                new Psychologist
+                {
+                    Id = 2,
+                    PsychologistName = "María",
+                    PsychologistSurname = "Lopez",
+                    IsRemote = false,
+                    Address = "",
                     Expertise = new List<Problem> { expertiseStress }
                 }
             }.AsQueryable();
@@ -97,13 +97,13 @@ namespace UnitTests.ControllersTests
                 PsychologistSurname = "perez",
                 Expertise = new List<Problem> { expertiseStress },
                 IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0 
+                Schedule = new Schedule
+                {
+                    MondayConsultations = 0,
+                    TuesdayConsultations = 0,
+                    WednesdayConsultations = 0,
+                    ThursdayConsultations = 0,
+                    FridayConsultations = 0
                 }
             };
 
@@ -128,13 +128,13 @@ namespace UnitTests.ControllersTests
                 PsychologistSurname = "perez",
                 Expertise = new List<Problem> { expertiseStress },
                 IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0 
+                Schedule = new Schedule
+                {
+                    MondayConsultations = 0,
+                    TuesdayConsultations = 0,
+                    WednesdayConsultations = 0,
+                    ThursdayConsultations = 0,
+                    FridayConsultations = 0
                 }
             };
 
@@ -187,13 +187,13 @@ namespace UnitTests.ControllersTests
                     PsychologistSurname = "perez",
                     Expertise = new List<Problem> { expertiseStress },
                     IsRemote = false,
-                    Schedule = new Schedule 
-                    { 
-                        MondayConsultations = 0, 
-                        TuesdayConsultations = 0, 
-                        WednesdayConsultations = 0, 
-                        ThursdayConsultations = 0, 
-                        FridayConsultations = 0 
+                    Schedule = new Schedule
+                    {
+                        MondayConsultations = 0,
+                        TuesdayConsultations = 0,
+                        WednesdayConsultations = 0,
+                        ThursdayConsultations = 0,
+                        FridayConsultations = 0
                     }
                 });
 
@@ -217,20 +217,6 @@ namespace UnitTests.ControllersTests
 
             Assert.AreEqual(404, statusCode);
             mock.VerifyAll();
-        }
-
-        [TestMethod]
-        public void GetScheduleTest()
-        {
-            mock.Setup(x => x.GetSchedule(1)).Returns(schedule);
-
-            var result = controller.GetScheduleById(1);
-            var objectResult = result as ObjectResult;
-            var statusCode = objectResult.StatusCode;
-
-            Assert.AreEqual(200, statusCode);
-            mock.VerifyAll();
-
         }
 
         [TestMethod]
@@ -266,7 +252,7 @@ namespace UnitTests.ControllersTests
                 }
             };
 
-            mock.Setup(x => x.AddProblemToPsychologist(newPsychologist,expertiseDepression.Id));
+            mock.Setup(x => x.AddProblemToPsychologist(newPsychologist, expertiseDepression.Id));
 
             var result = controller.AddProblemToPsychologist(expertiseDepression.Id, newPsychologist);
             var objectResult = result as ObjectResult;
@@ -295,10 +281,10 @@ namespace UnitTests.ControllersTests
                     FridayConsultations = 0
                 }
 
-                
+
             };
 
-            mock.Setup(x => x.AddProblemToPsychologist(newPsychologist, 
+            mock.Setup(x => x.AddProblemToPsychologist(newPsychologist,
                 expertiseDepression.Id)).Throws(new Exception());
 
             var result = controller.AddProblemToPsychologist(expertiseDepression.Id, newPsychologist);
@@ -308,49 +294,6 @@ namespace UnitTests.ControllersTests
             Assert.AreEqual(400, statusCode);
             mock.VerifyAll();
         }
-
-        //[TestMethod]
-        //public void AddScheduleToPsychologistTest()
-        //{
-        //    var psychologist = new Psychologist
-        //    {
-        //        Id = 1,
-        //        PsychologistName = "Martin",
-        //        PsychologistSurname = "Perez",
-        //        IsRemote = true,
-        //        Address = "1234567",
-        //        Expertise = new List<Problem> { expertiseDepression }
-        //    };
-
-        //    var newSchedule = new Schedule
-        //    {
-        //        Id = 2,
-        //        MondayConsultations = 0,
-        //        TuesdayConsultations = 1,
-        //        WednesdayConsultations = 2,
-        //        ThursdayConsultations = 3,
-        //        FridayConsultations = 3
-        //    };
-
-        //    mock.Setup(x => x.AddScheduleToPsychologist(psychologist, 2)).Returns(new Psychologist
-        //    {
-        //        Id = 1,
-        //        PsychologistName = "Martin",
-        //        PsychologistSurname = "Perez",
-        //        IsRemote = true,
-        //        Address = "1234567",
-        //        Expertise = new List<Problem> { expertiseDepression },
-        //        Schedule = newSchedule
-                
-        //    });
-
-        //    var result = controller.AddScheduleToPsychologist(2,psychologist);
-        //    var objectResult = result as ObjectResult;
-        //    var statusCode = objectResult.StatusCode;
-
-        //    Assert.AreEqual(200, statusCode);
-        //    mock.VerifyAll();
-        //}
 
         [TestMethod]
         public void AddInvalidScheduleToScheduleTest()
@@ -373,6 +316,27 @@ namespace UnitTests.ControllersTests
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(400, statusCode);
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public void GetValidScheduleByIdTest()
+        {
+            mock.Setup(x => x.GetSchedule(1)).Returns(new Schedule
+            {
+                Id = 1,
+                MondayConsultations = 0,
+                TuesdayConsultations = 1,
+                WednesdayConsultations = 2,
+                ThursdayConsultations = 3,
+                FridayConsultations = 3
+            });
+
+            var result = controller.GetScheduleById(1);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(200, statusCode);
             mock.VerifyAll();
         }
 

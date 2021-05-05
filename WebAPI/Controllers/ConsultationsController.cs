@@ -22,8 +22,8 @@ namespace WebAPI.Controllers
 		public IActionResult GetConsultations()
 		{
 			var consultations = consultationBL.GetConsultations();
-			return Ok(consultations);
 
+			return Ok(consultations);
 		}
 
         [HttpGet("psychologist/{id}")]
@@ -31,7 +31,6 @@ namespace WebAPI.Controllers
         {
             try
             {
-
                 var consultations = consultationBL.GetConsultationsByPsychologist(id);
                 return Ok(consultations);
             }
@@ -45,9 +44,10 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
 		public IActionResult GetConsultation(int id)
 		{
-            try { 
-			var consultation = consultationBL.Get(id);
-			return Ok(consultation);
+            try 
+			{ 
+				var consultation = consultationBL.Get(id);
+				return Ok(consultation);
 			}
 			catch (Exception e)
 			{
@@ -58,9 +58,11 @@ namespace WebAPI.Controllers
 		[HttpPost]
 		public IActionResult CreateConsultation([FromBody] Consultation consultation)
 		{
-			try { 
-			consultationBL.CreateConsultation(consultation);
-			return Created($"Consultation created at /api/consultation/{consultation.Id}", consultation);
+			try 
+			{ 
+				consultationBL.CreateConsultation(consultation);
+				return Created($"Consultation created at /api/consultation/{consultation.Id}", 
+							   consultation);
 			}
 			catch (Exception e)
 			{
