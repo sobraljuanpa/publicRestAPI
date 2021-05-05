@@ -18,7 +18,11 @@ namespace Domain
 
         public string PatientPhone { get; set; }
 
+        [ForeignKey("ProblemId")]
         public Problem Problem { get; set; }
+
+        public int ProblemId { get; set; }
+
 
         public Psychologist Psychologist { get; set; }
 
