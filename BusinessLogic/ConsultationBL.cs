@@ -12,15 +12,20 @@ namespace BusinessLogic
 
         private readonly IRepository<Psychologist> psychologistRepository;
 
+        private readonly IRepository<Problem> problemRepository;
+
         private readonly ConsultationValidator consultationValidator;
 
         public ConsultationBL(IRepository<Consultation> consultationRepository,
-                              IRepository<Psychologist> psychologistRepository)
+                              IRepository<Psychologist> psychologistRepository,
+                              IRepository<Problem> problemRepository)
         {
             this.consultationRepository = consultationRepository;
             this.psychologistRepository = psychologistRepository;
+            this.problemRepository = problemRepository;
             this.consultationValidator = new ConsultationValidator(this.consultationRepository, 
-                                                                   this.psychologistRepository);
+                                                                   this.psychologistRepository,
+                                                                   this.problemRepository);
         }
 
         public List<Consultation> GetConsultations()

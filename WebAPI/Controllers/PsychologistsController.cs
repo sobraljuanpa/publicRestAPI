@@ -118,7 +118,7 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdatePsychologist (int id, [FromBody] Psychologist psychologist)
         {
             try

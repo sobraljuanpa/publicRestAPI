@@ -41,6 +41,7 @@ namespace WebAPI.Controllers
             }
         }
 
+		[AllowAnonymous]
         [HttpGet("{id}")]
 		public IActionResult GetConsultation(int id)
 		{
