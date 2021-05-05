@@ -117,7 +117,6 @@ namespace WebAPI.Controllers
             }
         }
 
-
         [HttpPut("{id}")]
         public IActionResult UpdatePsychologist (int id, [FromBody] Psychologist psychologist)
         {

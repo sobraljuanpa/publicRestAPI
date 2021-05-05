@@ -25,6 +25,14 @@ namespace BusinessLogic
             scheduleRepository = repositorySchedule;
         }
 
+        private void ValidateId(int id)
+        {
+            if(id <= 0 || id > repository.GetAll().OrderBy(x => x.Id).Last().Id)
+            {
+                throw new Exception($"There is no psychologist associated to given id {id}.");
+            }
+        }
+
         public Psychologist AddPsychologist(Psychologist psychologist)
         {
             repository.Add(psychologist);
@@ -96,11 +104,13 @@ namespace BusinessLogic
 
         public void DeletePsychologist(int id)
         {
+            ValidateId(id);
             repository.Delete(id);
         }
 
         public Psychologist GetPsychologist(int id)
         {
+            ValidateId(id);
             return repository.Get(id);
         }
 
@@ -131,11 +141,14 @@ namespace BusinessLogic
 
         public void UpdatePsychologist(int id, Psychologist psychologist)
         {
+            ValidateId(id);
             repository.Update(id, psychologist);
         }
 
         public void UpdateSchedule(int psychologistId, Schedule schedule)
         {
+            ValidateId(psychologistId);
+
             var auxPsy = repository.Get(psychologistId);
 
             auxPsy.Schedule = schedule;
