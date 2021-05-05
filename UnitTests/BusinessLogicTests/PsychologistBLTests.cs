@@ -8,6 +8,7 @@ using Moq;
 using Domain;
 using IDataAccess;
 using BusinessLogic;
+using System;
 
 namespace UnitTests.BusinessLogicTests
 {
@@ -15,6 +16,7 @@ namespace UnitTests.BusinessLogicTests
     public class PsychologistBLTests
     {
         private Mock<IRepository<Psychologist>> mock;
+        private Mock<IRepository<Problem>> mockProblem;
         private PsychologistBL businessLogic;
         private IEnumerable<Psychologist> data;
         private Problem expertiseStress;
@@ -24,7 +26,8 @@ namespace UnitTests.BusinessLogicTests
         public void SetUp()
         {
             mock = new Mock<IRepository<Psychologist>>(MockBehavior.Strict);
-            businessLogic = new PsychologistBL(mock.Object);
+            mockProblem = new Mock<IRepository<Problem>>(MockBehavior.Strict);
+            businessLogic = new PsychologistBL(mock.Object, mockProblem.Object);
 
             expertiseDepression = new Problem 
             { 
@@ -197,7 +200,47 @@ namespace UnitTests.BusinessLogicTests
             mock.VerifyAll();
         }
 
-         
+        [TestMethod]
+        public void AddProblemToPsychologistTest()
+        {
+            var psychologist = new Psychologist
+            {
+                Id = 1,
+                PsychologistName = "Martin",
+                PsychologistSurname = "Perez",
+                IsRemote = false,
+                Address = "1234567",
+                Expertise = new List<Problem> { expertiseDepression }
+            };
 
-}
+            mockProblem.Setup(x => x.Get(2)).Returns(expertiseStress);
+            mock.Setup(x => x.Update(1, psychologist));
+
+            businessLogic.AddProblemToPsychologist(psychologist, expertiseStress.Id);
+
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddAlreadyExistingProblemToPsychologistTest()
+        {
+            var psychologist = new Psychologist
+            {
+                Id = 1,
+                PsychologistName = "Martin",
+                PsychologistSurname = "Perez",
+                IsRemote = false,
+                Address = "1234567",
+                Expertise = new List<Problem> { expertiseDepression }
+            };
+
+            mockProblem.Setup(x => x.Get(1)).Returns(expertiseDepression);
+            mock.Setup(x => x.Update(1, psychologist));
+
+            businessLogic.AddProblemToPsychologist(psychologist, expertiseDepression.Id);
+
+            mock.VerifyAll();
+        }
+    }
 }
