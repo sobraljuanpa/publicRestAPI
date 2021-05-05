@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IDataAccess.Migrations
 {
-    public partial class newModels : Migration
+    public partial class newMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,19 +37,33 @@ namespace IDataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Psychologists",
+                name: "Problems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PsychologistName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PsychologistSurname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsRemote = table.Column<bool>(type: "bit", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Psychologists", x => x.Id);
+                    table.PrimaryKey("PK_Problems", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MondayConsultations = table.Column<int>(type: "int", nullable: false),
+                    TuesdayConsultations = table.Column<int>(type: "int", nullable: false),
+                    WednesdayConsultations = table.Column<int>(type: "int", nullable: false),
+                    ThursdayConsultations = table.Column<int>(type: "int", nullable: false),
+                    FridayConsultations = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,21 +113,25 @@ namespace IDataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Problems",
+                name: "Psychologists",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PsychologistId = table.Column<int>(type: "int", nullable: true)
+                    PsychologistName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PsychologistSurname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsRemote = table.Column<bool>(type: "bit", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActiveYears = table.Column<int>(type: "int", nullable: false),
+                    ScheduleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Problems", x => x.Id);
+                    table.PrimaryKey("PK_Psychologists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Problems_Psychologists_PsychologistId",
-                        column: x => x.PsychologistId,
-                        principalTable: "Psychologists",
+                        name: "FK_Psychologists_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedules",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -152,8 +170,11 @@ namespace IDataAccess.Migrations
                     PatientBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PatientEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatientPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProblemId = table.Column<int>(type: "int", nullable: true),
-                    PsychologistId = table.Column<int>(type: "int", nullable: true)
+                    ProblemId = table.Column<int>(type: "int", nullable: false),
+                    PsychologistId = table.Column<int>(type: "int", nullable: true),
+                    IsRemote = table.Column<bool>(type: "bit", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,13 +184,37 @@ namespace IDataAccess.Migrations
                         column: x => x.ProblemId,
                         principalTable: "Problems",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Consultations_Psychologists_PsychologistId",
                         column: x => x.PsychologistId,
                         principalTable: "Psychologists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProblemPsychologist",
+                columns: table => new
+                {
+                    ExpertiseId = table.Column<int>(type: "int", nullable: false),
+                    SpecialistsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProblemPsychologist", x => new { x.ExpertiseId, x.SpecialistsId });
+                    table.ForeignKey(
+                        name: "FK_ProblemPsychologist_Problems_ExpertiseId",
+                        column: x => x.ExpertiseId,
+                        principalTable: "Problems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProblemPsychologist_Psychologists_SpecialistsId",
+                        column: x => x.SpecialistsId,
+                        principalTable: "Psychologists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -186,6 +231,21 @@ namespace IDataAccess.Migrations
                     { 2, "Meditar" },
                     { 3, "Musica" },
                     { 4, "Cuerpo" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Problems",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Depresión" },
+                    { 2, "Estrés" },
+                    { 3, "Ansiedad" },
+                    { 4, "Autoestima" },
+                    { 5, "Enojo" },
+                    { 6, "Relaciones" },
+                    { 7, "Duelo" },
+                    { 8, "Y más" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -228,9 +288,21 @@ namespace IDataAccess.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Problems_PsychologistId",
+                name: "IX_ProblemPsychologist_SpecialistsId",
+                table: "ProblemPsychologist",
+                column: "SpecialistsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Problems_Name",
                 table: "Problems",
-                column: "PsychologistId");
+                column: "Name",
+                unique: true,
+                filter: "[Name] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Psychologists_ScheduleId",
+                table: "Psychologists",
+                column: "ScheduleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -245,7 +317,7 @@ namespace IDataAccess.Migrations
                 name: "PlayableContentPlaylist");
 
             migrationBuilder.DropTable(
-                name: "Problems");
+                name: "ProblemPsychologist");
 
             migrationBuilder.DropTable(
                 name: "PlayableContents");
@@ -254,10 +326,16 @@ namespace IDataAccess.Migrations
                 name: "Playlists");
 
             migrationBuilder.DropTable(
+                name: "Problems");
+
+            migrationBuilder.DropTable(
                 name: "Psychologists");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Schedules");
         }
     }
 }

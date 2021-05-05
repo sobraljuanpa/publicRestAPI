@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IDataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210426182616_NewModelsMigration")]
-    partial class NewModelsMigration
+    [Migration("20210505213448_newMigration")]
+    partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -126,7 +126,7 @@ namespace IDataAccess.Migrations
                     b.Property<string>("PatientPhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProblemId")
+                    b.Property<int>("ProblemId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PsychologistId")
@@ -207,11 +207,57 @@ namespace IDataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
                     b.ToTable("Problems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Depresión"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Estrés"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Ansiedad"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Autoestima"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Enojo"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Relaciones"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Duelo"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Y más"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Psychologist", b =>
@@ -307,7 +353,9 @@ namespace IDataAccess.Migrations
                 {
                     b.HasOne("Domain.Problem", "Problem")
                         .WithMany()
-                        .HasForeignKey("ProblemId");
+                        .HasForeignKey("ProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Psychologist", "Psychologist")
                         .WithMany()
