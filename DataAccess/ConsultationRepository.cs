@@ -27,7 +27,7 @@ namespace DataAccess
 
         public void Add(Consultation consultation)
         {
-            this._context.Entry(consultation).State = EntityState.Added;
+            
             _context.Consultations.Add(consultation);
             _context.SaveChanges();
         }

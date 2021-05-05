@@ -28,8 +28,7 @@ namespace DataAccess
         }
 
         public void Add(Schedule schedule)
-        {
-            this._Context.Entry(schedule).State = EntityState.Added;
+        { 
             _Context.Schedules.Add(schedule);
             _Context.SaveChanges();
         }
