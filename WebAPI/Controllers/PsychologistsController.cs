@@ -61,12 +61,54 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpGet("schedules/{id}")]
+        public IActionResult GetScheduleById(int id)
+        {
+            try
+            {
+                Schedule schedule = psychologistBL.GetSchedule(id);
+                return Ok(schedule);
+            }
+            catch(Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
         [HttpPost("{id}/problems")]
         public IActionResult AddProblemToPsychologist(int id, [FromBody] Psychologist psychologist)
         {
             try
             {
                 psychologistBL.AddProblemToPsychologist(psychologist, id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("schedules")]
+        public IActionResult AddSchedule([FromBody] Schedule schedule)
+        {
+            try
+            {
+                psychologistBL.AddSchedule(schedule);
+                return Created(" ", schedule);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("{id}/schedules")]
+        public IActionResult AddScheduleToPsychologist(int id, [FromBody] Psychologist psychologist)
+        {
+            try
+            {
+                psychologistBL.AddScheduleToPsychologist(psychologist, id);
                 return Ok();
             }
             catch (Exception e)
@@ -89,6 +131,5 @@ namespace WebAPI.Controllers
                 return NotFound(e.Message);
             }
         }
-
     }
 }

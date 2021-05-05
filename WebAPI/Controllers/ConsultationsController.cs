@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
 
 		}
 
-        [HttpGet("{id}")]
+        [HttpGet("psychologist/{id}")]
         public IActionResult GetConsultationsByPsychologist(int id)
         {
             try

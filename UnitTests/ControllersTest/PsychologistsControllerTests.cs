@@ -21,8 +21,10 @@ namespace UnitTests.ControllersTests
         private Mock<IPsychologistBL> mock;
         private PsychologistsController controller;
         private IEnumerable<Psychologist> data;
+        private IEnumerable<Schedule> schedules;
         private Problem expertiseStress;
         private Problem expertiseDepression;
+        private Schedule schedule;
 
         [TestInitialize]
         public void SetUp()
@@ -40,6 +42,28 @@ namespace UnitTests.ControllersTests
                 Id = 2, 
                 Name = "Estrés" 
             };
+            schedule = new Schedule
+            {
+                Id = 1,
+                MondayConsultations = 1,
+                TuesdayConsultations = 2,
+                WednesdayConsultations = 3,
+                ThursdayConsultations = 4,
+                FridayConsultations = 4
+            };
+            schedules = new List<Schedule>
+            {
+                 new Schedule
+                {
+                    Id = 2,
+                    MondayConsultations = 0,
+                    TuesdayConsultations = 1,
+                    WednesdayConsultations = 2,
+                    ThursdayConsultations = 3,
+                    FridayConsultations = 3
+                }
+
+            }.AsQueryable();
             data = new List<Psychologist>
             {
                 new Psychologist 
@@ -196,6 +220,33 @@ namespace UnitTests.ControllersTests
         }
 
         [TestMethod]
+        public void GetScheduleTest()
+        {
+            mock.Setup(x => x.GetSchedule(1)).Returns(schedule);
+
+            var result = controller.GetScheduleById(1);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(200, statusCode);
+            mock.VerifyAll();
+
+        }
+
+        [TestMethod]
+        public void GetInvalidScheduleTest()
+        {
+            mock.Setup(x => x.GetSchedule(-1)).Throws(new Exception());
+
+            var result = controller.GetScheduleById(-1);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(404, statusCode);
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
         public void AddProblemToPsychologistTest()
         {
             Psychologist newPsychologist = new Psychologist
@@ -255,6 +306,109 @@ namespace UnitTests.ControllersTests
             var statusCode = objectResult.StatusCode;
 
             Assert.AreEqual(400, statusCode);
+            mock.VerifyAll();
+        }
+
+        //[TestMethod]
+        //public void AddScheduleToPsychologistTest()
+        //{
+        //    var psychologist = new Psychologist
+        //    {
+        //        Id = 1,
+        //        PsychologistName = "Martin",
+        //        PsychologistSurname = "Perez",
+        //        IsRemote = true,
+        //        Address = "1234567",
+        //        Expertise = new List<Problem> { expertiseDepression }
+        //    };
+
+        //    var newSchedule = new Schedule
+        //    {
+        //        Id = 2,
+        //        MondayConsultations = 0,
+        //        TuesdayConsultations = 1,
+        //        WednesdayConsultations = 2,
+        //        ThursdayConsultations = 3,
+        //        FridayConsultations = 3
+        //    };
+
+        //    mock.Setup(x => x.AddScheduleToPsychologist(psychologist, 2)).Returns(new Psychologist
+        //    {
+        //        Id = 1,
+        //        PsychologistName = "Martin",
+        //        PsychologistSurname = "Perez",
+        //        IsRemote = true,
+        //        Address = "1234567",
+        //        Expertise = new List<Problem> { expertiseDepression },
+        //        Schedule = newSchedule
+                
+        //    });
+
+        //    var result = controller.AddScheduleToPsychologist(2,psychologist);
+        //    var objectResult = result as ObjectResult;
+        //    var statusCode = objectResult.StatusCode;
+
+        //    Assert.AreEqual(200, statusCode);
+        //    mock.VerifyAll();
+        //}
+
+        [TestMethod]
+        public void AddInvalidScheduleToScheduleTest()
+        {
+            var psychologist = new Psychologist
+            {
+                Id = 1,
+                PsychologistName = "Martin",
+                PsychologistSurname = "Perez",
+                IsRemote = true,
+                Address = "1234567",
+                Expertise = new List<Problem> { expertiseDepression }
+            };
+
+            mock.Setup(x => x.AddScheduleToPsychologist(psychologist, 0)).
+                Throws(new Exception());
+
+            var result = controller.AddScheduleToPsychologist(0, psychologist);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(400, statusCode);
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public void AddScheduleTest()
+        {
+            mock.Setup(x => x.AddSchedule(schedule)).Returns(schedule);
+
+            var result = controller.AddSchedule(schedule);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(201, statusCode);
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public void AddExistingScheduleTest()
+        {
+            var newSchedule = new Schedule
+            {
+                Id = 2,
+                MondayConsultations = 0,
+                TuesdayConsultations = 1,
+                WednesdayConsultations = 2,
+                ThursdayConsultations = 3,
+                FridayConsultations = 3
+            };
+
+            mock.Setup(x => x.AddSchedule(newSchedule)).Throws(new Exception());
+
+            var result = controller.AddSchedule(newSchedule);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(400,statusCode);
             mock.VerifyAll();
         }
 

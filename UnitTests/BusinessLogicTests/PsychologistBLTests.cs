@@ -17,6 +17,7 @@ namespace UnitTests.BusinessLogicTests
     {
         private Mock<IRepository<Psychologist>> mock;
         private Mock<IRepository<Problem>> mockProblem;
+        private Mock<IRepository<Schedule>> mockSchedule;
         private PsychologistBL businessLogic;
         private IEnumerable<Psychologist> data;
         private Problem expertiseStress;
@@ -27,7 +28,8 @@ namespace UnitTests.BusinessLogicTests
         {
             mock = new Mock<IRepository<Psychologist>>(MockBehavior.Strict);
             mockProblem = new Mock<IRepository<Problem>>(MockBehavior.Strict);
-            businessLogic = new PsychologistBL(mock.Object, mockProblem.Object);
+            mockSchedule = new Mock<IRepository<Schedule>>(MockBehavior.Strict);
+            businessLogic = new PsychologistBL(mock.Object, mockProblem.Object, mockSchedule.Object);
 
             expertiseDepression = new Problem 
             { 
@@ -111,7 +113,10 @@ namespace UnitTests.BusinessLogicTests
                                                 PsychologistSurname = "Perez", 
                                                 IsRemote = true, 
                                                 Address = "1234567", 
-                                                Expertise = new List<Problem> { expertiseDepression } 
+                                                Expertise = new List<Problem> 
+                                                { 
+                                                    expertiseDepression 
+                                                }
                                              });
             
             var aux = businessLogic.GetPsychologist(1);

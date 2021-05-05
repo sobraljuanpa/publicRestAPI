@@ -14,11 +14,15 @@ namespace BusinessLogic
 
         private readonly IRepository<Problem> problemRepository;
 
+        private readonly IRepository<Schedule> scheduleRepository;
+
         public PsychologistBL(IRepository<Psychologist> psychologistRepository,
-                              IRepository<Problem> repositoryProblem)
+                              IRepository<Problem> repositoryProblem,
+                              IRepository<Schedule> repositorySchedule)
         {
             repository = psychologistRepository;
             problemRepository = repositoryProblem;
+            scheduleRepository = repositorySchedule;
         }
 
         public Psychologist AddPsychologist(Psychologist psychologist)
@@ -51,6 +55,45 @@ namespace BusinessLogic
             return psychologist;
         }
 
+        public void ValidSchedule(Schedule schedule)
+        {
+            if(schedule == null)
+            {
+                throw new Exception("The schedule you are trying to add is invalid.");
+            }
+        }
+
+        public Schedule AddSchedule(Schedule schedule)
+        {
+            ExistsSchedule(schedule.Id);
+            scheduleRepository.Add(schedule);
+
+            return scheduleRepository.Get(schedule.Id);
+        }
+
+        public void ExistsSchedule(int scheduleId)
+        {
+            foreach (Schedule auxSchedule in scheduleRepository.GetAll().ToList())
+            {
+                if (auxSchedule.Id == scheduleId)
+                {
+                    throw new Exception($"The schedule you are trying to add already exists at index {auxSchedule.Id}");
+                }
+            }
+        }
+        public Psychologist AddScheduleToPsychologist(Psychologist psychologist, int id)
+        {
+            Psychologist auxPsychologist = repository.Get(psychologist.Id);
+            Schedule schedule = scheduleRepository.Get(id);
+
+            ValidSchedule(schedule);
+
+            auxPsychologist.Schedule = schedule;
+            repository.Update(auxPsychologist.Id, auxPsychologist);
+
+            return repository.Get(auxPsychologist.Id);
+        }
+
         public void DeletePsychologist(int id)
         {
             repository.Delete(id);
@@ -59,6 +102,11 @@ namespace BusinessLogic
         public Psychologist GetPsychologist(int id)
         {
             return repository.Get(id);
+        }
+
+        public Schedule GetSchedule(int id)
+        {
+            return scheduleRepository.Get(id);
         }
 
         public List<Psychologist> GetPsychologists()
