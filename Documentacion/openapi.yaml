@@ -1,0 +1,673 @@
+openapi: 3.0.1
+info:
+  description: BetterCalm API documentation.
+  title: WebAPI
+  version: '1.0'
+servers:
+- url: 'http://localhost:5000'
+security: 
+  - token: []
+paths:
+  /api/Administrators/authenticate:
+    post:
+      summary: Log into the system as an administrator.
+      tags:
+        - Administrators
+      requestBody:
+        content:
+          text/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  nullable: false
+                password:
+                  type: string
+                  nullable: false
+      responses:
+        '200':
+          description: Success.
+        '401':
+          description: Username or password incorrect.
+      security: []
+  '/api/Administrators/{id}':
+    get:
+      summary: Get given administrator's information.
+      tags:
+        - Administrators
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized
+        '400':
+          description: No content associated to given id
+    delete:
+      summary: Delete given administrator.
+      tags:
+        - Administrators
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Deleted succesfully.
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No content associated to given id
+    put:
+      summary: Update given administrator.
+      tags:
+        - Administrators
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Administrator'
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No content associated to given id
+  /api/Administrators:
+    post:
+      summary: Create new administrator.
+      tags:
+        - Administrators
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Administrator'
+      responses:
+        '201':
+          description: Success, returns created at url.
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in request body.
+  /api/Categories:
+    get:
+      summary: Gets all categories.
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Success
+      security: []
+  '/api/Categories/{id}':
+    get:
+      summary: Gets given category's contents.
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: No content associated to given id
+      security: []
+  /api/Consultations:
+    get:
+      summary: Gets all consultations.
+      tags:
+        - Consultation
+      responses:
+        '200':
+          description: Success
+    post:
+      summary: Creates new consultation.
+      tags:
+        - Consultation
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/Consultation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consultation'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Consultation'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Consultation'
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+      security: []
+  '/api/Consultations/{id}':
+    get:
+      summary: Gets given consultation.
+      tags:
+        - Consultation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No content associated to given id.
+      security: []
+  '/api/Consultations/psychologist/{id}':
+    get:
+      summary: Gets given psychologist's consultations.
+      tags:
+        - Consultation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No content associated to given id.
+  '/api/PlayableContents/{id}':
+    get:
+      summary: Gets given playablecontent.
+      tags:
+        - PlayableContent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: No content associated to given id
+      security: []
+    delete:
+      summary: Deletes given playablecontent.
+      tags:
+        - PlayableContent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Deleted successfully
+        '400':
+          description: No content associated to given id
+  /api/PlayableContents:
+    post:
+      summary: Creates new playablecontent.
+      tags:
+        - PlayableContent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayableContent'
+      responses:
+        '201':
+          description: Success, returns created at url.
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in request body.
+  '/api/Playlists/{id}':
+    get:
+      summary: Gets given playlist.
+      tags:
+        - Playlist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: No content associated to given id
+      security: []
+    delete:
+      summary: Deletes given playlist.
+      tags:
+        - Playlist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Deleted successfully
+        '400':
+          description: No content associated to given id
+        '403':
+          description: Unauthorized
+  /api/Playlists:
+    post:
+      summary: Adds new playlist.
+      tags:
+        - Playlist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Playlist'
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in request body.
+  '/api/Playlist/{playlistId}/contents':
+    post:
+      summary: Adds given content to given playlist
+      tags:
+        - Playlist
+      parameters:
+        - name: playlistId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: contentId
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in params.
+  /api/Psychologists:
+    post:
+      summary: Adds new psychologist
+      tags:
+        - Psychologists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Psychologist'
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in body.
+  '/api/Psychologists/{id}':
+    delete:
+      summary: Deletes given psychologist
+      tags:
+        - Psychologists
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Deleted successfully
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No psychologist associated to given id.
+  '/api/Psychologists/{id}/schedules':
+    post:
+      summary: Assigns given schedule to given psychologist
+      tags:
+        - Psychologists
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Psychologist'
+      responses:
+        '204':
+          description: Deleted successfully
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No psychologist associated to given id.
+  '/api/Psychologists/schedules':
+    post:
+      summary: Adds given schedule
+      tags:
+        - Psychologists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+      responses:
+        '204':
+          description: Schedule added successfully
+        '403':
+          description: Unauthorized.
+  '/api/Psychologists/{id}/problems':
+    post:
+      summary: Adds problems' expertise to psychologist
+      tags:
+        - Psychologists
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Psychologist'
+      responses:
+        '204':
+          description: Expertise added successfully
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No psychologist associated to given id.
+    get:
+      summary: Gets given psychologist
+      tags:
+        - Psychologists
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No psychologist associated to given id.
+    put:
+      summary: Updates given psychologist
+      tags:
+        - Psychologists
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Psychologist'
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: No psychologist associated to given id.
+components:
+  schemas:
+    Administrator:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        email:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+        token:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Consultation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        patientName:
+          type: string
+          nullable: true
+        patientBirthDate:
+          type: string
+          format: date-time
+        patientEmail:
+          type: string
+          nullable: true
+        patientPhone:
+          type: string
+          nullable: true
+        problemId:
+          type: integer
+          format: int32
+        problem:
+          $ref: '#/components/schemas/Problem'
+        psychologist:
+          $ref: '#/components/schemas/Psychologist'
+        isRemote:
+          type: boolean
+        address:
+          type: string
+          nullable: true
+        date:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PlayableContent:
+      required:
+        - categoryId
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        imageURL:
+          type: string
+          nullable: true
+        category:
+          $ref: '#/components/schemas/Category'
+        categoryId:
+          type: integer
+          format: int32
+        duration:
+          type: number
+          format: double
+        author:
+          type: string
+          nullable: true
+        contentURL:
+          type: string
+          nullable: true
+        playlists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Playlist'
+          nullable: true
+      additionalProperties: false
+    Playlist:
+      required:
+        - categoryId
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        imageURL:
+          type: string
+          nullable: true
+        category:
+          $ref: '#/components/schemas/Category'
+        categoryId:
+          type: integer
+          format: int32
+        description:
+          type: string
+          nullable: true
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayableContent'
+          nullable: true
+      additionalProperties: false
+    Problem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        specialists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Psychologist'
+          nullable: true
+      additionalProperties: false
+    Psychologist:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        psychologistName:
+          type: string
+          nullable: true
+        psychologistSurname:
+          type: string
+          nullable: true
+        isRemote:
+          type: boolean
+        address:
+          type: string
+          nullable: true
+        activeYears:
+          type: integer
+          format: int32
+        schedule:
+          $ref: '#/components/schemas/Schedule'
+        expertise:
+          type: array
+          items:
+            $ref: '#/components/schemas/Problem'
+          nullable: true
+      additionalProperties: false
+    Schedule:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        mondayConsultations:
+          type: integer
+          format: int32
+        tuesdayConsultations:
+          type: integer
+          format: int32
+        wednesdayConsultations:
+          type: integer
+          format: int32
+        thursdayConsultations:
+          type: integer
+          format: int32
+        fridayConsultations:
+          type: integer
+          format: int32
+      additionalProperties: false
+  securitySchemes:
+      token:
+        type: apiKey
+        name: api_key
+        in: header
