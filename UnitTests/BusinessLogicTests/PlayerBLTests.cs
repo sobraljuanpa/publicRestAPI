@@ -276,7 +276,7 @@ namespace UnitTests.BusinessLogicTests
 
             var auxContents = playerBL.GetCategoryElements(3);
 
-            Assert.AreEqual(3, auxContents.Count);
+            Assert.AreEqual(1, auxContents.Count);
             playlistRepoMock.VerifyAll();
             contentRepoMock.VerifyAll();
         }

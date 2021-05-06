@@ -52,7 +52,7 @@ namespace BusinessLogic
 
                 foreach (PlayableContent c in contents)
                 {
-                    if (c.Category.Id == categoryId) auxReturn.Add(c);
+                    if (c.CategoryId == categoryId) auxReturn.Add(c);
                 }
 
                 return auxReturn;
