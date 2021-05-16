@@ -14,8 +14,8 @@ export class Category {
 export class CategoryAdapter implements Adapter<Category> {
     adapt(item: any): Category {
         return new Category (
-            item.Id,
-            item.Name
+            item.id,
+            item.name
         );
     }
 }
