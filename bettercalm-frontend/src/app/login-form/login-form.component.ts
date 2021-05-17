@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from "@angular/router";
+
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
@@ -14,9 +16,12 @@ export class LoginFormComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
+    if(this.authenticationService.isAuthenticated()){
+      this.router.navigateByUrl("");
+    }
   }
 
   onSubmit(): void {
@@ -27,7 +32,8 @@ export class LoginFormComponent implements OnInit {
       },
       err => {
         console.log("incorrect credentials");
-      }
+      },
+      () => location.reload()
     );
     console.log(`mail ${this.loginForm.controls.email.value} password ${this.loginForm.controls.password.value}`)
   }
