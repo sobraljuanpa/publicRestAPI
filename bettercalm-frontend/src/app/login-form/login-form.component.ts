@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,9 +14,22 @@ export class LoginFormComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(): void {
+    this.authenticationService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value).subscribe(
+      res => {
+        console.log(res);
+        this.authenticationService.setToken((res as any).token);
+      },
+      err => {
+        console.log("incorrect credentials");
+      }
+    );
+    console.log(`mail ${this.loginForm.controls.email.value} password ${this.loginForm.controls.password.value}`)
   }
 
 }

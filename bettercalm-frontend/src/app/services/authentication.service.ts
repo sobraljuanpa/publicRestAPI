@@ -1,0 +1,35 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthenticationService {
+
+  private loginURL = 'http://localhost:5000/api/administrators/authenticate';
+
+  constructor(private http: HttpClient) { }
+
+  login(email: string, pass: string) {
+    return this.http.post(this.loginURL, {
+      email: email,
+      password: pass
+    });
+  }
+
+  logout() {
+    localStorage.clear();
+  }
+
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+
+  getToken() {
+    localStorage.getItem('token');
+  }
+
+  isAuthenticated() {
+    return localStorage.getItem('token') != null;
+  }
+}

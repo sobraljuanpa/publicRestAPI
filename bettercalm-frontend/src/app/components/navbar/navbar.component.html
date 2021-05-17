@@ -6,7 +6,8 @@
     <a class="nav-item nav-link" href="#">Playlists</a>
     <a class="nav-item nav-link" href="#">Contents</a>
     <a class="nav-item nav-link" href="#">Consultations</a>
-    <a class="nav-item nav-link" routerLink="/login">Log in</a>
+    <a *ngIf="! this.authenticationService.isAuthenticated()" class="nav-item nav-link" routerLink="/login">Log in</a>
   </div>
 
+  <button *ngIf="this.authenticationService.isAuthenticated()" type="button" class="btn btn-danger" (click)="logOut()">Log out</button>
 </nav>
