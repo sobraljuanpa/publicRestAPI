@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CategoryListComponent } from './components/category-list/category-list.component';
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
 
 @NgModule({
   declarations: [
