@@ -7,6 +7,15 @@
       <li class="nav-item"><a class="nav-link" href="#">Playlists</a></li>
       <li class="nav-item"><a class="nav-link" href="#">Contents</a></li>
       <li class="nav-item"><a class="nav-link" href="#">Consultations</a></li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Administrators
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" routerLink="/administrators/add">Add administrator</a></li>
+          <li><a class="dropdown-item" href="#">Manage administrators</a></li>
+        </ul>
+      </li>
     </ul>
     <button *ngIf="! this.authenticationService.isAuthenticated()" class="btn btn-primary" routerLink="/login">Log in</button>
     <button *ngIf="this.authenticationService.isAuthenticated()" class="btn btn-danger" (click)="logOut()">Log out</button>
