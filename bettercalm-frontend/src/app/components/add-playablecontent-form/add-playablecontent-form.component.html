@@ -1,0 +1,35 @@
+<div class="card text-center w-75 mx-auto mt-3">
+  <form [formGroup]="contentForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Name:</label>
+      <input type="text" formControlName="name" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Author:</label>
+      <input type="text" formControlName="author" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Category:</label>
+      <select class="form-select" formControlName="category">
+        <option selected>Open this select menu</option>
+        <option value="1">Dormir</option>
+        <option value="2">Meditar</option>
+        <option value="3">Musica</option>
+        <option value="3">Cuerpo</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Duration (in minutes):</label>
+      <input type="text" formControlName="duration" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Image URL:</label>
+      <input type="text" formControlName="imageURL" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Content URL:</label>
+      <input type="text" formControlName="contentURL" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Register</button>
+  </form>
+</div>
