@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { CategoryElement } from 'src/app/models/categoryElement';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-category-element-list',
@@ -7,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryElementListComponent implements OnInit {
 
-  constructor() { }
+  categoryElements!: CategoryElement[];
+
+  constructor(private route: ActivatedRoute, private categoryService: CategoryService) { }
 
   ngOnInit(): void {
+    this.getCategoryElements();
   }
 
+  getCategoryElements() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.categoryService.getCategoryElements(id)
+    .subscribe(categoryElements => this.categoryElements = categoryElements)
+  }
 }

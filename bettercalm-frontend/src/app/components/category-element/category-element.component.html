@@ -1,4 +1,4 @@
-<div *ngIf="'author' in categoryElement" class="card mt-5">
+<div *ngIf="categoryElement?.author != undefined; else playlist" class="card mt-5">
   <div class="card-body">
     <img src={{categoryElement?.imageURL}} class="card-img-top">
     <div class = "card-title">{{ categoryElement?.name }}</div>
@@ -9,12 +9,14 @@
   </div>
 </div>
 
-<div *ngIf="'description' in categoryElement" class="card mt-5">
-  <div class="card-body">
-    <img src={{categoryElement?.imageURL}} class="card-img-top">
-    <div class = "card-title">{{ categoryElement?.name }}</div>
-    <p class="card-text">
-      {{categoryElement?.description}}<br>
-    </p>
+<ng-template #playlist>
+  <div class="card mt-5">
+    <div class="card-body">
+      <img src={{categoryElement?.imageURL}} class="card-img-top">
+      <div class = "card-title">{{ categoryElement?.name }}</div>
+      <p class="card-text">
+        {{categoryElement?.description}}<br>
+      </p>
+    </div>
   </div>
-</div>
+</ng-template>

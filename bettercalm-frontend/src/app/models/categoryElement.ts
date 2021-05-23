@@ -18,22 +18,14 @@ export class CategoryElement {
 })
 export class CategoryElementAdapter implements Adapter<CategoryElement> {
   adapt(item: any): CategoryElement {
-    if(item.contentURL) {
-      return new CategoryElement (
-        item.id,
-        item.name,
-        item.imageURL,
-        item.contentURL,
-        item.author,
-        item.duration
-      );
-    } else {
-      return new CategoryElement (
-        item.id,
-        item.name,
-        item.imageURL,
-        item.description
-      );
-    }
+    return new CategoryElement(
+      item.id,
+      item.name,
+      item.imageURL,
+      item.contentURL,
+      item.author,
+      item.duration,
+      item.description
+    );
   }
 }

@@ -13,6 +13,7 @@ export class CategoryElementComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.categoryElement);
   }
 
 }
