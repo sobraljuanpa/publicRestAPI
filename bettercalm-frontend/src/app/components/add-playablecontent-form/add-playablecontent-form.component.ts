@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { PlayablecontentService } from 'src/app/services/playablecontent.service';
 
 @Component({
   selector: 'app-add-playablecontent-form',
@@ -17,13 +18,32 @@ export class AddPlayablecontentFormComponent implements OnInit {
     contentURL: new FormControl(''),
   });
 
-  constructor() { }
+  constructor(private playablecontentService: PlayablecontentService) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-
+    this.playablecontentService.addContent(
+      this.contentForm.controls.name.value,
+      this.contentForm.controls.author.value,
+      this.contentForm.controls.category.value,
+      this.contentForm.controls.duration.value,
+      this.contentForm.controls.imageURL.value,
+      this.contentForm.controls.contentURL.value
+    ).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        if(err.status == 401){
+          console.log("Incorrect credentials");
+        }
+        else{
+          console.log(err);
+        }
+      }
+    )
   }
 
 }
