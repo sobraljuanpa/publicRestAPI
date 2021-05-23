@@ -12,6 +12,8 @@ import { CategoryListComponent } from './components/category-list/category-list.
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AddAdministratorFormComponent } from './components/add-administrator-form/add-administrator-form.component';
 import { AddPlayablecontentFormComponent } from './components/add-playablecontent-form/add-playablecontent-form.component';
+import { CategoryElementComponent } from './components/category-element/category-element.component';
+import { CategoryElementListComponent } from './components/category-element-list/category-element-list.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { AddPlayablecontentFormComponent } from './components/add-playableconten
     CategoryListComponent,
     LoginFormComponent,
     AddAdministratorFormComponent,
-    AddPlayablecontentFormComponent
+    AddPlayablecontentFormComponent,
+    CategoryElementComponent,
+    CategoryElementListComponent
   ],
   imports: [
     HttpClientModule,
