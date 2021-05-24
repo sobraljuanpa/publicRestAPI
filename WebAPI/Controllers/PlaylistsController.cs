@@ -2,6 +2,7 @@
 using System;
 using IBusinessLogic;
 using Domain;
+using System.Collections.Generic;
 
 namespace WebAPI.Controllers
 {
@@ -14,6 +15,20 @@ namespace WebAPI.Controllers
         public PlaylistsController(IPlayerBL playerBL)
         {
             this.playerBL = playerBL;
+        }
+
+        [HttpGet]
+        public IActionResult GetPlaylists()
+        {
+            try
+            {
+                List<Playlist> playlists = playerBL.GetPlaylists();
+                return Ok(playlists);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         [HttpGet("{id}")]

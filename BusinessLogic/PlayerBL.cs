@@ -68,11 +68,38 @@ namespace BusinessLogic
             return playlistRepository.Get(playlistId);
         }
 
+        public List<Playlist> GetPlaylists()
+        {
+            var playlists = playlistRepository.GetAll();
+
+            foreach (Playlist p in playlists)
+            {
+                foreach (PlayableContent c in p.Contents)
+                {
+                    c.Playlists = null;
+                }
+            }
+
+            return playlists.ToList();
+        }
+
         public PlayableContent GetPlayableContent(int contentId)
         {
             contentValidator.IdInValidRange(contentId);
 
             return contentRepository.Get(contentId);
+        }
+
+        public List<PlayableContent> GetContents()
+        {
+            var contents = contentRepository.GetAll();
+            
+            foreach(PlayableContent c in contents)
+            {
+                c.Playlists = null;
+            }
+
+            return contents.ToList();
         }
 
         public PlayableContent AddIndependentContent (PlayableContent content)
