@@ -30,6 +30,13 @@ export class AdministratorService {
     );
   }
 
+  getAdministrator(id: number) : Observable<Administrator> {
+    return this.http.get<Administrator>(`${this.adminURL}/${id}`)
+    .pipe(
+      map((data: any) => data = this.adapter.adapt(data))
+    );
+  }
+
   deleteAdministrator(id: number){
     return this.http.delete(`${this.adminURL}/${id}`)
   }

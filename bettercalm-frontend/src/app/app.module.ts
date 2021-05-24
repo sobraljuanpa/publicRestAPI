@@ -15,6 +15,7 @@ import { AddPlayablecontentFormComponent } from './components/add-playableconten
 import { CategoryElementComponent } from './components/category-element/category-element.component';
 import { CategoryElementListComponent } from './components/category-element-list/category-element-list.component';
 import { AdministratorManagementListComponent } from './components/administrator-management-list/administrator-management-list.component';
+import { AdministratorEditionFormComponent } from './components/administrator-edition-form/administrator-edition-form.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AdministratorManagementListComponent } from './components/administrator
     AddPlayablecontentFormComponent,
     CategoryElementComponent,
     CategoryElementListComponent,
-    AdministratorManagementListComponent
+    AdministratorManagementListComponent,
+    AdministratorEditionFormComponent
   ],
   imports: [
     HttpClientModule,
