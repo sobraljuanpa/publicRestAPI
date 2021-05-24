@@ -14,6 +14,7 @@ import { AddAdministratorFormComponent } from './components/add-administrator-fo
 import { AddPlayablecontentFormComponent } from './components/add-playablecontent-form/add-playablecontent-form.component';
 import { CategoryElementComponent } from './components/category-element/category-element.component';
 import { CategoryElementListComponent } from './components/category-element-list/category-element-list.component';
+import { AdministratorManagementListComponent } from './components/administrator-management-list/administrator-management-list.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CategoryElementListComponent } from './components/category-element-list
     AddAdministratorFormComponent,
     AddPlayablecontentFormComponent,
     CategoryElementComponent,
-    CategoryElementListComponent
+    CategoryElementListComponent,
+    AdministratorManagementListComponent
   ],
   imports: [
     HttpClientModule,
