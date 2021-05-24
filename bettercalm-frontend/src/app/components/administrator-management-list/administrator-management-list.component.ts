@@ -23,7 +23,8 @@ export class AdministratorManagementListComponent implements OnInit {
   }
 
   Delete(id: number) {
-    console.log(id);
+    this.administratorService.deleteAdministrator(id)
+    .subscribe(response => window.location.reload())
   }
 
 }

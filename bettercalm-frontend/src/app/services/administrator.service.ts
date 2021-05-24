@@ -29,4 +29,8 @@ export class AdministratorService {
       map((data: any[]) => data.map(item => this.adapter.adapt(item)))
     );
   }
+
+  deleteAdministrator(id: number){
+    return this.http.delete(`${this.adminURL}/${id}`)
+  }
 }
