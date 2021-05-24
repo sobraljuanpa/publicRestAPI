@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using IBusinessLogic;
 using Domain;
+using System.Collections.Generic;
 
 namespace WebAPI.Controllers
 {
@@ -31,6 +32,21 @@ namespace WebAPI.Controllers
             }
 
             return Unauthorized(new { message = "Username or password incorrect" });
+        }
+
+        [HttpGet]
+        public IActionResult GetAdministrators()
+        {
+            try
+            {
+                List<Administrator> administrators = administratorBL.GetAll();
+                return Ok(administrators);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+
         }
 
         [HttpGet("{id}")]

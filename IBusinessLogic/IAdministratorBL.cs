@@ -1,4 +1,5 @@
 ﻿using Domain;
+using System.Collections.Generic;
 
 namespace IBusinessLogic
 {
@@ -14,5 +15,8 @@ namespace IBusinessLogic
 
         public void UpdateAdministrator(int id, Administrator administrator);
         public Administrator Get(int id);
+
+        public List<Administrator> GetAll();
+
     }
 }
