@@ -7,6 +7,8 @@ import { CategoryElementListComponent } from './components/category-element-list
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AdministratorManagementListComponent } from './components/administrator-management-list/administrator-management-list.component';
 import { AdministratorEditionFormComponent } from './components/administrator-edition-form/administrator-edition-form.component';
+import { PlayablecontentEditionFormComponent } from './components/playablecontent-edition-form/playablecontent-edition-form.component';
+import { PlayablecontentManagementListComponent } from './components/playablecontent-management-list/playablecontent-management-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/categories', pathMatch: 'full'},
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'administrators', component: AdministratorManagementListComponent},
   { path: 'administrators/edit/:id', component: AdministratorEditionFormComponent},
   { path: 'administrators/add', component: AddAdministratorFormComponent},
+  { path: 'playablecontents', component: PlayablecontentManagementListComponent},
+  { path: 'playablecontents/edit/:id', component: PlayablecontentEditionFormComponent},
   { path: 'playablecontents/add', component: AddPlayablecontentFormComponent},
   { path: 'login', component: LoginFormComponent }
 ];
