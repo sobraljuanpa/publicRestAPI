@@ -40,10 +40,15 @@ export class AdministratorEditionFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("submitteado");
-    console.log(this.adminForm.controls.email.value);
-    console.log(this.adminForm.controls.name.value);
-    console.log(this.adminForm.controls.password.value);
+    const id= Number(this.route.snapshot.paramMap.get('id'));
+    this.administratorService.updateAdministrator(
+      id,
+      this.adminForm.controls.name.value,
+      this.adminForm.controls.email.value,
+      this.adminForm.controls.password.value
+    ).subscribe(
+      res => {this.location.back()}
+    )
   }
 
   goBack() {

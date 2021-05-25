@@ -23,6 +23,15 @@ export class AdministratorService {
     });
   }
 
+  updateAdministrator(id: number, name: string, email: string, password: string) {
+    return this.http.put(`${this.adminURL}/${id}`, {
+      Id: id,
+      Email: email,
+      Name: name,
+      Password: password
+    })
+  }
+
   getAdministrators() : Observable<Administrator[]> {
     return this.http.get<Administrator[]>(this.adminURL)
     .pipe(
