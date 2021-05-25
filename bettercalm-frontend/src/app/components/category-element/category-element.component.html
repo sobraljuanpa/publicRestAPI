@@ -1,7 +1,7 @@
 <div *ngIf="categoryElement?.author != undefined; else playlist" class="card mt-5">
+  <div class = "card-header">{{ categoryElement?.name }}</div>
   <div class="card-body">
     <img src={{categoryElement?.imageURL}} class="card-img-top">
-    <div class = "card-title">{{ categoryElement?.name }}</div>
     <p class="card-text">
       Author: {{categoryElement?.author}}.<br>
       Duration: {{categoryElement?.duration}} minutes <br>
@@ -11,9 +11,9 @@
 
 <ng-template #playlist>
   <div class="card mt-5">
+    <div class = "card-header">{{ categoryElement?.name }}</div>
     <div class="card-body">
       <img src={{categoryElement?.imageURL}} class="card-img-top">
-      <div class = "card-title">{{ categoryElement?.name }}</div>
       <p class="card-text">
         {{categoryElement?.description}}<br>
       </p>
