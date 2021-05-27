@@ -1,1 +1,16 @@
-<p>playablecontent-management-list works!</p>
+<div *ngFor="let content of contents">
+  <div class="card w-75 mx-auto mt-5">
+    <div class="card-header">
+        {{content.name}}
+        <button type="button" class="btn btn-danger" style="float: right; margin-left: 10px;" (click)="Delete(content.id)">Delete</button>
+        <button routerLink="/playablecontents/edit/{{content.id}}" type="button" class="btn btn-primary" style="float: right">Edit</button>
+    </div>
+    <div class="card-body">
+      <img src={{content.imageURL}} class="card-img-top">
+        <ul>
+            <li>Author: {{content.author}}</li>
+            <li>Duration: {{content.duration}} minutes</li>
+        </ul>
+    </div>
+  </div>
+</div>

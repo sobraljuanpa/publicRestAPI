@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { PlayableContent, PlayableContentAdapter } from '../models/playableContent';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +11,9 @@ export class PlayablecontentService {
 
   private playablecontentURL = "http://localhost:5000/api/playablecontents";
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private adapter: PlayableContentAdapter) { }
 
   addContent(
     name: string,
@@ -26,4 +31,17 @@ export class PlayablecontentService {
         ContentURL: contentURL
       })
   }
+
+  getContents() : Observable<PlayableContent[]> {
+    return this.http.get<PlayableContent[]>(this.playablecontentURL)
+    .pipe(
+      map((data: any[]) => data.map(item => this.adapter.adapt(item)))
+    )
+  }
+
+  deleteContent(id: number){
+    return this.http.delete(`${this.playablecontentURL}/${id}`)
+  }
+
+
 }

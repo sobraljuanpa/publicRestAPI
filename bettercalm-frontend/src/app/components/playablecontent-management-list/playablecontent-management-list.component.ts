@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PlayableContent } from 'src/app/models/playableContent';
+import { PlayablecontentService } from 'src/app/services/playablecontent.service';
 
 @Component({
   selector: 'app-playablecontent-management-list',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlayablecontentManagementListComponent implements OnInit {
 
-  constructor() { }
+  contents!: PlayableContent[];
+
+  constructor(private contentService: PlayablecontentService) { }
 
   ngOnInit(): void {
+    this.getContents();
+  }
+
+  getContents() {
+    this.contentService.getContents()
+    .subscribe(contents => this.contents = contents);
+  }
+
+  Delete(id: number) {
+    this.contentService.deleteContent(id)
+    .subscribe(response => window.location.reload())
   }
 
 }
