@@ -18,6 +18,7 @@ import { AdministratorManagementListComponent } from './components/administrator
 import { AdministratorEditionFormComponent } from './components/administrator-edition-form/administrator-edition-form.component';
 import { PlayablecontentEditionFormComponent } from './components/playablecontent-edition-form/playablecontent-edition-form.component';
 import { PlayablecontentManagementListComponent } from './components/playablecontent-management-list/playablecontent-management-list.component';
+import { AddPsychologistFormComponent } from './components/add-psychologist-form/add-psychologist-form.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { PlayablecontentManagementListComponent } from './components/playablecon
     AdministratorManagementListComponent,
     AdministratorEditionFormComponent,
     PlayablecontentEditionFormComponent,
-    PlayablecontentManagementListComponent
+    PlayablecontentManagementListComponent,
+    AddPsychologistFormComponent
   ],
   imports: [
     HttpClientModule,

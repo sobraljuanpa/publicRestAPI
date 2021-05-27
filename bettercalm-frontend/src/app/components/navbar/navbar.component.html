@@ -8,8 +8,8 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Contents
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li><a class="dropdown-item" routerLink="/playablecontents/add" *ngIf="this.authenticationService.isAuthenticated()">Add content</a></li>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="this.authenticationService.isAuthenticated()">
+          <li><a class="dropdown-item" routerLink="/playablecontents/add">Add content</a></li>
           <li><a class="dropdown-item" routerLink="/playablecontents">Manage contents</a></li>
         </ul>
       </li>
