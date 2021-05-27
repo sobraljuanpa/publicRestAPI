@@ -3,7 +3,15 @@
     <a class="navbar-brand" href="#">BetterCalm</a>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item"><a class="nav-link" routerLink="/categories">Categories</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Playlists</a></li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Playlists
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="this.authenticationService.isAuthenticated()">
+          <li><a class="dropdown-item" routerLink="/playlists/add">Add playlist</a></li>
+          <li><a class="dropdown-item" routerLink="/playlists">Manage playlists</a></li>
+        </ul>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Contents

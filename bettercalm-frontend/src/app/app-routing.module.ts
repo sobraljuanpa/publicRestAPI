@@ -9,6 +9,7 @@ import { AdministratorManagementListComponent } from './components/administrator
 import { AdministratorEditionFormComponent } from './components/administrator-edition-form/administrator-edition-form.component';
 import { PlayablecontentEditionFormComponent } from './components/playablecontent-edition-form/playablecontent-edition-form.component';
 import { PlayablecontentManagementListComponent } from './components/playablecontent-management-list/playablecontent-management-list.component';
+import { AddPlaylistFormComponent } from './components/add-playlist-form/add-playlist-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/categories', pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'playablecontents', component: PlayablecontentManagementListComponent},
   { path: 'playablecontents/edit/:id', component: PlayablecontentEditionFormComponent},
   { path: 'playablecontents/add', component: AddPlayablecontentFormComponent},
+  { path: 'playlists/add', component: AddPlaylistFormComponent},
   { path: 'login', component: LoginFormComponent }
 ];
 
