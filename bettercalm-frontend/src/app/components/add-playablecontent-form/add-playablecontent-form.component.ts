@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PlayablecontentService } from 'src/app/services/playablecontent.service';
 
 @Component({
@@ -18,7 +19,9 @@ export class AddPlayablecontentFormComponent implements OnInit {
     contentURL: new FormControl(''),
   });
 
-  constructor(private playablecontentService: PlayablecontentService) { }
+  constructor(
+    private playablecontentService: PlayablecontentService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -33,7 +36,7 @@ export class AddPlayablecontentFormComponent implements OnInit {
       this.contentForm.controls.contentURL.value
     ).subscribe(
       res => {
-        console.log(res);
+        this.router.navigateByUrl("/playablecontents");
       },
       err => {
         if(err.status == 401){

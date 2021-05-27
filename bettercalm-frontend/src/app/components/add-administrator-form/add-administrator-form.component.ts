@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AdministratorService } from '../../services/administrator.service';
 
 @Component({
@@ -15,7 +16,9 @@ export class AddAdministratorFormComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  constructor(private administratorService: AdministratorService) { }
+  constructor(
+    private administratorService: AdministratorService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -27,7 +30,7 @@ export class AddAdministratorFormComponent implements OnInit {
       this.adminForm.controls.password.value
     ).subscribe(
       res => {
-        console.log(res);
+        this.router.navigateByUrl("/administrators");
       },
       err => {
         if(err.status == 401){
