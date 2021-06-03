@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 export class PlayablecontentService {
 
   private playablecontentURL = "http://localhost:5000/api/playablecontents";
+  private playlistURL = "http://localhost:5000/api/playlists";
 
   constructor(
     private http: HttpClient,
@@ -29,6 +30,19 @@ export class PlayablecontentService {
         Duration: duration,
         ImageURL: imageURL,
         ContentURL: contentURL
+      })
+  }
+
+  addPlaylist(
+    name: string,
+    description: string,
+    categoryId: number,
+    imageURL: string){
+      return this.http.post(this.playlistURL, {
+        Name: name,
+        Description: description,
+        CategoryId: categoryId,
+        ImageURL: imageURL
       })
   }
 
