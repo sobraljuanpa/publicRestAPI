@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PlayableContent, PlayableContentAdapter } from '../models/playableContent';
+import { Playlist, PlaylistAdapter } from '../models/playlist';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -14,7 +15,8 @@ export class PlayablecontentService {
 
   constructor(
     private http: HttpClient,
-    private adapter: PlayableContentAdapter) { }
+    private adapter: PlayableContentAdapter,
+    private playlistAdapter: PlaylistAdapter) { }
 
   addContent(
     name: string,
@@ -75,6 +77,13 @@ export class PlayablecontentService {
     return this.http.get<PlayableContent[]>(this.playablecontentURL)
     .pipe(
       map((data: any[]) => data.map(item => this.adapter.adapt(item)))
+    )
+  }
+
+  getPlaylists() : Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(this.playlistURL)
+    .pipe(
+      map((data: any[]) => data.map(item => this.playlistAdapter.adapt(item)))
     )
   }
 
