@@ -8,7 +8,8 @@ export class PlayableContent {
     public imageURL: string,
     public contentURL: string,
     public author: string,
-    public duration: number
+    public duration: number,
+    public categoryId?: number
   ){}
 }
 
@@ -23,7 +24,8 @@ export class PlayableContentAdapter implements Adapter<PlayableContent> {
       item.imageURL,
       item.contentURL,
       item.author,
-      item.duration
+      item.duration,
+      item.categoryId
     );
   }
 }

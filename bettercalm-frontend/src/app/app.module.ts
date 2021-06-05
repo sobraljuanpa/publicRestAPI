@@ -16,7 +16,6 @@ import { CategoryElementComponent } from './components/category-element/category
 import { CategoryElementListComponent } from './components/category-element-list/category-element-list.component';
 import { AdministratorManagementListComponent } from './components/administrator-management-list/administrator-management-list.component';
 import { AdministratorEditionFormComponent } from './components/administrator-edition-form/administrator-edition-form.component';
-import { PlayablecontentEditionFormComponent } from './components/playablecontent-edition-form/playablecontent-edition-form.component';
 import { PlayablecontentManagementListComponent } from './components/playablecontent-management-list/playablecontent-management-list.component';
 import { AddPsychologistFormComponent } from './components/add-psychologist-form/add-psychologist-form.component';
 import { AddPlaylistFormComponent } from './components/add-playlist-form/add-playlist-form.component';
@@ -34,7 +33,6 @@ import { AddPlaylistFormComponent } from './components/add-playlist-form/add-pla
     CategoryElementListComponent,
     AdministratorManagementListComponent,
     AdministratorEditionFormComponent,
-    PlayablecontentEditionFormComponent,
     PlayablecontentManagementListComponent,
     AddPsychologistFormComponent,
     AddPlaylistFormComponent

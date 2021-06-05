@@ -33,6 +33,24 @@ export class PlayablecontentService {
       })
   }
 
+  updateContent(
+    id: string,
+    name: string,
+    author: string,
+    categoryId: number,
+    duration: number,
+    imageURL: string,
+    contentURL: string){
+      return this.http.put(`${this.playablecontentURL}/${id}`, {
+        Name: name,
+        Author: author,
+        CategoryId: categoryId,
+        Duration: duration,
+        ImageURL: imageURL,
+        ContentURL: contentURL
+      })
+  }
+
   addPlaylist(
     name: string,
     description: string,
@@ -44,6 +62,13 @@ export class PlayablecontentService {
         CategoryId: categoryId,
         ImageURL: imageURL
       })
+  }
+
+  getContent(id: number) : Observable<PlayableContent> {
+    return this.http.get<PlayableContent>(`${this.playablecontentURL}/${id}`)
+    .pipe(
+      map((data: any) => data = this.adapter.adapt(data))
+    )
   }
 
   getContents() : Observable<PlayableContent[]> {
