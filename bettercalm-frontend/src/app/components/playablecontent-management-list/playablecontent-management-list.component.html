@@ -16,7 +16,7 @@
       <select class="form-select" [(ngModel)]="selectedPlaylist">
         <option [ngValue]="playlist" *ngFor="let playlist of playlists">{{ playlist.name }}</option>
       </select>
-      <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;" (click)="AddToPlaylist(selectedPlaylist.id, content.id)">Add to playlist</button>
+      <button type="button" class="btn btn-primary mt-2" (click)="AddToPlaylist(selectedPlaylist.id, content.id)">Add to playlist</button>
     </div>
   </div>
 </div>

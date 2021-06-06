@@ -37,7 +37,8 @@ export class PlayablecontentManagementListComponent implements OnInit {
   }
 
   AddToPlaylist(playlistId: number, contentId: number) {
-    console.log("Adding content with id " + contentId + " to playlist with id " + playlistId);
+    this.contentService.addContentToPlaylist(playlistId, contentId)
+    .subscribe(response => console.log(response));
   }
 
 }

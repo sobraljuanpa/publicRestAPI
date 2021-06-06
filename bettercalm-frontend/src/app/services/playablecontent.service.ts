@@ -66,6 +66,10 @@ export class PlayablecontentService {
       })
   }
 
+  addContentToPlaylist(playlistId: number, contentId: number) {
+    return this.http.post(`${this.playlistURL}/${playlistId}/contents?contentId=${contentId}`, {});
+  }
+
   getContent(id: number) : Observable<PlayableContent> {
     return this.http.get<PlayableContent>(`${this.playablecontentURL}/${id}`)
     .pipe(
