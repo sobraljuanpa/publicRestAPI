@@ -20,6 +20,7 @@ import { PlayablecontentManagementListComponent } from './components/playablecon
 import { AddPsychologistFormComponent } from './components/add-psychologist-form/add-psychologist-form.component';
 import { AddPlaylistFormComponent } from './components/add-playlist-form/add-playlist-form.component';
 import { PlaylistManagementListComponent } from './components/playlist-management-list/playlist-management-list.component';
+import { PlaylistContentManagementListComponent } from './components/playlist-content-management-list/playlist-content-management-list.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PlaylistManagementListComponent } from './components/playlist-managemen
     PlayablecontentManagementListComponent,
     AddPsychologistFormComponent,
     AddPlaylistFormComponent,
-    PlaylistManagementListComponent
+    PlaylistManagementListComponent,
+    PlaylistContentManagementListComponent
   ],
   imports: [
     HttpClientModule,
