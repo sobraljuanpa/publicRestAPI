@@ -1,1 +1,14 @@
-<p>playlist-management-list works!</p>
+<div *ngFor="let playlist of playlists">
+  <div class="card w-75 mx-auto mt-5">
+    <div class="card-header">
+        {{playlist.name}}
+        <button type="button" class="btn btn-danger" style="float: right; margin-left: 10px;" (click)="Delete(playlist.id)">Delete</button>
+    </div>
+    <div class="card-body">
+      <img src={{playlist.imageURL}} class="card-img-top">
+        <ul>
+            <li>{{playlist.description}}</li>
+        </ul>
+    </div>
+  </div>
+</div>

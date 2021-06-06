@@ -91,5 +91,9 @@ export class PlayablecontentService {
     return this.http.delete(`${this.playablecontentURL}/${id}`)
   }
 
+  deletePlaylist(id: number){
+    return this.http.delete(`${this.playlistURL}/${id}`)
+  }
+
 
 }
