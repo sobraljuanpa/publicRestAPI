@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayableContent } from 'src/app/models/playableContent';
+import { Playlist } from 'src/app/models/playlist';
 import { PlayablecontentService } from 'src/app/services/playablecontent.service';
 
 @Component({
@@ -10,11 +11,19 @@ import { PlayablecontentService } from 'src/app/services/playablecontent.service
 export class PlayablecontentManagementListComponent implements OnInit {
 
   contents!: PlayableContent[];
+  playlists!: Playlist[];
+  selectedPlaylist!: Playlist;
 
   constructor(private contentService: PlayablecontentService) { }
 
   ngOnInit(): void {
     this.getContents();
+    this.getPlaylists();
+  }
+
+  getPlaylists() {
+    this.contentService.getPlaylists()
+    .subscribe(playlists => this.playlists = playlists)
   }
 
   getContents() {
@@ -25,6 +34,10 @@ export class PlayablecontentManagementListComponent implements OnInit {
   Delete(id: number) {
     this.contentService.deleteContent(id)
     .subscribe(response => window.location.reload())
+  }
+
+  AddToPlaylist(playlistId: number, contentId: number) {
+    console.log("Adding content with id " + contentId + " to playlist with id " + playlistId);
   }
 
 }

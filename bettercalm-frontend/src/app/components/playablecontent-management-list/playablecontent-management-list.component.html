@@ -11,5 +11,12 @@
             <li>Duration: {{content.duration}} minutes</li>
         </ul>
     </div>
+    <div class="card-footer">
+      <label class="form-label">Playlist:</label>
+      <select class="form-select" [(ngModel)]="selectedPlaylist">
+        <option [ngValue]="playlist" *ngFor="let playlist of playlists">{{ playlist.name }}</option>
+      </select>
+      <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;" (click)="AddToPlaylist(selectedPlaylist.id, content.id)">Add to playlist</button>
+    </div>
   </div>
 </div>
