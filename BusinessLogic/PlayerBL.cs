@@ -68,6 +68,13 @@ namespace BusinessLogic
             return playlistRepository.Get(playlistId);
         }
 
+        public List<PlayableContent> GetPlaylistContents(int playlistId)
+        {
+            playlistValidator.IdInValidRange(playlistId);
+
+            return playlistRepository.Get(playlistId).Contents.ToList();
+        }
+
         public List<Playlist> GetPlaylists()
         {
             var playlists = playlistRepository.GetAll();
@@ -136,6 +143,16 @@ namespace BusinessLogic
             playlistRepository.Update(playlistId, playlist);
 
             return playlist;
+        }
+
+        public void DeleteContentFromPlaylist(int playlistId, int contentId)
+        {
+            Playlist playlist = playlistRepository.Get(playlistId);
+            PlayableContent content = contentRepository.Get(contentId);
+
+            playlist.Contents.Remove(content);
+
+            playlistRepository.Update(playlistId, playlist);
         }
 
         public void DeletePlaylist(int playlistId)
