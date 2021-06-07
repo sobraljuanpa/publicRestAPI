@@ -4,6 +4,8 @@ namespace Domain
 {
     public class PlayableContent : CategoryElement
     {
+        public string ImageURL { get; set; }
+
         public double Duration { get; set; }
 
         public string Author { get; set; }
