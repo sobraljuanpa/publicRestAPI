@@ -59,6 +59,20 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult CreateVideo([FromBody] VideoContent video)
+        {
+            try
+            {
+                playerBL.AddVideoContent(video);
+                return Created($"Content created at /api/playablecontent/{video.Id}", video);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteContentById(int id)
         {

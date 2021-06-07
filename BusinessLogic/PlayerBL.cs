@@ -21,15 +21,19 @@ namespace BusinessLogic
 
         private readonly PlaylistValidator playlistValidator;
 
+        private readonly IRepository<VideoContent> videosRepository;
+
         public PlayerBL(IRepository<Category> categoryRepository,
                         IRepository<PlayableContent> contentRepository,
-                        IRepository<Playlist> playlistRepository)
+                        IRepository<Playlist> playlistRepository,
+                        IRepository<VideoContent> videosRepository)
         {
             this.categoryRepository = categoryRepository;
             this.contentRepository = contentRepository;
             this.contentValidator = new PlayableContentValidator(this.contentRepository);
             this.playlistRepository = playlistRepository;
             this.playlistValidator = new PlaylistValidator(this.playlistRepository);
+            this.videosRepository = videosRepository;
         }
 
         public List<Category> GetCategories()
@@ -115,6 +119,13 @@ namespace BusinessLogic
             contentRepository.Add(content);
 
             return contentRepository.GetAll().ToList().FindLast(x => x.Name != null);
+        }
+
+        public VideoContent AddVideoContent (VideoContent video)
+        {
+            videosRepository.Add(video);
+
+            return videosRepository.GetAll().ToList().FindLast(x => x.Name != null);
         }
 
         public void DeleteContent (int contentId)

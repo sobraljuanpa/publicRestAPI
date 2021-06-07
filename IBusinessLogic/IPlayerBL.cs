@@ -15,6 +15,7 @@ namespace IBusinessLogic
         public PlayableContent GetPlayableContent(int id);
         public List<PlayableContent> GetContents();
         public PlayableContent AddIndependentContent(PlayableContent playableContent);
+        public VideoContent AddVideoContent(VideoContent video);
         public void AddPlaylist(Playlist playlist);
         public Playlist AddContentToPlaylist(int playlistId, int contentId);
         public void DeleteContentFromPlaylist(int playlistId, int contentId);
