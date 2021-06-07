@@ -9,7 +9,8 @@ export class CategoryElement {
     public contentURL?: string,
     public author?: string,
     public duration?: number,
-    public description?: string
+    public description?: string,
+    public videoURL?: string
   ){}
 }
 
@@ -25,7 +26,8 @@ export class CategoryElementAdapter implements Adapter<CategoryElement> {
       item.contentURL,
       item.author,
       item.duration,
-      item.description
+      item.description,
+      item.videoURL
     );
   }
 }

@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SecurityContext } from '@angular/core';
 import { CategoryElement } from 'src/app/models/categoryElement';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-category-element',
@@ -9,11 +10,14 @@ import { CategoryElement } from 'src/app/models/categoryElement';
 export class CategoryElementComponent implements OnInit {
 
   @Input() categoryElement?: CategoryElement;
+  videoURL!: SafeResourceUrl;
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    console.log(this.categoryElement);
+    if(this.categoryElement?.videoURL != undefined) {
+      this.videoURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.categoryElement?.videoURL!!)!!;
+    }
   }
 
 }
