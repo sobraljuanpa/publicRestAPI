@@ -3,27 +3,36 @@
     <a class="navbar-brand" href="#">BetterCalm</a>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item"><a class="nav-link" routerLink="/categories">Categories</a></li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Playlists
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><a class="dropdown-item" routerLink="/playlists/add">Add playlist</a></li>
           <li><a class="dropdown-item" routerLink="/playlists">Manage playlists</a></li>
         </ul>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Contents
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
           <li><a class="dropdown-item" routerLink="/playablecontents/add">Add content</a></li>
           <li><a class="dropdown-item" routerLink="/playablecontents">Manage contents</a></li>
         </ul>
       </li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Videos
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+          <li><a class="dropdown-item" routerLink="/videos/add">Add video</a></li>
+          <li><a class="dropdown-item" routerLink="/videos">Manage videos</a></li>
+        </ul>
+      </li>
       <li class="nav-item"><a class="nav-link" href="#">Consultations</a></li>
       <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Administrators
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

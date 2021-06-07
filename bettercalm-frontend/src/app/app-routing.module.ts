@@ -11,6 +11,7 @@ import { PlayablecontentManagementListComponent } from './components/playablecon
 import { AddPlaylistFormComponent } from './components/add-playlist-form/add-playlist-form.component';
 import { PlaylistManagementListComponent } from './components/playlist-management-list/playlist-management-list.component';
 import { PlaylistContentManagementListComponent } from './components/playlist-content-management-list/playlist-content-management-list.component';
+import { AddVideoFormComponent } from './components/add-video-form/add-video-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/categories', pathMatch: 'full'},
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'administrators/add', component: AddAdministratorFormComponent},
   { path: 'playablecontents', component: PlayablecontentManagementListComponent},
   { path: 'playablecontents/add', component: AddPlayablecontentFormComponent},
+  { path: 'videos/add', component: AddVideoFormComponent},
   { path: 'playlists', component: PlaylistManagementListComponent},
   { path: 'playlists/add', component: AddPlaylistFormComponent},
   { path: 'playlists/contents/:id', component: PlaylistContentManagementListComponent},
