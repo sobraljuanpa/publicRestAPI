@@ -1,1 +1,9 @@
-<p>playlist-content-management-list works!</p>
+<div class="card w-75 mx-auto mt-5">
+  <div class="card-header">{{playlist.name}}</div>
+  <ul *ngFor="let content of contents" class="list-group list-group-flush">
+      <li class="list-group-item">
+        {{ content.name }}
+        <button type="button" class="btn btn-danger" style="float: right; margin-left: 10px;" (click)="Remove(content.id)">Remove</button>
+      </li>
+  </ul>
+</div>

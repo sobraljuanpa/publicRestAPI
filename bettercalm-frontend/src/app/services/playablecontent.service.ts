@@ -77,6 +77,13 @@ export class PlayablecontentService {
     )
   }
 
+  getPlaylist(id: number) : Observable<Playlist> {
+    return this.http.get<Playlist>(`${this.playlistURL}/${id}`)
+    .pipe(
+      map((data: any) => data = this.playlistAdapter.adapt(data))
+    )
+  }
+
   getContents() : Observable<PlayableContent[]> {
     return this.http.get<PlayableContent[]>(this.playablecontentURL)
     .pipe(
@@ -88,6 +95,13 @@ export class PlayablecontentService {
     return this.http.get<Playlist[]>(this.playlistURL)
     .pipe(
       map((data: any[]) => data.map(item => this.playlistAdapter.adapt(item)))
+    )
+  }
+
+  getPlaylistContents(id: number) : Observable<PlayableContent[]> {
+    return this.http.get<PlayableContent[]>(`${this.playlistURL}/${id}/contents`)
+    .pipe(
+      map((data: any[]) => data.map(item => this.adapter.adapt(item)))
     )
   }
 

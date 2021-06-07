@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { PlayableContent } from 'src/app/models/playableContent';
+import { PlayablecontentService } from 'src/app/services/playablecontent.service';
+import { ActivatedRoute } from '@angular/router';
+import { Playlist } from 'src/app/models/playlist';
+
 
 @Component({
   selector: 'app-playlist-content-management-list',
@@ -7,9 +12,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlaylistContentManagementListComponent implements OnInit {
 
-  constructor() { }
+  contents!: PlayableContent[];
+  playlist!: Playlist;
+
+  constructor(
+    private contentService: PlayablecontentService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    const id= Number(this.route.snapshot.paramMap.get('id'));
+    this.getContents(id);
+    this.getPlaylist(id);
+  }
+
+  getContents(id: number) {
+    this.contentService.getPlaylistContents(id)
+    .subscribe(contents => this.contents = contents);
+  }
+
+  getPlaylist(id: number) {
+    this.contentService.getPlaylist(id)
+    .subscribe(playlist => this.playlist = playlist);
+  }
+
+  Remove(id: number) {
+    console.log("Removing content with id " + id + "from playlist " + this.playlist.name)
   }
 
 }

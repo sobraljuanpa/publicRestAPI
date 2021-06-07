@@ -6,10 +6,8 @@
         <button routerLink="/playlists/contents/{{playlist.id}}" type="button" class="btn btn-primary" style="float: right">Manage contents</button>
     </div>
     <div class="card-body">
-      <img src={{playlist.imageURL}} class="card-img-top">
-        <ul>
-            <li>{{playlist.description}}</li>
-        </ul>
+      <img src={{playlist.imageURL}} class="card-img-top"><br>
+      {{playlist.description}}
     </div>
   </div>
 </div>
