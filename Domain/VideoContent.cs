@@ -9,7 +9,7 @@ namespace Domain
 
         public string Author { get; set; }
 
-        public string videoURL { get; set; }
+        public string VideoURL { get; set; }
 
         public ICollection<Playlist> Playlists { get; set; }
     }
