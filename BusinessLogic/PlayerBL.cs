@@ -120,6 +120,28 @@ namespace BusinessLogic
             return contents.ToList();
         }
 
+        public VideoContent GetVideo(int videoId)
+        {
+            return videosRepository.Get(videoId);
+        }
+
+        public List<VideoContent> GetVideos()
+        {
+            var videos = videosRepository.GetAll();
+
+            foreach (VideoContent v in videos)
+            {
+                v.Playlists = null;
+            }
+
+            return videos.ToList();
+        }
+
+        public void DeleteVideo(int id)
+        {
+            videosRepository.Delete(id);
+        }
+
         public PlayableContent AddIndependentContent (PlayableContent content)
         {
             contentValidator.ValidateContent(content);

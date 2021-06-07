@@ -73,6 +73,48 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpGet("videos")]
+        public IActionResult GetAllVideos()
+        {
+            try
+            {
+                List<VideoContent> videos = playerBL.GetVideos();
+                return Ok(videos);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpGet("videos/{id}")]
+        public IActionResult GetVideoById(int id)
+        {
+            try
+            {
+                VideoContent video = playerBL.GetVideo(id);
+                return Ok(video);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpGet("videos/{id}")]
+        public IActionResult DeleteVideoById(int id)
+        {
+            try
+            {
+                playerBL.DeleteVideo(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteContentById(int id)
         {
