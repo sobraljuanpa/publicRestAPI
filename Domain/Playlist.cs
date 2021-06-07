@@ -9,5 +9,7 @@ namespace Domain
         public string Description { get; set; }
 
         public ICollection<PlayableContent> Contents { get; set; }
+
+        public ICollection<VideoContent> Videos { get; set; }
     }
 }
