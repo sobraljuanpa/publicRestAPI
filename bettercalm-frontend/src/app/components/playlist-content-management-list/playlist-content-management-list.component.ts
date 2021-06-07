@@ -37,6 +37,8 @@ export class PlaylistContentManagementListComponent implements OnInit {
   }
 
   Remove(id: number) {
+    this.contentService.removeContentFromPlaylist(this.playlist.id, id)
+    .subscribe(response => window.location.reload());
     console.log("Removing content with id " + id + "from playlist " + this.playlist.name)
   }
 
