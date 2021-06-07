@@ -45,18 +45,25 @@ namespace BusinessLogic
         {
             if(0 < categoryId && categoryId < 5)
             {
-                var playlists = playlistRepository.GetAll().ToList();
-                var contents = contentRepository.GetAll().ToList();
+
                 List<object> auxReturn = new List<object>();
 
+                var playlists = playlistRepository.GetAll().ToList();
                 foreach (Playlist p in playlists)
                 {
                     if (p.Category.Id == categoryId) auxReturn.Add(p);
                 }
 
+                var contents = contentRepository.GetAll().ToList();
                 foreach (PlayableContent c in contents)
                 {
                     if (c.CategoryId == categoryId) auxReturn.Add(c);
+                }
+
+                var videos = videosRepository.GetAll().ToList();
+                foreach (VideoContent v in videos)
+                {
+                    if (v.CategoryId == categoryId) auxReturn.Add(v);
                 }
 
                 return auxReturn;
