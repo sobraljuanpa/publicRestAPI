@@ -19,6 +19,7 @@ namespace UnitTests.BusinessLogicTests
         private Mock<IRepository<Playlist>> playlistRepoMock;
         private Mock<IRepository<PlayableContent>> contentRepoMock;
         private Mock<IRepository<Category>> categoryRepoMock;
+        private Mock<IRepository<VideoContent>> videoRepoMock;
 
         private IEnumerable<Category> categories;
         private IEnumerable<Playlist> playlists;
@@ -116,7 +117,7 @@ namespace UnitTests.BusinessLogicTests
             contentRepoMock = new Mock<IRepository<PlayableContent>>(MockBehavior.Strict);
             playlistRepoMock = new Mock<IRepository<Playlist>>(MockBehavior.Strict);
 
-            playerBL = new PlayerBL(categoryRepoMock.Object, contentRepoMock.Object, playlistRepoMock.Object);
+            playerBL = new PlayerBL(categoryRepoMock.Object, contentRepoMock.Object, playlistRepoMock.Object, videoRepoMock.Object);
         }
 
         [TestMethod]
