@@ -18,6 +18,21 @@ export class PlayablecontentService {
     private adapter: PlayableContentAdapter,
     private playlistAdapter: PlaylistAdapter) { }
 
+  addVideo(
+    name: string,
+    author: string,
+    categoryId: number,
+    duration: number,
+    videoURL: string){
+      return this.http.post(`${this.playablecontentURL}/videos`, {
+        Name: name,
+        Author: author,
+        CategoryId: categoryId,
+        Duration: duration,
+        VideoURL: videoURL
+      })
+    }
+
   addContent(
     name: string,
     author: string,

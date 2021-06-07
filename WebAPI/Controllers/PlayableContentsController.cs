@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("videos")]
         public IActionResult CreateVideo([FromBody] VideoContent video)
         {
             try
