@@ -4,6 +4,7 @@ import { PlayableContent, PlayableContentAdapter } from '../models/playableConte
 import { Playlist, PlaylistAdapter } from '../models/playlist';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { VideoAdapter, VideoContent } from '../models/videoContent';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,9 @@ export class PlayablecontentService {
 
   constructor(
     private http: HttpClient,
-    private adapter: PlayableContentAdapter,
-    private playlistAdapter: PlaylistAdapter) { }
+    private contentAdapter: PlayableContentAdapter,
+    private playlistAdapter: PlaylistAdapter,
+    private videoAdapter: VideoAdapter) { }
 
   addVideo(
     name: string,
@@ -92,7 +94,14 @@ export class PlayablecontentService {
   getContent(id: number) : Observable<PlayableContent> {
     return this.http.get<PlayableContent>(`${this.playablecontentURL}/${id}`)
     .pipe(
-      map((data: any) => data = this.adapter.adapt(data))
+      map((data: any) => data = this.contentAdapter.adapt(data))
+    )
+  }
+
+  getVideo(id: number) : Observable<VideoContent> {
+    return this.http.get<VideoContent>(`${this.playablecontentURL}/videos/${id}`)
+    .pipe(
+      map((data: any) => data = this.videoAdapter.adapt(data))
     )
   }
 
@@ -106,7 +115,14 @@ export class PlayablecontentService {
   getContents() : Observable<PlayableContent[]> {
     return this.http.get<PlayableContent[]>(this.playablecontentURL)
     .pipe(
-      map((data: any[]) => data.map(item => this.adapter.adapt(item)))
+      map((data: any[]) => data.map(item => this.contentAdapter.adapt(item)))
+    )
+  }
+
+  getVideos() : Observable<VideoContent[]> {
+    return this.http.get<VideoContent[]>(`${this.playablecontentURL}/videos`)
+    .pipe(
+      map((data: any[]) => data.map(item => this.videoAdapter.adapt(item)))
     )
   }
 
@@ -120,12 +136,16 @@ export class PlayablecontentService {
   getPlaylistContents(id: number) : Observable<PlayableContent[]> {
     return this.http.get<PlayableContent[]>(`${this.playlistURL}/${id}/contents`)
     .pipe(
-      map((data: any[]) => data.map(item => this.adapter.adapt(item)))
+      map((data: any[]) => data.map(item => this.contentAdapter.adapt(item)))
     )
   }
 
   deleteContent(id: number){
     return this.http.delete(`${this.playablecontentURL}/${id}`)
+  }
+
+  deleteVideo(id: number){
+    return this.http.delete(`${this.playablecontentURL}/videos/${id}`)
   }
 
   deletePlaylist(id: number){

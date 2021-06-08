@@ -23,6 +23,7 @@ import { PlaylistManagementListComponent } from './components/playlist-managemen
 import { PlaylistContentManagementListComponent } from './components/playlist-content-management-list/playlist-content-management-list.component';
 import { AddVideoFormComponent } from './components/add-video-form/add-video-form.component';
 import { VideoManagementListComponent } from './components/video-management-list/video-management-list.component';
+import { VideoListElementComponent } from './components/video-list-element/video-list-element.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { VideoManagementListComponent } from './components/video-management-list
     PlaylistManagementListComponent,
     PlaylistContentManagementListComponent,
     AddVideoFormComponent,
-    VideoManagementListComponent
+    VideoManagementListComponent,
+    VideoListElementComponent
   ],
   imports: [
     HttpClientModule,
