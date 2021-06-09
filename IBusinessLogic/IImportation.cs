@@ -7,15 +7,17 @@ namespace IBusinessLogic
 {
     public interface IImportation
     {
-        public String GetImportationName();
+        //public String GetImportationName();
 
         public List<object> GetParameters();
 
+        public PlayableContent GetPlayableContent();
+
         public List<PlayableContent> GetPlayableContents();
 
-        public List<Playlist> GetPlaylists();
+        public Playlist GetPlaylist();
 
-        public List<object> ImportContent(List<object> parameters);
+        //public List<object> ImportContent(List<object> parameters);
 
     }
 }
