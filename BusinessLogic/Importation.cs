@@ -26,9 +26,9 @@ namespace BusinessLogic
                 playableContent = _importation.GetPlayableContent();
                 _playerBL.AddIndependentContent(playableContent);
             }
-            catch(Exception e)
+            catch(Exception)
             {
-                throw new Exception("..");
+                throw new Exception("Incompatible format");
             }
         }
 
@@ -38,10 +38,23 @@ namespace BusinessLogic
             {
                 playlist = _importation.GetPlaylist();
                 _playerBL.AddPlaylist(playlist);
+                if (playlist.Contents.Count != 0)
+                {
+                    List<PlayableContent> playableContents = _importation.GetPlayableContents();
+                    foreach (PlayableContent content in playableContents)
+                    {
+                        if (_playerBL.GetPlayableContent(content.Id) != null)
+                        {
+                            _playerBL.AddIndependentContent(content);
+                        }
+                        _playerBL.AddContentToPlaylist(playlist.Id, content.Id);
+                    }
+          
+                }
             }
-            catch(Exception e)
+            catch(Exception)
             {
-                throw new Exception("..");
+                throw new Exception("Incompatible format");
             }
         }
 

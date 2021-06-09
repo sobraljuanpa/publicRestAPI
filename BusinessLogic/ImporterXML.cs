@@ -78,7 +78,7 @@ namespace BusinessLogic
             return root;
         }
 
-        public void GiveMePlayableContents(Playlist auxplaylist, List<PlayableContent> contents)
+        public void GetContentsFromPlaylis(Playlist auxplaylist, List<PlayableContent> contents)
         {
             if (auxplaylist.Contents != null)
             {
@@ -93,7 +93,7 @@ namespace BusinessLogic
         {
             List<PlayableContent> contentList = new List<PlayableContent>();
             Playlist root = PlaylistRoot();
-            GiveMePlayableContents(root, contentList);
+            GetContentsFromPlaylis(root, contentList);
 
             return contentList;
         }
