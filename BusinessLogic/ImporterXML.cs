@@ -1,20 +1,20 @@
 ﻿using Domain;
 using IBusinessLogic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Newtonsoft.Json;
-using System.Linq;
+using System.Xml.Serialization;
 
 namespace BusinessLogic
 {
-    public class ImporterJSON : IImportation
+    public class ImporterXML : IImportation 
     {
         public string _path;
         public PlayableContent playableContent = null;
         public Playlist playlist = null;
 
-        public ImporterJSON (string path)
+        public ImporterXML(string path)
         {
             _path = path;
         }
@@ -26,39 +26,34 @@ namespace BusinessLogic
                 if (playableContent == null)
                 {
                     PlayableContent contentRoot;
-                    using (System.IO.StreamReader jsonStream = System.IO.File.OpenText(_path))
-                    {
-                        var json = jsonStream.ReadToEnd();
-                        contentRoot = JsonConvert.DeserializeObject<PlayableContent>(json);
-                    }
-
+                    XmlSerializer serializer = new XmlSerializer(typeof(PlayableContent));
+                    System.IO.StreamReader reader = new System.IO.StreamReader(_path);
+                    contentRoot = (PlayableContent)serializer.Deserialize(reader);
                     playableContent = contentRoot;
 
                     return contentRoot;
-                }else
+                }
+                else
                 {
                     return playableContent;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception("..."+ e.Message);
+                throw new Exception("..");
             }
         }
 
-        private Playlist playlistRoot()
+        private Playlist PlaylistRoot()
         {
             try
             {
                 if (playlist == null)
                 {
                     Playlist playlistRoot;
-                    using (System.IO.StreamReader jsonStream = System.IO.File.OpenText(_path))
-                    {
-                        var json = jsonStream.ReadToEnd();
-                        playlistRoot = JsonConvert.DeserializeObject<Playlist>(json);
-                    }
-
+                    XmlSerializer serializer = new XmlSerializer(typeof(Playlist));
+                    System.IO.StreamReader reader = new System.IO.StreamReader(_path);
+                    playlistRoot = (Playlist)serializer.Deserialize(reader);
                     playlist = playlistRoot;
 
                     return playlistRoot;
@@ -68,16 +63,18 @@ namespace BusinessLogic
                     return playlist;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception("..." + e.Message);
+                throw new Exception("..");
             }
-        }
+
+         }
 
         public PlayableContent GetPlayableContent()
         {
             PlayableContent root = PlayableContentRoot();
-           
+            playableContent = root;
+
             return root;
         }
 
@@ -95,7 +92,7 @@ namespace BusinessLogic
         public List<PlayableContent> GetPlayableContents()
         {
             List<PlayableContent> contentList = new List<PlayableContent>();
-            Playlist root = playlistRoot();
+            Playlist root = PlaylistRoot();
             GiveMePlayableContents(root, contentList);
 
             return contentList;
@@ -103,7 +100,8 @@ namespace BusinessLogic
 
         public Playlist GetPlaylist()
         {
-            Playlist root = playlistRoot();
+            Playlist root = PlaylistRoot();
+            playlist = root;
 
             return root;
         }
