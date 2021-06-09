@@ -46,7 +46,7 @@ namespace BusinessLogic
             }
         }
 
-        private Playlist playlistRoot()
+        private Playlist PlaylistRoot()
         {
             try
             {
@@ -74,14 +74,7 @@ namespace BusinessLogic
             }
         }
 
-        public PlayableContent GetPlayableContent()
-        {
-            PlayableContent root = PlayableContentRoot();
-           
-            return root;
-        }
-
-        public void GiveMePlayableContents(Playlist auxplaylist, List<PlayableContent> contents)
+        public void GetContentsFromPlaylist(Playlist auxplaylist, List<PlayableContent> contents)
         {
             if (auxplaylist.Contents != null)
             {
@@ -95,15 +88,22 @@ namespace BusinessLogic
         public List<PlayableContent> GetPlayableContents()
         {
             List<PlayableContent> contentList = new List<PlayableContent>();
-            Playlist root = playlistRoot();
-            GiveMePlayableContents(root, contentList);
+            Playlist root = PlaylistRoot();
+            GetContentsFromPlaylist(root, contentList);
 
             return contentList;
         }
 
+        public PlayableContent GetPlayableContent()
+        {
+            PlayableContent root = PlayableContentRoot();
+
+            return root;
+        }
+
         public Playlist GetPlaylist()
         {
-            Playlist root = playlistRoot();
+            Playlist root = PlaylistRoot();
 
             return root;
         }
