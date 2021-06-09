@@ -14,7 +14,7 @@ namespace BusinessLogic
         public PlayableContent playableContent = null;
         public Playlist playlist = null;
 
-        public void ImporterJson(string path)
+        public ImporterJSON (string path)
         {
             _path = path;
         }
