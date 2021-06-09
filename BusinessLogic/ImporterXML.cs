@@ -11,8 +11,8 @@ namespace BusinessLogic
     public class ImporterXML : IImportation 
     {
         public string _path;
-        public PlayableContent playableContent = null;
-        public Playlist playlist = null;
+        public PlayableContent _playableContent = null;
+        public Playlist _playlist = null;
 
         public ImporterXML(string path)
         {
@@ -23,24 +23,24 @@ namespace BusinessLogic
         {
             try
             {
-                if (playableContent == null)
+                if (_playableContent == null)
                 {
                     PlayableContent contentRoot;
                     XmlSerializer serializer = new XmlSerializer(typeof(PlayableContent));
                     System.IO.StreamReader reader = new System.IO.StreamReader(_path);
                     contentRoot = (PlayableContent)serializer.Deserialize(reader);
-                    playableContent = contentRoot;
+                    _playableContent = contentRoot;
 
                     return contentRoot;
                 }
                 else
                 {
-                    return playableContent;
+                    return _playableContent;
                 }
             }
             catch (Exception)
             {
-                throw new Exception("..");
+                throw new Exception("Not possible to deserialize Xml file");
             }
         }
 
@@ -48,24 +48,24 @@ namespace BusinessLogic
         {
             try
             {
-                if (playlist == null)
+                if (_playlist == null)
                 {
                     Playlist playlistRoot;
                     XmlSerializer serializer = new XmlSerializer(typeof(Playlist));
                     System.IO.StreamReader reader = new System.IO.StreamReader(_path);
                     playlistRoot = (Playlist)serializer.Deserialize(reader);
-                    playlist = playlistRoot;
+                    _playlist = playlistRoot;
 
                     return playlistRoot;
                 }
                 else
                 {
-                    return playlist;
+                    return _playlist;
                 }
             }
             catch (Exception)
             {
-                throw new Exception("..");
+                throw new Exception("Not possible to deserialize Xml file");
             }
 
          }
@@ -73,7 +73,7 @@ namespace BusinessLogic
         public PlayableContent GetPlayableContent()
         {
             PlayableContent root = PlayableContentRoot();
-            playableContent = root;
+            _playableContent = root;
 
             return root;
         }
@@ -101,7 +101,7 @@ namespace BusinessLogic
         public Playlist GetPlaylist()
         {
             Playlist root = PlaylistRoot();
-            playlist = root;
+            _playlist = root;
 
             return root;
         }

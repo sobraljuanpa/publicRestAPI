@@ -40,9 +40,9 @@ namespace BusinessLogic
                     return playableContent;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception("..."+ e.Message);
+                throw new Exception("Not possible to deserialize JSON file");
             }
         }
 
@@ -68,9 +68,9 @@ namespace BusinessLogic
                     return playlist;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception("..." + e.Message);
+                throw new Exception("Not possible to deserialize JSON file" );
             }
         }
 
