@@ -101,7 +101,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet("videos/{id}")]
+        [HttpDelete("videos/{id}")]
         public IActionResult DeleteVideoById(int id)
         {
             try
