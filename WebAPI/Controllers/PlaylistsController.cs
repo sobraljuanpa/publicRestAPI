@@ -101,6 +101,48 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPost("{playlistId}/videos")]
+        public IActionResult AddVideosToPlaylist(int playlistId, [FromQuery] int videoId)
+        {
+            try
+            {
+                Playlist playlist = playerBL.AddVideoToPlaylist(playlistId, videoId);
+                return Ok(playlist);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{playlistId}/videos")]
+        public IActionResult RemoveVideoFromPlaylist(int playlistId, [FromQuery] int videoId)
+        {
+            try
+            {
+                playerBL.DeleteVideoFromPlaylist(playlistId, videoId);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{playlistId}/videos")]
+        public IActionResult GetPlaylistVideos(int playlistId)
+        {
+            try
+            {
+                List<VideoContent> contents = playerBL.GetPlaylistVideos(playlistId);
+                return Ok(contents);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeletePlaylistById(int id)
         {
