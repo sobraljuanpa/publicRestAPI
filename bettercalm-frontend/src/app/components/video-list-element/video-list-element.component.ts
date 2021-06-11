@@ -38,8 +38,8 @@ export class VideoListElementComponent implements OnInit {
     .subscribe(response => window.location.reload())
   }
 
-  AddToPlaylist(playlistId: number, contentId: number) {
-    this.contentService.addContentToPlaylist(playlistId, contentId)
+  AddToPlaylist(playlistId: number, videoId: number) {
+    this.contentService.addVideoToPlaylist(playlistId, videoId)
     .subscribe(response => console.log(response));
   }
 

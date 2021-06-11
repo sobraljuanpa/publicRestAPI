@@ -91,6 +91,14 @@ export class PlayablecontentService {
     return this.http.delete(`${this.playlistURL}/${playlistId}/contents?contentId=${contentId}`, {});
   }
 
+  addVideoToPlaylist(playlistId: number, videoId: number) {
+    return this.http.post(`${this.playlistURL}/${playlistId}/videos?videoId=${videoId}`, {});
+  }
+
+  removeVideoFromPlaylist(playlistId: number, videoId: number) {
+    return this.http.delete(`${this.playlistURL}/${playlistId}/videos?videoId=${videoId}`, {});
+  }
+
   getContent(id: number) : Observable<PlayableContent> {
     return this.http.get<PlayableContent>(`${this.playablecontentURL}/${id}`)
     .pipe(
@@ -137,6 +145,13 @@ export class PlayablecontentService {
     return this.http.get<PlayableContent[]>(`${this.playlistURL}/${id}/contents`)
     .pipe(
       map((data: any[]) => data.map(item => this.contentAdapter.adapt(item)))
+    )
+  }
+
+  getPlaylistVideos(id: number) : Observable<VideoContent[]> {
+    return this.http.get<VideoContent[]>(`${this.playlistURL}/${id}/videos`)
+    .pipe(
+      map((data: any[]) => data.map(item => this.videoAdapter.adapt(item)))
     )
   }
 

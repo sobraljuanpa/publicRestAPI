@@ -3,7 +3,13 @@
   <ul *ngFor="let content of contents" class="list-group list-group-flush">
       <li class="list-group-item">
         {{ content.name }}
-        <button type="button" class="btn btn-danger" style="float: right; margin-left: 10px;" (click)="Remove(content.id)">Remove</button>
+        <button type="button" class="btn btn-danger" style="float: right; margin-left: 10px;" (click)="RemoveContent(content.id)">Remove</button>
       </li>
   </ul>
+  <ul *ngFor="let video of videos" class="list-group list-group-flush">
+    <li class="list-group-item">
+      {{ video.name }}
+      <button type="button" class="btn btn-danger" style="float: right; margin-left: 10px;" (click)="RemoveVideo(video.id)">Remove</button>
+    </li>
+</ul>
 </div>

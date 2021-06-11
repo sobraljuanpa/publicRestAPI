@@ -19,7 +19,8 @@ namespace DataAccess
         {
             return _context.Playlists
                 .Include(p => p.Category)
-                .Include(p => p.Contents);
+                .Include(p => p.Contents)
+                .Include(p => p.Videos);
         }
 
         public Playlist Get(int id)
@@ -29,6 +30,7 @@ namespace DataAccess
             return _context.Playlists
                 .Include(p => p.Category)
                 .Include(p => p.Contents)
+                .Include(p => p.Videos)
                 .FirstOrDefault(p => p.Id == id);
         }
 
@@ -41,6 +43,7 @@ namespace DataAccess
         public void Update(int id, Playlist playlist)
         {
             Get(id).Contents = playlist.Contents;
+            Get(id).Videos = playlist.Videos;
             Get(id).CategoryId = playlist.CategoryId;
             Get(id).Description = playlist.Description;
             Get(id).ImageURL = playlist.ImageURL;

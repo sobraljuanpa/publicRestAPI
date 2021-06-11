@@ -207,6 +207,8 @@ namespace BusinessLogic
             Playlist playlist = playlistRepository.Get(playlistId);
             VideoContent content = videosRepository.Get(videoId);
 
+            if (playlist.Videos == null) playlist.Videos = new List<VideoContent> { };
+
             if(! playlist.Videos.Contains(content))
             {
                 playlist.Videos.Add(content);

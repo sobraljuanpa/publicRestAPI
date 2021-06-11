@@ -3,6 +3,7 @@ import { PlayableContent } from 'src/app/models/playableContent';
 import { PlayablecontentService } from 'src/app/services/playablecontent.service';
 import { ActivatedRoute } from '@angular/router';
 import { Playlist } from 'src/app/models/playlist';
+import { VideoContent } from 'src/app/models/videoContent';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { Playlist } from 'src/app/models/playlist';
 export class PlaylistContentManagementListComponent implements OnInit {
 
   contents!: PlayableContent[];
+  videos!: VideoContent[];
   playlist!: Playlist;
 
   constructor(
@@ -23,6 +25,7 @@ export class PlaylistContentManagementListComponent implements OnInit {
   ngOnInit(): void {
     const id= Number(this.route.snapshot.paramMap.get('id'));
     this.getContents(id);
+    this.getVideos(id);
     this.getPlaylist(id);
   }
 
@@ -31,15 +34,26 @@ export class PlaylistContentManagementListComponent implements OnInit {
     .subscribe(contents => this.contents = contents);
   }
 
+  getVideos(id: number) {
+    this.contentService.getPlaylistVideos(id)
+    .subscribe(videos => this.videos = videos);
+  }
+
   getPlaylist(id: number) {
     this.contentService.getPlaylist(id)
     .subscribe(playlist => this.playlist = playlist);
   }
 
-  Remove(id: number) {
+  RemoveContent(id: number) {
     this.contentService.removeContentFromPlaylist(this.playlist.id, id)
     .subscribe(response => window.location.reload());
     console.log("Removing content with id " + id + "from playlist " + this.playlist.name)
+  }
+
+  RemoveVideo(id: number) {
+    this.contentService.removeVideoFromPlaylist(this.playlist.id, id)
+    .subscribe(response => window.location.reload());
+    console.log("Removing video with id " + id + "from playlist " + this.playlist.name)
   }
 
 }

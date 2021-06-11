@@ -102,7 +102,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("{playlistId}/videos")]
-        public IActionResult AddVideosToPlaylist(int playlistId, [FromQuery] int videoId)
+        public IActionResult AddVideoToPlaylist(int playlistId, [FromQuery] int videoId)
         {
             try
             {
