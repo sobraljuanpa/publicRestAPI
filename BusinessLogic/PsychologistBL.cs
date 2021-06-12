@@ -76,7 +76,7 @@ namespace BusinessLogic
 
             Schedule schedule = CreateEmptySchedule();
 
-            psychologist.ScheduleId = schedule.Id;
+            psy.ScheduleId = schedule.Id;
 
             repository.Add(psy);
 
