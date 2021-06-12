@@ -1,1 +1,73 @@
-<p>add-psychologist-form works!</p>
+<div class="card text-center w-75 mx-auto mt-3">
+    <form [formGroup]="contentForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label class="form-label">Name:</label>
+            <input type="text" formControlName="psychologistName" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Surname:</label>
+            <input type="text" formControlName="psychologistSurname" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Consultation format:</label>
+            <div class="form-check">
+                <input class="form-check-" vertical-align="middle" type="radio" name="flexRadioDefault"
+                    id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">Remote</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-" vertical-align="middle" type="radio" name="flexRadioDefault"
+                    id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">On site</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Address:</label>
+            <input type="text" formControlName="address" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Active years:</label>
+            <input type="text" formControlName="activeYears" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Expertise 1:</label>
+            <select class="form-select" formControlName="expertise1">
+                <option value="1">Depresión</option>
+                <option value="2">Estrés</option>
+                <option value="3">Ansiedad</option>
+                <option value="4">Autoestima</option>
+                <option value="5">Enojo</option>
+                <option value="6">Relaciones</option>
+                <option value="7">Duelo</option>
+                <option value="8">Y más</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Expertise 2:</label>
+            <select class="form-select" formControlName="expertise2">
+                <option value="1">Depresión</option>
+                <option value="2">Estrés</option>
+                <option value="3">Ansiedad</option>
+                <option value="4">Autoestima</option>
+                <option value="5">Enojo</option>
+                <option value="6">Relaciones</option>
+                <option value="7">Duelo</option>
+                <option value="8">Y más</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Expertise 3:</label>
+            <select class="form-select" formControlName="expertise3">
+                <option value="1">Depresión</option>
+                <option value="2">Estrés</option>
+                <option value="3">Ansiedad</option>
+                <option value="4">Autoestima</option>
+                <option value="5">Enojo</option>
+                <option value="6">Relaciones</option>
+                <option value="7">Duelo</option>
+                <option value="8">Y más</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Add psychologist</button>
+    </form>
+</div>
