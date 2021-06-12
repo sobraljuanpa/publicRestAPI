@@ -1,1 +1,44 @@
-<p>add-psychologist-form works!</p>
+<div class="card text-center w-75 mx-auto mt-3">
+    <form [formGroup]="contentForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label class="form-label">Name:</label>
+            <input type="text" formControlName="psychologistName" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Surname:</label>
+            <input type="text" formControlName="psychologistSurname" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Consultation format:</label>
+            <div class="form-check">
+                <input class="form-input" type="radio">
+                <label class="form-label">Remote</label>
+            </div>
+            <div class="form-check">
+                <input class="form-input" type="radio">
+                <label class="form-label">On site</label>
+                <div class="mb-3 mb-4">
+                    <label class="form-label">Address:</label>
+                    <input type="text" formControlName="address" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Active years:</label>
+            <input type="text" formControlName="ActiveYears" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Expertise 1:</label>
+            <input type="text" formControlName="Expertise1" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Expertise 2:</label>
+            <input type="text" formControlName="Expertise2" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Expertise 3:</label>
+            <input type="text" formControlName="Expertise3" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Add psychologist</button>
+    </form>
+</div>
