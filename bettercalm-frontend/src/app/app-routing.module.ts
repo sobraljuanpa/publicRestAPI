@@ -13,22 +13,24 @@ import { PlaylistManagementListComponent } from './components/playlist-managemen
 import { PlaylistContentManagementListComponent } from './components/playlist-content-management-list/playlist-content-management-list.component';
 import { AddVideoFormComponent } from './components/add-video-form/add-video-form.component';
 import { VideoManagementListComponent } from './components/video-management-list/video-management-list.component';
+import { AddPsychologistFormComponent } from './components/add-psychologist-form/add-psychologist-form.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/categories', pathMatch: 'full'},
+  { path: '', redirectTo: '/categories', pathMatch: 'full' },
   { path: 'categories', component: CategoryListComponent },
   { path: 'categories/:id', component: CategoryElementListComponent },
-  { path: 'administrators', component: AdministratorManagementListComponent},
-  { path: 'administrators/edit/:id', component: AdministratorEditionFormComponent},
-  { path: 'administrators/add', component: AddAdministratorFormComponent},
-  { path: 'playablecontents', component: PlayablecontentManagementListComponent},
-  { path: 'playablecontents/add', component: AddPlayablecontentFormComponent},
-  { path: 'videos', component: VideoManagementListComponent},
-  { path: 'videos/add', component: AddVideoFormComponent},
-  { path: 'playlists', component: PlaylistManagementListComponent},
-  { path: 'playlists/add', component: AddPlaylistFormComponent},
-  { path: 'playlists/contents/:id', component: PlaylistContentManagementListComponent},
-  { path: 'login', component: LoginFormComponent }
+  { path: 'administrators', component: AdministratorManagementListComponent },
+  { path: 'administrators/edit/:id', component: AdministratorEditionFormComponent },
+  { path: 'administrators/add', component: AddAdministratorFormComponent },
+  { path: 'playablecontents', component: PlayablecontentManagementListComponent },
+  { path: 'playablecontents/add', component: AddPlayablecontentFormComponent },
+  { path: 'videos', component: VideoManagementListComponent },
+  { path: 'videos/add', component: AddVideoFormComponent },
+  { path: 'playlists', component: PlaylistManagementListComponent },
+  { path: 'playlists/add', component: AddPlaylistFormComponent },
+  { path: 'playlists/contents/:id', component: PlaylistContentManagementListComponent },
+  { path: 'login', component: LoginFormComponent },
+  { path: 'psychologists/add', component: AddPsychologistFormComponent }
 ];
 
 @NgModule({
