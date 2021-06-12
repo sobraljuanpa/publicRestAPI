@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Domain;
+using Domain.DTOs;
 
 namespace IBusinessLogic
 {
@@ -16,7 +17,7 @@ namespace IBusinessLogic
         
         public void UpdateSchedule(int psychologistId, Schedule schedule);
 
-        public Psychologist AddPsychologist(Psychologist psychologist);
+        public Psychologist AddPsychologist(PsychologistDTO psychologist);
 
         public Schedule AddSchedule(Schedule schedule);
 

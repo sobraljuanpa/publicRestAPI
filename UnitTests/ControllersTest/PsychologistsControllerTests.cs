@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Domain;
+using Domain.DTOs;
 using WebAPI.Controllers;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
@@ -90,25 +91,16 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void AddPsychologistTest()
         {
-            Psychologist newPsychologist = new Psychologist
+            PsychologistDTO newPsychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule
-                {
-                    MondayConsultations = 0,
-                    TuesdayConsultations = 0,
-                    WednesdayConsultations = 0,
-                    ThursdayConsultations = 0,
-                    FridayConsultations = 0
-                }
+                IsRemote = false
             };
 
             mock.Setup(x => x.AddPsychologist(newPsychologist)).
-                Returns(newPsychologist);
+                Returns(new Psychologist());
 
             var result = controller.AddPsychologist(newPsychologist);
             var objectResult = result as ObjectResult;
@@ -121,21 +113,12 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void AddPsychologistFailTest()
         {
-            Psychologist newPsychologist = new Psychologist
+            PsychologistDTO newPsychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule
-                {
-                    MondayConsultations = 0,
-                    TuesdayConsultations = 0,
-                    WednesdayConsultations = 0,
-                    ThursdayConsultations = 0,
-                    FridayConsultations = 0
-                }
+                IsRemote = false
             };
 
             mock.Setup(x => x.AddPsychologist(newPsychologist)).

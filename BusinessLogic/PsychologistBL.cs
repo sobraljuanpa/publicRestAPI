@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DTOs;
 using IBusinessLogic;
 using IDataAccess;
 using System;
@@ -33,9 +34,51 @@ namespace BusinessLogic
             }
         }
 
-        public Psychologist AddPsychologist(Psychologist psychologist)
+        public Schedule CreateEmptySchedule()
         {
-            repository.Add(psychologist);
+            Schedule schedule = new Schedule
+            {
+
+                MondayConsultations = 0,
+                TuesdayConsultations = 0,
+                WednesdayConsultations = 0,
+                ThursdayConsultations = 0,
+                FridayConsultations = 0
+            };
+
+            AddSchedule(schedule);
+
+            return schedule;
+        }
+
+        public Psychologist ToEntity(PsychologistDTO dto)
+        {
+            var problem1 = problemRepository.Get(dto.ExpertiseId1);
+            var problem2 = problemRepository.Get(dto.ExpertiseId2);
+            var problem3 = problemRepository.Get(dto.ExpertiseId3);
+            
+            Psychologist aux = new Psychologist
+            {
+                PsychologistName = dto.PsychologistName,
+                PsychologistSurname = dto.PsychologistSurname,
+                IsRemote = dto.IsRemote,
+                Address = dto.Address,
+                ActiveYears = dto.ActiveYears,
+                Expertise = new List<Problem> { problem1, problem2, problem3 }
+            };
+
+            return aux;
+        }
+
+        public Psychologist AddPsychologist(PsychologistDTO psychologist)
+        {
+            Psychologist psy = ToEntity(psychologist);
+
+            Schedule schedule = CreateEmptySchedule();
+
+            psychologist.ScheduleId = schedule.Id;
+
+            repository.Add(psy);
 
             return repository.Get(psychologist.Id);
         }

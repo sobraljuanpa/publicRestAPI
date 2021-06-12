@@ -56,7 +56,9 @@ import { VideoListElementComponent } from './components/video-list-element/video
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    }),
     BrowserModule,
     AppRoutingModule
   ],

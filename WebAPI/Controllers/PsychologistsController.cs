@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using IBusinessLogic;
 using Domain;
+using Domain.DTOs;
 
 namespace WebAPI.Controllers
 {
@@ -19,7 +20,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost()]
-        public IActionResult AddPsychologist([FromBody] Psychologist psychologist)
+        public IActionResult AddPsychologist([FromBody] PsychologistDTO psychologist)
         {
             try
             {
