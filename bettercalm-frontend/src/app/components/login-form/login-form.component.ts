@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
+
 
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -16,7 +18,10 @@ export class LoginFormComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     if(this.authenticationService.isAuthenticated()){
@@ -31,6 +36,8 @@ export class LoginFormComponent implements OnInit {
         this.authenticationService.setToken((res as any).token);
       },
       err => {
+        this.toastr.error(err.error.message, "Authentication error");
+        console.log(err);
         console.log("incorrect credentials");
       },
       () => location.reload()
