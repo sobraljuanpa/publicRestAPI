@@ -163,21 +163,12 @@ namespace UnitTests.ControllersTests
         public void GetAdministratorByIdTest()
         {
             mock.Setup(x => x.GetPsychologist(1))
-                .Returns(new Psychologist
+                .Returns(new PsychologistDTO
                 {
                     PsychologistName = "juan",
                     Address = "juan 1234",
                     PsychologistSurname = "perez",
-                    Expertise = new List<Problem> { expertiseStress },
-                    IsRemote = false,
-                    Schedule = new Schedule
-                    {
-                        MondayConsultations = 0,
-                        TuesdayConsultations = 0,
-                        WednesdayConsultations = 0,
-                        ThursdayConsultations = 0,
-                        FridayConsultations = 0
-                    }
+                    IsRemote = false
                 });
 
             var result = controller.GetPsychologistById(1);
@@ -362,21 +353,12 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void UpdateAdministratorTest()
         {
-            Psychologist newPsychologist = new Psychologist
+            PsychologistDTO newPsychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0 
-                }
+                IsRemote = false
             };
 
             mock.Setup(x => x.UpdatePsychologist(1, newPsychologist));
@@ -392,21 +374,12 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void UpdateNonExistingAdministratorTest()
         {
-            Psychologist newPsychologist = new Psychologist
+            PsychologistDTO newPsychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0 
-                }
+                IsRemote = false
             };
             mock.Setup(x => x.UpdatePsychologist(0, newPsychologist)).
                 Throws(new Exception());

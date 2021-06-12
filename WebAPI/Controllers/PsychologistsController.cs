@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                Psychologist psychologist = psychologistBL.GetPsychologist(id);
+                PsychologistDTO psychologist = psychologistBL.GetPsychologist(id);
                 return Ok(psychologist);
             }
             catch (Exception e)
@@ -119,7 +119,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePsychologist (int id, [FromBody] Psychologist psychologist)
+        public IActionResult UpdatePsychologist (int id, [FromBody] PsychologistDTO psychologist)
         {
             try
             {

@@ -46,9 +46,7 @@ namespace BusinessLogic
                 FridayConsultations = 0
             };
 
-            AddSchedule(schedule);
-
-            return schedule;
+            return AddSchedule(schedule);
         }
 
         public Psychologist ToEntity(PsychologistDTO dto)
@@ -151,10 +149,53 @@ namespace BusinessLogic
             repository.Delete(id);
         }
 
-        public Psychologist GetPsychologist(int id)
+        public PsychologistDTO ToDTO(Psychologist psychologist)
+        {
+            var psy = new PsychologistDTO
+            {
+                Id = psychologist.Id,
+                Address = psychologist.Address,
+                ActiveYears = psychologist.ActiveYears,
+                IsRemote = psychologist.IsRemote,
+                PsychologistName = psychologist.PsychologistName,
+                PsychologistSurname = psychologist.PsychologistSurname,
+                ScheduleId = psychologist.ScheduleId
+            };
+
+            var expertiseList = psychologist.Expertise.ToList();
+
+            switch (expertiseList.Count)
+            {
+                case 0:
+                    psy.ExpertiseId1 = 0;
+                    psy.ExpertiseId2 = 0;
+                    psy.ExpertiseId3 = 0;
+                    break;
+                case 1:
+                    psy.ExpertiseId1 = expertiseList[0].Id;
+                    psy.ExpertiseId2 = 0;
+                    psy.ExpertiseId3 = 0;
+                    break;
+                case 2:
+                    psy.ExpertiseId1 = expertiseList[0].Id;
+                    psy.ExpertiseId2 = expertiseList[1].Id;
+                    psy.ExpertiseId3 = 0;
+                    break;
+                case 3:
+                    psy.ExpertiseId1 = expertiseList[0].Id;
+                    psy.ExpertiseId2 = expertiseList[1].Id;
+                    psy.ExpertiseId3 = expertiseList[2].Id;
+                    break;
+            }
+
+            return psy;
+        }
+
+        public PsychologistDTO GetPsychologist(int id)
         {
             ValidateId(id);
-            return repository.Get(id);
+            var aux = repository.Get(id);
+            return ToDTO(aux);
         }
 
         public Schedule GetSchedule(int id)
@@ -162,9 +203,14 @@ namespace BusinessLogic
             return scheduleRepository.Get(id);
         }
 
-        public List<Psychologist> GetPsychologists()
+        public List<PsychologistDTO> GetPsychologists()
         {
-            return repository.GetAll().ToList();
+            var psychologists = repository.GetAll().ToList();
+            var aux = new List<PsychologistDTO>();
+
+            foreach (Psychologist psy in psychologists) aux.Add(ToDTO(psy));
+
+            return aux;
         }
 
         public List<Psychologist> GetSpecialists(Problem problem)
@@ -182,10 +228,11 @@ namespace BusinessLogic
             return auxPsys;
         }
 
-        public void UpdatePsychologist(int id, Psychologist psychologist)
+        public void UpdatePsychologist(int id, PsychologistDTO psychologist)
         {
             ValidateId(id);
-            repository.Update(id, psychologist);
+            var auxPsy = ToEntity(psychologist);
+            repository.Update(id, auxPsy);
         }
 
         public void UpdateSchedule(int psychologistId, Schedule schedule)

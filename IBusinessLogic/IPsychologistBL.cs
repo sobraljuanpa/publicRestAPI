@@ -10,7 +10,7 @@ namespace IBusinessLogic
     {
         
         //para problema y mas
-        public List<Psychologist> GetPsychologists();
+        public List<PsychologistDTO> GetPsychologists();
         
         //para problema especifico
         public List<Psychologist> GetSpecialists(Problem problem);
@@ -25,13 +25,13 @@ namespace IBusinessLogic
 
         public Psychologist AddScheduleToPsychologist(Psychologist psychologist, int id);
 
-        public Psychologist GetPsychologist(int id);
+        public PsychologistDTO GetPsychologist(int id);
 
         public Schedule GetSchedule(int id);
 
         public void DeletePsychologist(int id);
        
-        public void UpdatePsychologist(int id, Psychologist psychologist);
+        public void UpdatePsychologist(int id, PsychologistDTO psychologist);
 
     }
 }

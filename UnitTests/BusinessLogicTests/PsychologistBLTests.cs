@@ -172,27 +172,20 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void UpdatePsychologistTest()
         {
-            Psychologist psychologist = new Psychologist
+            PsychologistDTO psychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0 
-                }
+                IsRemote = false
             };
 
             mock.Setup(x => x.GetAll()).Returns(data.AsQueryable());
-            mock.Setup(x => x.Update(1, psychologist));
+            mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem());
+            mock.Setup(x => x.Update(1, It.IsAny<Psychologist>()));
 
             businessLogic.UpdatePsychologist(1, psychologist);
+
             mock.VerifyAll();
         }
 
@@ -200,18 +193,20 @@ namespace UnitTests.BusinessLogicTests
         [ExpectedException(typeof(Exception))]
         public void UpdatePsychologistInvalidIdTest()
         {
-            Psychologist p = new Psychologist
+            PsychologistDTO p = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule { MondayConsultations = 0, TuesdayConsultations = 0, WednesdayConsultations = 0, ThursdayConsultations = 0, FridayConsultations = 0 }
+                IsRemote = false
             };
+
             mock.Setup(x => x.GetAll()).Returns(data.AsQueryable);
-            mock.Setup(x => x.Update(10, p));
+            mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem());
+            mock.Setup(x => x.Update(10, businessLogic.ToEntity(p)));
+            
             businessLogic.UpdatePsychologist(10, p);
+            
             mock.VerifyAll();
         }
 
