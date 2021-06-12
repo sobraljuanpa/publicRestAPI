@@ -33,6 +33,7 @@ export class AddPsychologistFormComponent implements OnInit {
       this.contentForm.controls.isRemote.value,
       this.contentForm.controls.address.value,
       this.contentForm.controls.activeYears.value,
+      this.contentForm.controls.scheduleId.value,
       this.contentForm.controls.expertiseId1.value,
       this.contentForm.controls.expertiseId2.value,
       this.contentForm.controls.expertiseId3.value,

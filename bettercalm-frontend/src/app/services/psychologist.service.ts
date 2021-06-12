@@ -20,6 +20,7 @@ export class PsychologistService {
     isRemote: boolean,
     address: string,
     activeYears: number,
+    scheduleId: number,
     expertiseId1: number,
     expertiseId2: number,
     expertiseId3: number) {
@@ -29,6 +30,7 @@ export class PsychologistService {
       IsRemote: isRemote,
       Address: address,
       ActiveYears: activeYears,
+      scheduleId: scheduleId,
       ExpertiseId1: expertiseId1,
       ExpertiseId2: expertiseId2,
       ExpertiseId3: expertiseId3

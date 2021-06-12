@@ -11,33 +11,62 @@
         <div class="mb-3">
             <label class="form-label">Consultation format:</label>
             <div class="form-check">
-                <input class="form-input" type="radio">
-                <label class="form-label">Remote</label>
+                <input class="form-check-" vertical-align="middle" type="radio" name="flexRadioDefault"
+                    id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">Remote</label>
             </div>
             <div class="form-check">
-                <input class="form-input" type="radio">
-                <label class="form-label">On site</label>
-                <div class="mb-3 mb-4">
-                    <label class="form-label">Address:</label>
-                    <input type="text" formControlName="address" class="form-control">
-                </div>
+                <input class="form-check-" vertical-align="middle" type="radio" name="flexRadioDefault"
+                    id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">On site</label>
             </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Address:</label>
+            <input type="text" formControlName="address" class="form-control">
         </div>
         <div class="mb-3">
             <label class="form-label">Active years:</label>
-            <input type="text" formControlName="ActiveYears" class="form-control">
+            <input type="text" formControlName="activeYears" class="form-control">
         </div>
         <div class="mb-3">
             <label class="form-label">Expertise 1:</label>
-            <input type="text" formControlName="Expertise1" class="form-control">
+            <select class="form-select" formControlName="expertise1">
+                <option value="1">Depresión</option>
+                <option value="2">Estrés</option>
+                <option value="3">Ansiedad</option>
+                <option value="4">Autoestima</option>
+                <option value="5">Enojo</option>
+                <option value="6">Relaciones</option>
+                <option value="7">Duelo</option>
+                <option value="8">Y más</option>
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Expertise 2:</label>
-            <input type="text" formControlName="Expertise2" class="form-control">
+            <select class="form-select" formControlName="expertise2">
+                <option value="1">Depresión</option>
+                <option value="2">Estrés</option>
+                <option value="3">Ansiedad</option>
+                <option value="4">Autoestima</option>
+                <option value="5">Enojo</option>
+                <option value="6">Relaciones</option>
+                <option value="7">Duelo</option>
+                <option value="8">Y más</option>
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Expertise 3:</label>
-            <input type="text" formControlName="Expertise3" class="form-control">
+            <select class="form-select" formControlName="expertise3">
+                <option value="1">Depresión</option>
+                <option value="2">Estrés</option>
+                <option value="3">Ansiedad</option>
+                <option value="4">Autoestima</option>
+                <option value="5">Enojo</option>
+                <option value="6">Relaciones</option>
+                <option value="7">Duelo</option>
+                <option value="8">Y más</option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary mb-3">Add psychologist</button>
     </form>
