@@ -76,9 +76,15 @@ namespace UnitTests.BusinessLogicTests
                 IsRemote = false
             };
 
-            mock.Setup(x => x.Add(businessLogic.ToEntity(psychologist)));
+            mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem { });
+
+            mockSchedule.Setup(x => x.GetAll()).Returns(new List<Schedule> { }.AsQueryable);
+            mockSchedule.Setup(x => x.Add(It.IsAny<Schedule>()));
+            mockSchedule.Setup(x => x.Get(0)).Returns(new Schedule());
+
+            mock.Setup(x => x.Add(It.IsAny<Psychologist>()));
             mock.Setup(x => x.Get(psychologist.Id)).Returns(businessLogic.ToEntity(psychologist));
-            
+
             businessLogic.AddPsychologist(psychologist);
 
             mock.VerifyAll();
