@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Domain;
+using Domain.DTOs;
 using IDataAccess;
 using BusinessLogic;
 using System;
@@ -67,25 +68,16 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void AddPsychologistTest()
         {
-            Psychologist psychologist = new Psychologist
+            PsychologistDTO psychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0
-                }
+                IsRemote = false
             };
 
-            mock.Setup(x => x.Add(psychologist));
-            mock.Setup(x => x.Get(psychologist.Id)).Returns(psychologist);
+            mock.Setup(x => x.Add(businessLogic.ToEntity(psychologist)));
+            mock.Setup(x => x.Get(psychologist.Id)).Returns(businessLogic.ToEntity(psychologist));
             
             businessLogic.AddPsychologist(psychologist);
 

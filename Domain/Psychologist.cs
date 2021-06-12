@@ -20,6 +20,8 @@ namespace Domain
 
         public int ActiveYears { get; set; }
 
+        public int ScheduleId { get; set; }
+
         public Schedule Schedule { get; set; }
 
         public ICollection<Problem> Expertise { get; set; }
