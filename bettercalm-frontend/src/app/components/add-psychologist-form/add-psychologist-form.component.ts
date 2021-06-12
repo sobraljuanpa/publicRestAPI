@@ -16,9 +16,9 @@ export class AddPsychologistFormComponent implements OnInit {
     isRemote: new FormControl(''),
     address: new FormControl(''),
     activeYears: new FormControl(''),
-    expertise1: new FormControl(''),
-    expertise2: new FormControl(''),
-    expertise3: new FormControl(''),
+    expertiseId1: new FormControl(''),
+    expertiseId2: new FormControl(''),
+    expertiseId3: new FormControl('')
   });
   constructor(private psychologistService: PsychologistService,
     private router: Router) { }
@@ -27,13 +27,13 @@ export class AddPsychologistFormComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger;
     this.psychologistService.addPsychologist(
-      this.contentForm.controls.name.value,
-      this.contentForm.controls.surname.value,
+      this.contentForm.controls.psychologistName.value,
+      this.contentForm.controls.psychologistSurname.value,
       this.contentForm.controls.isRemote.value,
       this.contentForm.controls.address.value,
       this.contentForm.controls.activeYears.value,
-      this.contentForm.controls.scheduleId.value,
       this.contentForm.controls.expertiseId1.value,
       this.contentForm.controls.expertiseId2.value,
       this.contentForm.controls.expertiseId3.value,
