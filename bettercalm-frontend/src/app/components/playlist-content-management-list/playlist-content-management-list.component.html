@@ -1,5 +1,5 @@
 <div class="card w-75 mx-auto mt-5">
-  <div class="card-header">{{playlist.name}}</div>
+  <div *ngIf="playlist" class="card-header">{{playlist.name}}</div>
   <ul *ngFor="let content of contents" class="list-group list-group-flush">
       <li class="list-group-item">
         {{ content.name }}
