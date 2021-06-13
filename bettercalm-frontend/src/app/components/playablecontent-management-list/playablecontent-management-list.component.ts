@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+
 import { PlayableContent } from 'src/app/models/playableContent';
 import { Playlist } from 'src/app/models/playlist';
 import { PlayablecontentService } from 'src/app/services/playablecontent.service';
@@ -14,7 +16,9 @@ export class PlayablecontentManagementListComponent implements OnInit {
   playlists!: Playlist[];
   selectedPlaylist!: Playlist;
 
-  constructor(private contentService: PlayablecontentService) { }
+  constructor(
+    private contentService: PlayablecontentService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getContents();
@@ -38,7 +42,9 @@ export class PlayablecontentManagementListComponent implements OnInit {
 
   AddToPlaylist(playlistId: number, contentId: number) {
     this.contentService.addContentToPlaylist(playlistId, contentId)
-    .subscribe(response => console.log(response));
+    .subscribe(
+        res => this.toastr.success("Added content to playlist succesfully")
+    );
   }
 
 }
