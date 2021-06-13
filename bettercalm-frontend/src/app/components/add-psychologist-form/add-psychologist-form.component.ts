@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { PsychologistService } from 'src/app/services/psychologist.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
+import { PsychologistService } from 'src/app/services/psychologist.service';
+
 
 @Component({
   selector: 'app-add-psychologist-form',
@@ -20,8 +23,10 @@ export class AddPsychologistFormComponent implements OnInit {
     expertiseId2: new FormControl(''),
     expertiseId3: new FormControl('')
   });
-  constructor(private psychologistService: PsychologistService,
-    private router: Router) { }
+  constructor(
+    private psychologistService: PsychologistService,
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -42,11 +47,10 @@ export class AddPsychologistFormComponent implements OnInit {
         this.router.navigateByUrl("/psychologists");
       },
       err => {
-        if (err.status == 401) {
-          console.log("Incorrect credentials");
-        }
-        else {
-          console.log(err);
+        if(err.message == undefined){
+          this.toastr.error("Please double check all parameters are properly set", "Error adding psychologist");
+        } else {
+          this.toastr.error(err.message, "Error adding psychologist");
         }
       }
     )

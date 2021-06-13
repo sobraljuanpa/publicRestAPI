@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr'
+
 import { PlayablecontentService } from 'src/app/services/playablecontent.service';
 
 @Component({
@@ -20,7 +22,8 @@ export class AddVideoFormComponent implements OnInit {
 
   constructor(
     private playablecontentService: PlayablecontentService,
-    private router: Router) { }
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -37,11 +40,10 @@ export class AddVideoFormComponent implements OnInit {
         this.router.navigateByUrl("/videos");
       },
       err => {
-        if(err.status == 401){
-          console.log("Incorrect credentials");
-        }
-        else{
-          console.log(err);
+        if(err.message == undefined){
+          this.toastr.error("Please double check all parameters are properly set", "Error adding video");
+        } else {
+          this.toastr.error(err.message, "Error adding video");
         }
       }
     )

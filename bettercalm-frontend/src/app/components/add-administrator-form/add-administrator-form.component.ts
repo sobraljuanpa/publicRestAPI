@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AdministratorService } from '../../services/administrator.service';
+import { ToastrService } from 'ngx-toastr'
+
+import { AdministratorService } from 'src/app/services/administrator.service';
 
 @Component({
   selector: 'app-add-administrator-form',
@@ -18,7 +20,8 @@ export class AddAdministratorFormComponent implements OnInit {
 
   constructor(
     private administratorService: AdministratorService,
-    private router: Router) { }
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -33,11 +36,10 @@ export class AddAdministratorFormComponent implements OnInit {
         this.router.navigateByUrl("/administrators");
       },
       err => {
-        if(err.status == 401){
-          console.log("Incorrect credentials");
-        }
-        else{
-          console.log(err);
+        if(err.message == undefined){
+          this.toastr.error("Please double check all parameters are properly set", "Error adding administrator");
+        } else {
+          this.toastr.error(err.message, "Error adding administrator");
         }
       }
     )
