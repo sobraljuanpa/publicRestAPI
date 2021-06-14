@@ -83,6 +83,18 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void SetAndGetScheduleIdTest()
+        {
+            int scheduleId = 1;
+
+            Psychologist psychologist = new Psychologist();
+
+            psychologist.ScheduleId = scheduleId;
+
+            Assert.AreEqual(scheduleId, psychologist.ScheduleId);
+        }
+
+        [TestMethod]
         public void SetAndGetScheduleTest()
         {
             Schedule schedule = new Schedule();
@@ -92,6 +104,19 @@ namespace UnitTests
 
             Assert.IsNotNull(psychologist.Schedule);
         }
+
+        [TestMethod]
+        public void SetAndGetFeeTest()
+        {
+            int fee = 1000;
+
+            Psychologist psychologist = new Psychologist();
+
+            psychologist.Fee = fee;
+
+            Assert.AreEqual(fee, psychologist.Fee);
+        }
+
 
         [TestMethod]
         public void SetExpertiseTest()

@@ -1,6 +1,7 @@
 ﻿using Domain;
 using IBusinessLogic;
 using IDataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -51,6 +52,8 @@ namespace BusinessLogic
 
         public Consultation CreateConsultation(Consultation consultation)
         {
+            consultationValidator.ValidBonus(consultation);
+            consultationValidator.ValidDuration(consultation);
             consultationValidator.AssignPsychologist(consultation);
             consultationValidator.IdValidRangePs(consultation.Psychologist.Id);
             consultationValidator.ValidSchedule(consultation.Psychologist);
