@@ -74,7 +74,9 @@ namespace UnitTests.BusinessLogicTests
                 Psychologist = psychologist,
                 Address = "",
                 IsRemote = false,
-                Date = 2
+                Date = 2,
+                Duration = 1,
+                Bonus = 50
 
             };
 
@@ -91,7 +93,9 @@ namespace UnitTests.BusinessLogicTests
                     Psychologist = psychologist , 
                     Address = "", 
                     IsRemote = true ,
-                    Date = 1
+                    Date = 1,
+                    Duration = 2,
+                    Bonus = 25
                 },
                 consultation
             }.AsQueryable();
@@ -183,7 +187,9 @@ namespace UnitTests.BusinessLogicTests
                 Psychologist = psychologist,
                 Address =  "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
-                Date = 3
+                Date = 3,
+                Duration = 1,
+                Bonus = 50
             };
 
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
@@ -215,7 +221,9 @@ namespace UnitTests.BusinessLogicTests
                 Psychologist = psychologist,
                 Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
-                Date = 0
+                Date = 0,
+                Duration = 1,
+                Bonus = 50
             };
 
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
@@ -247,7 +255,9 @@ namespace UnitTests.BusinessLogicTests
                 Psychologist = psychologist,
                 Address = "",
                 IsRemote = false,
-                Date = 2
+                Date = 2,
+                Duration = 1,
+                Bonus = 50
             };
 
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
@@ -277,7 +287,9 @@ namespace UnitTests.BusinessLogicTests
                 Psychologist = psychologist,
                 Address = "abc.de",
                 IsRemote = true,
-                Date = 2
+                Date = 2,
+                Duration = 1,
+                Bonus = 50
             };
 
             mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
@@ -307,7 +319,9 @@ namespace UnitTests.BusinessLogicTests
                 ProblemId = 1,
                 Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
-                Date = 1
+                Date = 1,
+                Duration = 1,
+                Bonus = 50
             };
 
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
@@ -343,11 +357,80 @@ namespace UnitTests.BusinessLogicTests
                 ProblemId = 2,
                 Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
                 IsRemote = true,
-                Date = 1
+                Date = 1,
+                Duration = 1,
+                Bonus = 50
             };
 
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
             mockProblem.Setup(x => x.Get(2)).Returns(problem);
+            mockPsychologist.Setup(x => x.Update(psychologist.Id, psychologist));
+            mockConsultation.Setup(x => x.Add(newConsultation));
+
+            businessLogic.CreateConsultation(newConsultation);
+
+            mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void CreateConsultationWithInvalidDurationTest()
+        {
+            var guid = Guid.NewGuid();
+            var newConsultation = new Consultation
+            {
+                Id = 3,
+                PatientName = "Nicolas",
+                PatientBirthDate = new DateTime(1992, 01, 01),
+                PatientEmail = "nico@hotmial.com",
+                PatientPhone = "098000000",
+                Problem = problem,
+                ProblemId = 1,
+                Psychologist = psychologist,
+                Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
+                IsRemote = true,
+                Date = 3,
+                Duration = 0,
+                Bonus = 50
+            };
+
+            mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
+            mockPsychologist.Setup(x => x.Update(psychologist.Id, psychologist));
+            mockConsultation.Setup(x => x.Add(newConsultation));
+
+            businessLogic.CreateConsultation(newConsultation);
+
+            mockConsultation.VerifyAll();
+            mockPsychologist.VerifyAll();
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void CreateConsultationWithInvalidBonusTest()
+        {
+            var guid = Guid.NewGuid();
+            var newConsultation = new Consultation
+            {
+                Id = 3,
+                PatientName = "Nicolas",
+                PatientBirthDate = new DateTime(1992, 01, 01),
+                PatientEmail = "nico@hotmial.com",
+                PatientPhone = "098000000",
+                Problem = problem,
+                ProblemId = 1,
+                Psychologist = psychologist,
+                Address = "https://betterCalm.com.uy/meeting_id/" + guid.ToString(),
+                IsRemote = true,
+                Date = 3,
+                Duration = 1,
+                Bonus = 10
+            };
+
+            mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
+            mockProblem.Setup(x => x.Get(1)).Returns(problem);
             mockPsychologist.Setup(x => x.Update(psychologist.Id, psychologist));
             mockConsultation.Setup(x => x.Add(newConsultation));
 
