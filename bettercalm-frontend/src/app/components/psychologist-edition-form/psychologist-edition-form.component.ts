@@ -43,6 +43,7 @@ export class PsychologistEditionFormComponent implements OnInit {
         this.psychologist = psychologist;
         this.psychologistForm.controls.psychologistName.setValue(psychologist.psychologistName);
         this.psychologistForm.controls.psychologistSurname.setValue(psychologist.psychologistSurname);
+        this.psychologistForm.controls.isRemote.setValue(psychologist.isRemote);
         this.psychologistForm.controls.address.setValue(psychologist.address);
         this.psychologistForm.controls.activeYears.setValue(psychologist.activeYears);
         this.psychologistForm.controls.fee.setValue(psychologist.fee);
@@ -64,10 +65,10 @@ export class PsychologistEditionFormComponent implements OnInit {
       this.psychologistForm.controls.address.value,
       this.psychologistForm.controls.activeYears.value,
       this.psychologistForm.controls.fee.value,
-      this.scheduleId!,
       this.psychologistForm.controls.expertiseId1.value,
       this.psychologistForm.controls.expertiseId2.value,
       this.psychologistForm.controls.expertiseId3.value,
+      this.scheduleId!
     ).subscribe(
       res => { this.location.back() }
     )

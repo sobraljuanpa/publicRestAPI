@@ -67,10 +67,10 @@ export class PsychologistService {
     address: string,
     activeYears: number,
     fee: number,
-    scheduleId: number,
     expertiseId1: number,
     expertiseId2: number,
-    expertiseId3: number) {
+    expertiseId3: number,
+    scheduleId: number) {
     return this.http.put(`${this.psychologistURL}/${id}`, {
       Id: id,
       PsychologistName: name,
@@ -79,10 +79,10 @@ export class PsychologistService {
       Address: address,
       ActiveYears: activeYears,
       Fee: fee,
-      ScheduleId: scheduleId,
       ExpertiseId1: expertiseId1,
       ExpertiseId2: expertiseId2,
-      ExpertiseId3: expertiseId3
+      ExpertiseId3: expertiseId3,
+      ScheduleId: scheduleId
     })
   }
 

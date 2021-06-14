@@ -57,6 +57,8 @@ namespace BusinessLogic
             
             Psychologist aux = new Psychologist
             {
+                Id = dto.Id,
+                ScheduleId = dto.ScheduleId,
                 PsychologistName = dto.PsychologistName,
                 PsychologistSurname = dto.PsychologistSurname,
                 IsRemote = dto.IsRemote,
@@ -170,6 +172,7 @@ namespace BusinessLogic
                 Address = psychologist.Address,
                 ActiveYears = psychologist.ActiveYears,
                 IsRemote = psychologist.IsRemote,
+                Fee = psychologist.Fee,
                 PsychologistName = psychologist.PsychologistName,
                 PsychologistSurname = psychologist.PsychologistSurname,
                 ScheduleId = psychologist.ScheduleId

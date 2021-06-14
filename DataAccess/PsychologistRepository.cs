@@ -40,12 +40,16 @@ namespace DataAccess
 
         public void Update(int id, Psychologist psychologist)
         {
-            Get(id).Expertise = psychologist.Expertise;
-            Get(id).Address = psychologist.Address;
-            Get(id).IsRemote = psychologist.IsRemote;
-            Get(id).PsychologistName = psychologist.PsychologistName;
-            Get(id).PsychologistSurname = psychologist.PsychologistSurname;
-            Get(id).Schedule = psychologist.Schedule;
+            var aux = _Context.Psychologists.FirstOrDefault(p => p.Id == id);
+
+            aux.ActiveYears = psychologist.ActiveYears;
+            aux.Address = psychologist.Address;
+            aux.Fee = psychologist.Fee;
+            aux.IsRemote = psychologist.IsRemote;
+            aux.PsychologistName = psychologist.PsychologistName;
+            aux.PsychologistSurname = psychologist.PsychologistSurname;
+            aux.ScheduleId = psychologist.ScheduleId;
+
             _Context.SaveChanges();
         }
 
