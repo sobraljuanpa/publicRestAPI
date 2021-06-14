@@ -48,6 +48,32 @@ export class PsychologistService {
   deletePsychologist(id: number) {
     return this.http.delete(`${this.psychologistURL}/${id}`)
   }
+
+  updatePsychologist(
+    id: number,
+    name: string,
+    surname: string,
+    isRemote: boolean,
+    address: string,
+    activeYears: number,
+    scheduleId: number,
+    expertiseId1: number,
+    expertiseId2: number,
+    expertiseId3: number) {
+    return this.http.put(`${this.psychologistURL}/${id}`, {
+      Id: id,
+      PsychologistName: name,
+      PsychologistSurname: surname,
+      IsRemote: false,
+      Address: address,
+      ActiveYears: activeYears,
+      ScheduleId: scheduleId,
+      ExpertiseId1: expertiseId1,
+      ExpertiseId2: expertiseId2,
+      ExpertiseId3: expertiseId3
+    })
+  }
+
 }
 
 
