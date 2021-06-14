@@ -24,6 +24,7 @@ export class PsychologistEditionFormComponent implements OnInit {
     isRemote: new FormControl(''),
     address: new FormControl(''),
     activeYears: new FormControl(''),
+    fee: new FormControl(''),
     expertiseId1: new FormControl(''),
     expertiseId2: new FormControl(''),
     expertiseId3: new FormControl('')
@@ -44,6 +45,7 @@ export class PsychologistEditionFormComponent implements OnInit {
         this.psychologistForm.controls.psychologistSurname.setValue(psychologist.psychologistSurname);
         this.psychologistForm.controls.address.setValue(psychologist.address);
         this.psychologistForm.controls.activeYears.setValue(psychologist.activeYears);
+        this.psychologistForm.controls.fee.setValue(psychologist.fee);
         this.psychologistForm.controls.expertiseId1.setValue(psychologist.expertiseId1);
         this.psychologistForm.controls.expertiseId2.setValue(psychologist.expertiseId2);
         this.psychologistForm.controls.expertiseId3.setValue(psychologist.expertiseId3);
@@ -61,6 +63,7 @@ export class PsychologistEditionFormComponent implements OnInit {
       this.psychologistForm.controls.isRemote.value,
       this.psychologistForm.controls.address.value,
       this.psychologistForm.controls.activeYears.value,
+      this.psychologistForm.controls.fee.value,
       this.scheduleId!,
       this.psychologistForm.controls.expertiseId1.value,
       this.psychologistForm.controls.expertiseId2.value,

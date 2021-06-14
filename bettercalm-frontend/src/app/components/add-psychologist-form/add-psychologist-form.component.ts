@@ -19,6 +19,7 @@ export class AddPsychologistFormComponent implements OnInit {
     isRemote: new FormControl(''),
     address: new FormControl(''),
     activeYears: new FormControl(''),
+    fee: new FormControl(''),
     expertiseId1: new FormControl(''),
     expertiseId2: new FormControl(''),
     expertiseId3: new FormControl('')
@@ -39,9 +40,10 @@ export class AddPsychologistFormComponent implements OnInit {
       this.psychologistForm.controls.isRemote.value,
       this.psychologistForm.controls.address.value,
       this.psychologistForm.controls.activeYears.value,
+      this.psychologistForm.controls.fee.value,
       this.psychologistForm.controls.expertiseId1.value,
       this.psychologistForm.controls.expertiseId2.value,
-      this.psychologistForm.controls.expertiseId3.value,
+      this.psychologistForm.controls.expertiseId3.value
     ).subscribe(
       res => {
         this.router.navigateByUrl("/psychologists");

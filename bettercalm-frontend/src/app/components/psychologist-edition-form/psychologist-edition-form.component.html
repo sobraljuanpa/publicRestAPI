@@ -48,6 +48,15 @@
                 <input type="text" formControlName="activeYears" class="form-control">
             </div>
             <div class="mb-3">
+                <label class="form-label">Fee:</label>
+                <select class="form-select" formControlName="fee" required>
+                    <option value="500">500 per hours</option>
+                    <option value="750">750 per hour</option>
+                    <option value="1000">1000 per hour</option>
+                    <option value="2000">2000 per hour</option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label class="form-label">Expertise 1:</label>
                 <select class="form-select" formControlName="expertiseId1">
                     <option value="1">Depresión</option>
