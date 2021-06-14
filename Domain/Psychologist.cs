@@ -22,6 +22,8 @@ namespace Domain
 
         public int ScheduleId { get; set; }
 
+        public int Fee { get; set; }
+
         public Schedule Schedule { get; set; }
 
         public ICollection<Problem> Expertise { get; set; }

@@ -14,6 +14,8 @@
 
         public int ActiveYears { get; set; }
 
+        public int Fee { get; set; }
+
         public int ScheduleId { get; set; }
 
         public int ExpertiseId1 { get; set; }
