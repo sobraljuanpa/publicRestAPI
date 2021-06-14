@@ -1,1 +1,68 @@
-<p>psychologist-edition-form works!</p>
+<div class="card w-75 mx-auto mt-5">
+    <div class="card-body">
+        <form [formGroup]="psychologistForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label class="form-label">Name:</label>
+                <input type="text" formControlName="name" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Surname:</label>
+                <input type="text" formControlName="surname" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address:</label>
+                <input type="text" formControlName="address" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Surname:</label>
+                <input type="text" formControlName="surname" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Active years:</label>
+                <input type="text" formControlName="activeYears" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Expertise 1:</label>
+                <select class="form-select" formControlName="expertiseId1">
+                    <option value="1">Depresión</option>
+                    <option value="2">Estrés</option>
+                    <option value="3">Ansiedad</option>
+                    <option value="4">Autoestima</option>
+                    <option value="5">Enojo</option>
+                    <option value="6">Relaciones</option>
+                    <option value="7">Duelo</option>
+                    <option value="8">Y más</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Expertise 2:</label>
+                <select class="form-select" formControlName="expertiseId2">
+                    <option value="1">Depresión</option>
+                    <option value="2">Estrés</option>
+                    <option value="3">Ansiedad</option>
+                    <option value="4">Autoestima</option>
+                    <option value="5">Enojo</option>
+                    <option value="6">Relaciones</option>
+                    <option value="7">Duelo</option>
+                    <option value="8">Y más</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Expertise 3:</label>
+                <select class="form-select" formControlName="expertiseId3">
+                    <option value="1">Depresión</option>
+                    <option value="2">Estrés</option>
+                    <option value="3">Ansiedad</option>
+                    <option value="4">Autoestima</option>
+                    <option value="5">Enojo</option>
+                    <option value="6">Relaciones</option>
+                    <option value="7">Duelo</option>
+                    <option value="8">Y más</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-danger" (click)="goBack()" style="float: right; margin-left: 10px;">Go
+                back</button>
+            <button type="submit" class="btn btn-primary" style="float: right">Save changes</button>
+        </form>
+    </div>
+</div>

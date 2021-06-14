@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import { Psychologist } from 'src/app/models/psychologist';
 import { PsychologistService } from 'src/app/services/psychologist.service';
@@ -42,6 +43,7 @@ export class PsychologistEditionFormComponent implements OnInit {
         this.psychologistForm.controls.surname.setValue(psychologist.surname);
         this.psychologistForm.controls.address.setValue(psychologist.address);
         this.psychologistForm.controls.schedule.setValue('Schedule');
+        this.psychologistForm.controls.activeYears.setValue(psychologist.activeYears);
         this.psychologistForm.controls.expertiseId1.setValue(psychologist.expertiseId1);
         this.psychologistForm.controls.expertiseId2.setValue(psychologist.expertiseId2);
         this.psychologistForm.controls.expertiseId3.setValue(psychologist.expertiseId3);
@@ -49,6 +51,25 @@ export class PsychologistEditionFormComponent implements OnInit {
     );
   }
 
+  onSubmit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.psychologistService.updatePsychologist(
+      id,
+      this.psychologistForm.controls.name.value,
+      this.psychologistForm.controls.surname.value,
+      this.psychologistForm.controls.isRemote.value,
+      this.psychologistForm.controls.address.value,
+      this.psychologistForm.controls.activeYears.value,
+      this.psychologistForm.controls.scheduleId.value,
+      this.psychologistForm.controls.expertiseId1.value,
+      this.psychologistForm.controls.expertiseId2.value,
+      this.psychologistForm.controls.expertiseId3.value,
+    ).subscribe(
+      res => { this.location.back() }
+    )
+  }
 
-
+  goBack() {
+    this.location.back();
+  }
 }
