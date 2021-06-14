@@ -45,6 +45,14 @@ export class PsychologistService {
       )
   }
 
+  getPsychologist(id: number): Observable<Psychologist> {
+    return this.http.get<Psychologist>(`${this.psychologistURL}/${id}`)
+      .pipe(
+        map((data: any) => data = this.psychologistAdapter.adapt(data))
+      );
+  }
+
+
   deletePsychologist(id: number) {
     return this.http.delete(`${this.psychologistURL}/${id}`)
   }
