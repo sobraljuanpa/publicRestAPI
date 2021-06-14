@@ -43,7 +43,15 @@
           <li><a class="dropdown-item" routerLink="/psychologists">Manage psychologists</a></li>
         </ul>
       </li>
-      <li class="nav-item"><a class="nav-link" href="#">Consultations</a></li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Consultations
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" routerLink="/Consultations">Add consultation</a></li>
+        </ul>
+      </li>
       <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
