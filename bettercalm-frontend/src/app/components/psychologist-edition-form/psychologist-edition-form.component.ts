@@ -61,7 +61,7 @@ export class PsychologistEditionFormComponent implements OnInit {
       this.psychologistForm.controls.isRemote.value,
       this.psychologistForm.controls.address.value,
       this.psychologistForm.controls.activeYears.value,
-      this.psychologistForm.controls.scheduleId.value,
+      this.scheduleId!,
       this.psychologistForm.controls.expertiseId1.value,
       this.psychologistForm.controls.expertiseId2.value,
       this.psychologistForm.controls.expertiseId3.value,
