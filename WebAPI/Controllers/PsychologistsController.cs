@@ -4,6 +4,7 @@ using System;
 using IBusinessLogic;
 using Domain;
 using Domain.DTOs;
+using System.Collections.Generic;
 
 namespace WebAPI.Controllers
 {
@@ -40,6 +41,20 @@ namespace WebAPI.Controllers
             {
                 psychologistBL.DeletePsychologist(id);
                 return NoContent();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetPsychologists()
+        {
+            try
+            {
+                List<PsychologistDTO> psychologists = psychologistBL.GetPsychologists();
+                return Ok(psychologists);
             }
             catch (Exception e)
             {
