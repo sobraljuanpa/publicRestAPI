@@ -160,7 +160,7 @@ namespace UnitTests.ControllersTests
         }
 
         [TestMethod]
-        public void GetAdministratorByIdTest()
+        public void GetPsychologistByIdTest()
         {
             mock.Setup(x => x.GetPsychologist(1))
                 .Returns(new PsychologistDTO
@@ -178,6 +178,39 @@ namespace UnitTests.ControllersTests
             Assert.AreEqual(200, statusCode);
             mock.VerifyAll();
         }
+
+        [TestMethod]
+        public void GetPsychologistsTest()
+        {
+            mock.Setup(x => x.GetPsychologists())
+                .Returns(new List<PsychologistDTO>
+            {
+                new PsychologistDTO
+                {
+                    Id = 1,
+                    PsychologistName = "Martin",
+                    PsychologistSurname = "Perez",
+                    IsRemote = false,
+                    Address = "1234567",
+                },
+                new PsychologistDTO
+                {
+                    Id = 2,
+                    PsychologistName = "María",
+                    PsychologistSurname = "Lopez",
+                    IsRemote = false,
+                    Address = "",
+                }
+            });
+
+            var result = controller.GetPsychologists();
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(200, statusCode);
+            mock.VerifyAll();
+        }
+
 
         [TestMethod]
         public void GetNonExistingAdministratorByIdTest()
@@ -254,7 +287,6 @@ namespace UnitTests.ControllersTests
                     ThursdayConsultations = 0,
                     FridayConsultations = 0
                 }
-
 
             };
 
