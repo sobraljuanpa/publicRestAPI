@@ -13,7 +13,7 @@ import { PsychologistService } from 'src/app/services/psychologist.service';
 })
 export class AddPsychologistFormComponent implements OnInit {
 
-  contentForm = new FormGroup({
+  psychologistForm = new FormGroup({
     psychologistName: new FormControl(''),
     psychologistSurname: new FormControl(''),
     isRemote: new FormControl(''),
@@ -34,14 +34,14 @@ export class AddPsychologistFormComponent implements OnInit {
   onSubmit() {
     debugger;
     this.psychologistService.addPsychologist(
-      this.contentForm.controls.psychologistName.value,
-      this.contentForm.controls.psychologistSurname.value,
-      this.contentForm.controls.isRemote.value,
-      this.contentForm.controls.address.value,
-      this.contentForm.controls.activeYears.value,
-      this.contentForm.controls.expertiseId1.value,
-      this.contentForm.controls.expertiseId2.value,
-      this.contentForm.controls.expertiseId3.value,
+      this.psychologistForm.controls.psychologistName.value,
+      this.psychologistForm.controls.psychologistSurname.value,
+      this.psychologistForm.controls.isRemote.value,
+      this.psychologistForm.controls.address.value,
+      this.psychologistForm.controls.activeYears.value,
+      this.psychologistForm.controls.expertiseId1.value,
+      this.psychologistForm.controls.expertiseId2.value,
+      this.psychologistForm.controls.expertiseId3.value,
     ).subscribe(
       res => {
         this.router.navigateByUrl("/psychologists");
