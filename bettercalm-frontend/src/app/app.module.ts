@@ -29,6 +29,7 @@ import { AddVideoFormComponent } from './components/add-video-form/add-video-for
 import { VideoManagementListComponent } from './components/video-management-list/video-management-list.component';
 import { VideoListElementComponent } from './components/video-list-element/video-list-element.component';
 import { PsychologistManagementListComponent } from './components/psychologist-management-list/psychologist-management-list.component';
+import { PsychologistEditionFormComponent } from './psychologist-edition-form/psychologist-edition-form.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { PsychologistManagementListComponent } from './components/psychologist-m
     AddVideoFormComponent,
     VideoManagementListComponent,
     VideoListElementComponent,
-    PsychologistManagementListComponent
+    PsychologistManagementListComponent,
+    PsychologistEditionFormComponent
   ],
   imports: [
     HttpClientModule,
