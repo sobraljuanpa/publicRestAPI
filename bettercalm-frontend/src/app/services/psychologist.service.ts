@@ -28,7 +28,7 @@ export class PsychologistService {
     return this.http.post(this.psychologistURL, {
       PsychologistName: name,
       PsychologistSurname: surname,
-      IsRemote: false,
+      IsRemote: isRemote,
       Address: address,
       ActiveYears: activeYears,
       ScheduleId: 0,
@@ -72,7 +72,7 @@ export class PsychologistService {
       Id: id,
       PsychologistName: name,
       PsychologistSurname: surname,
-      IsRemote: false,
+      IsRemote: isRemote,
       Address: address,
       ActiveYears: activeYears,
       ScheduleId: scheduleId,
