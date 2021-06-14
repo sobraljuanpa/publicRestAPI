@@ -4,14 +4,15 @@ import { Adapter } from './adapter';
 export class Psychologist {
     constructor(
         public id: number,
-        public name: string,
-        public surname: string,
+        public psychologistName: string,
+        public psychologistSurname: string,
         public isRemote: boolean,
         public address: string,
         public activeYears: number,
         public expertiseId1: number,
         public expertiseId2: number,
         public expertiseId3: number,
+        public scheduleId: number
     ) { }
 }
 
@@ -30,6 +31,7 @@ export class PsychologistAdapter implements Adapter<Psychologist> {
             item.expertiseId1,
             item.expertiseId2,
             item.expertiseId3,
+            item.scheduleId
         )
     }
 }

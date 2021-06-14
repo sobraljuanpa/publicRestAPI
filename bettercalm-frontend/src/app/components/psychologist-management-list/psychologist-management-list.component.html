@@ -1,7 +1,7 @@
 <div *ngFor="let psychologist of psychologists">
     <div class="card w-75 mx-auto mt-5">
         <div class="card-header">
-          {{psychologist.name}} {{psychologist.surname}}
+          {{psychologist.psychologistName}} {{psychologist.psychologistSurname}}
             <button type="button" class="btn btn-danger" style="float: right; margin-left: 10px;"
                 (click)="Delete(psychologist.id)">Delete</button>
             <button routerLink="/psychologists/edit/{{psychologist.id}}" type="button" class="btn btn-primary"

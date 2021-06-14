@@ -17,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PsychologistEditionFormComponent implements OnInit {
 
   psychologist?: Psychologist;
+  scheduleId?: number;
   psychologistForm = new FormGroup({
     psychologistName: new FormControl(''),
     psychologistSurname: new FormControl(''),
@@ -39,14 +40,14 @@ export class PsychologistEditionFormComponent implements OnInit {
     this.psychologistService.getPsychologist(id).subscribe(
       psychologist => {
         this.psychologist = psychologist;
-        this.psychologistForm.controls.name.setValue(psychologist.name);
-        this.psychologistForm.controls.surname.setValue(psychologist.surname);
+        this.psychologistForm.controls.psychologistName.setValue(psychologist.psychologistName);
+        this.psychologistForm.controls.psychologistSurname.setValue(psychologist.psychologistSurname);
         this.psychologistForm.controls.address.setValue(psychologist.address);
-        this.psychologistForm.controls.schedule.setValue('Schedule');
         this.psychologistForm.controls.activeYears.setValue(psychologist.activeYears);
         this.psychologistForm.controls.expertiseId1.setValue(psychologist.expertiseId1);
         this.psychologistForm.controls.expertiseId2.setValue(psychologist.expertiseId2);
         this.psychologistForm.controls.expertiseId3.setValue(psychologist.expertiseId3);
+        this.scheduleId = psychologist.scheduleId;
       }
     );
   }
@@ -55,8 +56,8 @@ export class PsychologistEditionFormComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.psychologistService.updatePsychologist(
       id,
-      this.psychologistForm.controls.name.value,
-      this.psychologistForm.controls.surname.value,
+      this.psychologistForm.controls.psychologistName.value,
+      this.psychologistForm.controls.psychologistSurname.value,
       this.psychologistForm.controls.isRemote.value,
       this.psychologistForm.controls.address.value,
       this.psychologistForm.controls.activeYears.value,
