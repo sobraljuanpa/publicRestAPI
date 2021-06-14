@@ -22,8 +22,8 @@ export class PsychologistAdapter implements Adapter<Psychologist> {
     adapt(item: any): Psychologist {
         return new Psychologist(
             item.id,
-            item.name,
-            item.surname,
+            item.psychologistName,
+            item.psychologistSurname,
             item.isRemote,
             item.address,
             item.activeYears,
