@@ -27,6 +27,21 @@ export class PsychologistManagementListComponent implements OnInit {
       .subscribe(response => window.location.reload())
   }
 
+  GetFees(id: number) {
+    switch (id) {
+      case 1:
+        return "500";
+      case 2:
+        return "750"
+      case 3:
+        return "1000";
+      case 4:
+        return "2000";
+      default:
+        return "";
+    }
+  }
+
   GetSpecialtyName(id: number) {
     switch (id) {
       case 1:
