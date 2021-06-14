@@ -1,6 +1,7 @@
 ﻿using Domain;
 using IBusinessLogic;
 using IDataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,8 +50,30 @@ namespace BusinessLogic
             return consultations;
         }
 
+        public void ValidDuration(Consultation consultation)
+        {
+            if (consultation.Duration != 1 &&
+                consultation.Duration != 1.5 &&
+                consultation.Duration != 2)
+            {
+                throw new Exception("Invalid duration");
+            }
+        }
+
+        public void ValidBonus(Consultation consultation)
+        {
+            if (consultation.Bonus != 15 &&
+                consultation.Bonus != 25 &&
+                consultation.Bonus != 50)
+            {
+                throw new Exception("Invalid bonus");
+            }
+        }
+
         public Consultation CreateConsultation(Consultation consultation)
         {
+            ValidBonus(consultation);
+            ValidDuration(consultation);
             consultationValidator.AssignPsychologist(consultation);
             consultationValidator.IdValidRangePs(consultation.Psychologist.Id);
             consultationValidator.ValidSchedule(consultation.Psychologist);

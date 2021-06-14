@@ -61,6 +61,7 @@ namespace BusinessLogic
                 PsychologistSurname = dto.PsychologistSurname,
                 IsRemote = dto.IsRemote,
                 Address = dto.Address,
+                Fee = dto.Fee,
                 ActiveYears = dto.ActiveYears,
                 Expertise = new List<Problem> { problem1, problem2, problem3 }
             };
@@ -68,13 +69,25 @@ namespace BusinessLogic
             return aux;
         }
 
+        public void ValidFee(Psychologist psychologist)
+        {
+            if (psychologist.Fee != 500 &&
+                psychologist.Fee != 750 &&
+                psychologist.Fee != 1000 &&
+                psychologist.Fee != 2000)
+            {
+                throw new Exception("Invalid Fee");
+            }
+        }
+
         public Psychologist AddPsychologist(PsychologistDTO psychologist)
         {
             Psychologist psy = ToEntity(psychologist);
-
+            ValidFee(psy);
             Schedule schedule = CreateEmptySchedule();
 
             psy.ScheduleId = schedule.Id;
+            
 
             repository.Add(psy);
 
@@ -232,6 +245,7 @@ namespace BusinessLogic
         {
             ValidateId(id);
             var auxPsy = ToEntity(psychologist);
+            ValidFee(auxPsy);
             repository.Update(id, auxPsy);
         }
 
