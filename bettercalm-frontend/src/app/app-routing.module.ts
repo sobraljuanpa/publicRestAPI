@@ -17,6 +17,7 @@ import { AddPsychologistFormComponent } from './components/add-psychologist-form
 import { PsychologistManagementListComponent } from './components/psychologist-management-list/psychologist-management-list.component';
 import { PsychologistEditionFormComponent } from './components/psychologist-edition-form/psychologist-edition-form.component';
 import { AddConsultationFormComponent } from './components/add-consultation-form/add-consultation-form.component';
+import { PsychologistScheduleEditionFormComponent } from './components/psychologist-schedule-edition-form/psychologist-schedule-edition-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/categories', pathMatch: 'full' },
@@ -36,7 +37,8 @@ const routes: Routes = [
   { path: 'psychologists', component: PsychologistManagementListComponent },
   { path: 'psychologists/add', component: AddPsychologistFormComponent },
   { path: 'psychologists/edit/:id', component: PsychologistEditionFormComponent },
-  { path: 'consultations/add', component: AddConsultationFormComponent }
+  { path: 'consultations/add', component: AddConsultationFormComponent },
+  { path: 'psychologists/edit/:id/schedule', component: PsychologistScheduleEditionFormComponent }
 ];
 
 @NgModule({
