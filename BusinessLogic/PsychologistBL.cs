@@ -78,7 +78,7 @@ namespace BusinessLogic
 
             repository.Add(psy);
 
-            return repository.Get(psychologist.Id);
+            return repository.Get(psy.Id);
         }
 
         public void AlreadyOnList(Psychologist psychologist, int problemId)

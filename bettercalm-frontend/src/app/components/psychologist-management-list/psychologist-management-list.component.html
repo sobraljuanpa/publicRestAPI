@@ -1,1 +1,22 @@
-<p>psychologist-management-list works!</p>
+<div *ngFor="let psychologist of psychologists">
+    <div class="card w-75 mx-auto mt-5">
+        <div class="card-header">
+            {{psychologist.name}}
+            <button type="button" class="btn btn-danger" style="float: right; margin-left: 10px;"
+                (click)="Delete(psychologist.id)">Delete</button>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>
+                    Expertise:
+                    <ul>
+                        <li> {{psychologist.expertiseId1}} </li>
+                        <li> {{psychologist.expertiseId2}} </li>
+                        <li> {{psychologist.expertiseId3}} </li>
+                    </ul>
+                </li>
+                <li>ActiveYears: {{psychologist.activeYears}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

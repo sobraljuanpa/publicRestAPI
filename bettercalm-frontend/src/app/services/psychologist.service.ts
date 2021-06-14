@@ -37,6 +37,17 @@ export class PsychologistService {
       ExpertiseId3: expertiseId3
     })
   }
+
+  getPsychologists(): Observable<Psychologist[]> {
+    return this.http.get<Psychologist[]>(this.psychologistURL)
+      .pipe(
+        map((data: any[]) => data.map(item => this.psychologistAdapter.adapt(item)))
+      )
+  }
+
+  deletePsychologist(id: number) {
+    return this.http.delete(`${this.psychologistURL}/${id}`)
+  }
 }
 
 

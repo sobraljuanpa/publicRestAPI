@@ -14,6 +14,7 @@ import { PlaylistContentManagementListComponent } from './components/playlist-co
 import { AddVideoFormComponent } from './components/add-video-form/add-video-form.component';
 import { VideoManagementListComponent } from './components/video-management-list/video-management-list.component';
 import { AddPsychologistFormComponent } from './components/add-psychologist-form/add-psychologist-form.component';
+import { PsychologistManagementListComponent } from './components/psychologist-management-list/psychologist-management-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/categories', pathMatch: 'full' },
@@ -30,7 +31,9 @@ const routes: Routes = [
   { path: 'playlists/add', component: AddPlaylistFormComponent },
   { path: 'playlists/contents/:id', component: PlaylistContentManagementListComponent },
   { path: 'login', component: LoginFormComponent },
+  { path: 'psychologists', component: PsychologistManagementListComponent },
   { path: 'psychologists/add', component: AddPsychologistFormComponent }
+
 ];
 
 @NgModule({

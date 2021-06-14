@@ -3,15 +3,15 @@ import { Adapter } from './adapter';
 
 export class Psychologist {
     constructor(
-        id: number,
-        name: string,
-        surname: string,
-        isRemote: boolean,
-        address: string,
-        activeYears: number,
-        expertiseId1: number,
-        expertiseId2: number,
-        expertiseId3: number,
+        public id: number,
+        public name: string,
+        public surname: string,
+        public isRemote: boolean,
+        public address: string,
+        public activeYears: number,
+        public expertiseId1: number,
+        public expertiseId2: number,
+        public expertiseId3: number,
     ) { }
 }
 

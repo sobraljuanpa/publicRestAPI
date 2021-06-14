@@ -47,8 +47,9 @@ export class AddPsychologistFormComponent implements OnInit {
         this.router.navigateByUrl("/psychologists");
       },
       err => {
-        if(err.message == undefined){
-          this.toastr.error("Please double check all parameters are properly set", "Error adding psychologist");
+        if (err.message == undefined) {
+          this.toastr.error("Please double check all parameters are properly set",
+            "Error adding psychologist");
         } else {
           this.toastr.error(err.message, "Error adding psychologist");
         }
