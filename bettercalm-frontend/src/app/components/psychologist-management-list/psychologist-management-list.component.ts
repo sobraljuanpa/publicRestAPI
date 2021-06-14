@@ -27,5 +27,28 @@ export class PsychologistManagementListComponent implements OnInit {
       .subscribe(response => window.location.reload())
   }
 
+  GetSpecialtyName(id: number) {
+    switch (id) {
+      case 1:
+        return "Depresión";
+      case 2:
+        return "Estrés"
+      case 3:
+        return "Ansiedad";
+      case 4:
+        return "Autoestima";
+      case 5:
+        return "Enojo";
+      case 6:
+        return "Relaciones";
+      case 7:
+        return "Duelo";
+      case 8:
+        return "Y más";
+      default:
+        return "";
+    }
+  }
+
 
 }
