@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using IBusinessLogic;
-using Domain;
+using Domain.DTOs;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
@@ -56,7 +56,7 @@ namespace WebAPI.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult CreateConsultation([FromBody] Consultation consultation)
+		public IActionResult CreateConsultation([FromBody] ConsultationDTO consultation)
 		{
 			try 
 			{ 

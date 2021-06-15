@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DTOs;
 using IBusinessLogic;
 using IDataAccess;
 using System;
@@ -29,17 +30,49 @@ namespace BusinessLogic
                                                                    this.problemRepository);
         }
 
-        public List<Consultation> GetConsultations()
+        public List<ConsultationDTO> GetConsultations()
         {
-            return consultationRepository.GetAll().ToList();
+            var consultations = consultationRepository.GetAll().ToList();
+            var auxConsultation = new List<ConsultationDTO>();
+
+            foreach (Consultation consultation in consultations)
+            {
+                auxConsultation.Add(ToDTO(consultation));
+            }
+
+            return auxConsultation;
+
+
         }
 
-        public Consultation Get(int id)
+        public ConsultationDTO ToDTO(Consultation consultation)
+        {
+            var auxConsultation = new ConsultationDTO
+            {
+                Id = consultation.Id,
+                PatientName = consultation.PatientName,
+                PatientBirthDate = consultation.PatientBirthDate,
+                PatientEmail = consultation.PatientEmail,
+                PatientPhone = consultation.PatientPhone,
+                IsRemote = consultation.IsRemote,
+                ProblemId = consultation.ProblemId,
+                PsychologistId = consultation.Psychologist.Id,
+                Address = consultation.Address,
+                Date = consultation.Date,
+                Duration = consultation.Duration,
+                Bonus = consultation.Bonus,
+                Cost = consultation.Cost
+            };
+
+            return auxConsultation;
+        }
+
+        public ConsultationDTO Get(int id)
         {
             consultationValidator.IdValidRange(id);
             Consultation consultation = consultationRepository.Get(id);
 
-            return consultation;
+            return ToDTO(consultation);
         }
 
         public List<Consultation> GetConsultationsByPsychologist(int id)
@@ -50,19 +83,46 @@ namespace BusinessLogic
             return consultations;
         }
 
-        public Consultation CreateConsultation(Consultation consultation)
+        public Consultation ToEntity(ConsultationDTO consultation)
         {
-            consultationValidator.ValidBonus(consultation);
-            consultationValidator.ValidDuration(consultation);
-            consultationValidator.AssignPsychologist(consultation);
-            consultationValidator.IdValidRangePs(consultation.Psychologist.Id);
-            consultationValidator.ValidSchedule(consultation.Psychologist);
-            consultationValidator.ValidAddress(consultation);
-            consultationValidator.FullSchedule(consultation);
-            consultationValidator.AddToSchedule(consultation.Date, consultation.Psychologist);
-            consultationRepository.Add(consultation);
+            var problem = problemRepository.Get(consultation.ProblemId);
+            var psychologist = psychologistRepository.Get(consultation.PsychologistId);
 
-            return consultation;
+            Consultation aux = new Consultation
+            {
+                PatientName = consultation.PatientName,
+                PatientBirthDate = consultation.PatientBirthDate,
+                PatientEmail = consultation.PatientEmail,
+                PatientPhone = consultation.PatientPhone,
+                IsRemote = consultation.IsRemote,
+                Problem = problem,
+                ProblemId = consultation.ProblemId,
+                Psychologist = psychologist,
+                Address = consultation.Address,
+                Date = consultation.Date,
+                Duration = consultation.Duration,
+                Bonus = consultation.Bonus,
+                Cost = consultation.Cost
+            };
+
+            return aux;
+        }
+
+        public Consultation CreateConsultation(ConsultationDTO consultation)
+        {
+            Consultation auxConsultation = ToEntity(consultation);
+
+            consultationValidator.ValidBonus(auxConsultation);
+            consultationValidator.ValidDuration(auxConsultation);
+            consultationValidator.AssignPsychologist(auxConsultation);
+            consultationValidator.IdValidRangePs(auxConsultation.Psychologist.Id);
+            consultationValidator.ValidSchedule(auxConsultation.Psychologist);
+            consultationValidator.ValidAddress(auxConsultation);
+            consultationValidator.FullSchedule(auxConsultation);
+            consultationValidator.AddToSchedule(consultation.Date, auxConsultation.Psychologist);
+            consultationRepository.Add(auxConsultation);
+
+            return consultationRepository.Get(auxConsultation.Id);
         }
     }
 }
