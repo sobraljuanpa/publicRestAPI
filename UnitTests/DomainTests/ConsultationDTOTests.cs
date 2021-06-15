@@ -86,18 +86,6 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void SetAndGetPsychologistIdTest()
-        {
-            int psychologistId = 1;
-
-            ConsultationDTO consultation = new ConsultationDTO();
-
-            consultation.PsychologistId = psychologistId;
-
-            Assert.AreEqual(psychologistId, consultation.PsychologistId);
-        }
-
-        [TestMethod]
         public void SetAndGetIsRemoteTest()
         {
             bool isRemote = false;

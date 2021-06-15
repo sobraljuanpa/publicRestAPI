@@ -65,7 +65,6 @@ namespace UnitTests.ControllersTest
                 PatientEmail = "matias@hotmial.com",
                 PatientPhone = "098000000",
                 ProblemId = problem.Id,
-                PsychologistId = psychologist.Id,
                 Address = "",
                 IsRemote = false,
                 Date = 2,
@@ -140,7 +139,7 @@ namespace UnitTests.ControllersTest
                 Bonus = 10
             };
 
-            var auxConsultations = new List<Consultation> 
+            var auxConsultations = new List<Consultation>
             {
                 auxConsultation
             };
@@ -199,7 +198,6 @@ namespace UnitTests.ControllersTest
                 PatientEmail = "nico@hotmial.com",
                 PatientPhone = "098000000",
                 ProblemId = problem.Id,
-                PsychologistId = psychologist.Id,
                 Address = "https://betterCalm.com.uy/meeting_id/codigo",
                 IsRemote = true,
                 Date = 3,
