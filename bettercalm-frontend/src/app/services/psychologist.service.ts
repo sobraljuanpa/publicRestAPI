@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Psychologist, PsychologistAdapter } from '../models/psychologist';
+import { Schedule, ScheduleAdapter } from '../models/schedule';
 
 
 @Injectable({
@@ -11,10 +12,12 @@ import { Psychologist, PsychologistAdapter } from '../models/psychologist';
 export class PsychologistService {
 
   private psychologistURL = "http://localhost:5000/api/psychologists";
+  private schedulesURL = "http://localhost:5000/api/psychologists/schedules";
 
   constructor(
     private http: HttpClient,
-    private psychologistAdapter: PsychologistAdapter) { }
+    private psychologistAdapter: PsychologistAdapter,
+    private scheduleAdapter: ScheduleAdapter) { }
 
   addPsychologist(
     name: string,
@@ -51,6 +54,15 @@ export class PsychologistService {
     return this.http.get<Psychologist>(`${this.psychologistURL}/${id}`)
       .pipe(
         map((data: any) => data = this.psychologistAdapter.adapt(data))
+      );
+  }
+
+
+
+  getSchedule(id: number): Observable<Schedule> {
+    return this.http.get<Schedule>(`${this.schedulesURL}/${id}`)
+      .pipe(
+        map((data: any) => data = this.scheduleAdapter.adapt(data))
       );
   }
 
