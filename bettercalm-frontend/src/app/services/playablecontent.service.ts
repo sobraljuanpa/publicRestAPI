@@ -5,14 +5,15 @@ import { Playlist, PlaylistAdapter } from '../models/playlist';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { VideoAdapter, VideoContent } from '../models/videoContent';
+import { GlobalVariables } from '../globals';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayablecontentService {
 
-  private playablecontentURL = "http://localhost:5000/api/playablecontents";
-  private playlistURL = "http://localhost:5000/api/playlists";
+  private playablecontentURL = `${GlobalVariables.BASE_API_URL}/playablecontents`;
+  private playlistURL = `${GlobalVariables.BASE_API_URL}/playlists`;
 
   constructor(
     private http: HttpClient,

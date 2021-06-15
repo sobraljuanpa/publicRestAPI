@@ -3,13 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Consultation, ConsultationAdapter } from '../models/consultation';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { GlobalVariables } from '../globals';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConsultationService {
 
-  private consultationURL = "http://localhost:5000/api/consultations";
+  private consultationURL = `${GlobalVariables.BASE_API_URL}/consultations`;
 
   constructor(
     private http: HttpClient,

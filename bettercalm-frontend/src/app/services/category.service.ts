@@ -5,13 +5,14 @@ import { Category, CategoryAdapter } from "../models/category";
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { CategoryElement, CategoryElementAdapter } from '../models/categoryElement';
+import { GlobalVariables } from '../globals';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private categoriesURL = 'http://localhost:5000/api/categories';
+  private categoriesURL = `${GlobalVariables.BASE_API_URL}/categories`;
 
   constructor(
     private http: HttpClient,

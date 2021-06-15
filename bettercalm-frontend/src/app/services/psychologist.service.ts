@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Psychologist, PsychologistAdapter } from '../models/psychologist';
 import { Schedule, ScheduleAdapter } from '../models/schedule';
+import { GlobalVariables } from '../globals';
 
 
 @Injectable({
@@ -11,8 +12,8 @@ import { Schedule, ScheduleAdapter } from '../models/schedule';
 })
 export class PsychologistService {
 
-  private psychologistURL = "http://localhost:5000/api/psychologists";
-  private schedulesURL = "http://localhost:5000/api/psychologists/schedules";
+  private psychologistURL = `${GlobalVariables.BASE_API_URL}/psychologists`;
+  private schedulesURL = `${GlobalVariables.BASE_API_URL}/psychologists/schedules`;
 
   constructor(
     private http: HttpClient,

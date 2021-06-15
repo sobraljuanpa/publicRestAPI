@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { GlobalVariables } from '../globals';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  private loginURL = 'http://localhost:5000/api/administrators/authenticate';
+  private loginURL = `${GlobalVariables.BASE_API_URL}/administrators/authenticate`;
 
   constructor(private http: HttpClient) { }
 

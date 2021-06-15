@@ -3,17 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Administrator, AdministratorAdapter } from '../models/administrator';
+import { GlobalVariables } from '../globals';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdministratorService {
 
-  private adminURL = 'http://localhost:5000/api/administrators';
+  private adminURL = `${GlobalVariables.BASE_API_URL}/administrators`;
 
   constructor(
     private http: HttpClient,
-    private adapter: AdministratorAdapter) { }
+    private adapter: AdministratorAdapter
+  ) { }
 
   addAdministrator(email: string, name: string, password: string) {
     return this.http.post(this.adminURL, {
