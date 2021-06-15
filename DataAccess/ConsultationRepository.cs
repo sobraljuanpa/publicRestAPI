@@ -17,12 +17,12 @@ namespace DataAccess
 
         public IQueryable<Consultation> GetAll()
         {
-            return _context.Consultations;
+            return _context.Consultations.Include(c => c.Psychologist);
         }
 
         public Consultation Get(int id)
         {
-            return _context.Consultations.Find(id);
+            return _context.Consultations.Include(c => c.Psychologist).FirstOrDefault(x => x.Id == id);
         }
 
         public void Add(Consultation consultation)

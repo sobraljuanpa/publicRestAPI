@@ -180,7 +180,6 @@ namespace UnitTests.BusinessLogicTests
             var guid = Guid.NewGuid();
             var newConsultation = new ConsultationDTO
             {
-                Id = 3,
                 PatientName = "Nicolas",
                 PatientBirthDate = new DateTime(1992, 01, 01),
                 PatientEmail = "nico@hotmial.com",
@@ -196,13 +195,11 @@ namespace UnitTests.BusinessLogicTests
 
             mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem { });
 
-            mockPsychologist.Setup(x => x.Get(1)).Returns(psychologist);
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
             mockPsychologist.Setup(x => x.Update(1, It.IsAny<Psychologist>()));
 
-            mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
-            mockConsultation.Setup(x => x.Add(businessLogic.ToEntity(newConsultation)));
-            mockConsultation.Setup(x => x.Get(newConsultation.Id)).Returns(businessLogic.ToEntity(newConsultation));
+            mockConsultation.Setup(x => x.Add(It.IsAny<Consultation>()));
+            mockConsultation.Setup(x => x.Get(It.IsAny<int>())).Returns(businessLogic.ToEntity(newConsultation));
 
             businessLogic.CreateConsultation(newConsultation);
 
@@ -338,16 +335,19 @@ namespace UnitTests.BusinessLogicTests
 
             mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem { });
 
-            mockPsychologist.Setup(x => x.Get(1)).Returns(psychologist);
+            var entityConsultation = businessLogic.ToEntity(newConsultation);
+            entityConsultation.Psychologist = new Psychologist { Id = 1 };
+
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
             mockPsychologist.Setup(x => x.Update(1, It.IsAny<Psychologist>()));
 
-            mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
-            mockConsultation.Setup(x => x.Add(businessLogic.ToEntity(newConsultation)));
-            mockConsultation.Setup(x => x.Get(newConsultation.Id)).Returns(businessLogic.ToEntity(newConsultation));
+            mockConsultation.Setup(x => x.Add(It.IsAny<Consultation>()));
+            mockConsultation.Setup(x => x.Get(It.IsAny<int>())).Returns(entityConsultation);
+
             Consultation auxConsultation = businessLogic.CreateConsultation(newConsultation);
 
             Assert.AreEqual(1, auxConsultation.Psychologist.Id);
+
             mockConsultation.VerifyAll();
             mockPsychologist.VerifyAll();
         }
@@ -379,13 +379,11 @@ namespace UnitTests.BusinessLogicTests
 
             mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem { });
 
-            mockPsychologist.Setup(x => x.Get(1)).Returns(psychologist);
             mockPsychologist.Setup(x => x.GetAll()).Returns(psychologists.AsQueryable());
             mockPsychologist.Setup(x => x.Update(1, It.IsAny<Psychologist>()));
 
-            mockConsultation.Setup(x => x.GetAll()).Returns(consultations.AsQueryable());
-            mockConsultation.Setup(x => x.Add(businessLogic.ToEntity(newConsultation)));
-            mockConsultation.Setup(x => x.Get(newConsultation.Id)).Returns(businessLogic.ToEntity(newConsultation));
+            mockConsultation.Setup(x => x.Add(It.IsAny<Consultation>()));
+            mockConsultation.Setup(x => x.Get(It.IsAny<int>())).Returns(businessLogic.ToEntity(newConsultation));
 
             businessLogic.CreateConsultation(newConsultation);
 
