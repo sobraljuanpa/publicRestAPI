@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Psychologist, PsychologistAdapter } from '../models/psychologist';
+import { Schedule, ScheduleAdapter } from '../models/schedule';
 
 
 @Injectable({
@@ -11,10 +12,12 @@ import { Psychologist, PsychologistAdapter } from '../models/psychologist';
 export class PsychologistService {
 
   private psychologistURL = "http://localhost:5000/api/psychologists";
+  private schedulesURL = "http://localhost:5000/api/psychologists/schedules";
 
   constructor(
     private http: HttpClient,
-    private psychologistAdapter: PsychologistAdapter) { }
+    private psychologistAdapter: PsychologistAdapter,
+    private scheduleAdapter: ScheduleAdapter) { }
 
   addPsychologist(
     name: string,
@@ -55,6 +58,15 @@ export class PsychologistService {
   }
 
 
+
+  getSchedule(id: number): Observable<Schedule> {
+    return this.http.get<Schedule>(`${this.schedulesURL}/${id}`)
+      .pipe(
+        map((data: any) => data = this.scheduleAdapter.adapt(data))
+      );
+  }
+
+
   deletePsychologist(id: number) {
     return this.http.delete(`${this.psychologistURL}/${id}`)
   }
@@ -67,10 +79,10 @@ export class PsychologistService {
     address: string,
     activeYears: number,
     fee: number,
-    scheduleId: number,
     expertiseId1: number,
     expertiseId2: number,
-    expertiseId3: number) {
+    expertiseId3: number,
+    scheduleId: number) {
     return this.http.put(`${this.psychologistURL}/${id}`, {
       Id: id,
       PsychologistName: name,
@@ -79,10 +91,10 @@ export class PsychologistService {
       Address: address,
       ActiveYears: activeYears,
       Fee: fee,
-      ScheduleId: scheduleId,
       ExpertiseId1: expertiseId1,
       ExpertiseId2: expertiseId2,
-      ExpertiseId3: expertiseId3
+      ExpertiseId3: expertiseId3,
+      ScheduleId: scheduleId
     })
   }
 
