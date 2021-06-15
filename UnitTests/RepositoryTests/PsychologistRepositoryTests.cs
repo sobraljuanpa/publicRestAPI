@@ -136,10 +136,13 @@ namespace UnitTests.RepositoryTests
                 IsRemote = false,
                 Address = "",
                 Expertise = new List<Problem> { expertiseStress, expertiseDespression },
-                Schedule = new Schedule()
+                ScheduleId = 2
             };
 
+            var originalPsychologist = repository.Get(2);
+
             repository.Update(2, psychologist);
+
             var modifiedPsychologist = repository.Get(2);
 
             int result = 2;

@@ -45,6 +45,7 @@ namespace DataAccess
             aux.ActiveYears = psychologist.ActiveYears;
             aux.Address = psychologist.Address;
             aux.Fee = psychologist.Fee;
+            aux.Expertise = psychologist.Expertise;
             aux.IsRemote = psychologist.IsRemote;
             aux.PsychologistName = psychologist.PsychologistName;
             aux.PsychologistSurname = psychologist.PsychologistSurname;
