@@ -1,1 +1,71 @@
-<p>add-consultation-form works!</p>
+<div class="card text-center w-75 mx-auto mt-3">
+    <form class="was-validated" [formGroup]="consultationForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label class="form-label">Patient name:</label>
+            <input type="text" formControlName="patientName" class="form-control" required>
+        </div>
+        <div class="form-group row">
+            <label class="form-label">Patient birth date:</label>
+            <div class="col">
+                <input class="form-control" type="date" id="example-date-input" formControlName="patientBirthDate"
+                    required>
+            </div>
+        </div>
+        <div>
+            <label class="form-label">Patient email:</label>
+            <input type="text" formControlName="patientEmail" class="form-control" required>
+        </div>
+        <div>
+            <label class="form-label">Patient phone:</label>
+            <input type="text" formControlName="patientPhone" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Problem:</label>
+            <select class="form-select" formControlName="problemId" required>
+                <option value="1">Depresión</option>
+                <option value="2">Estrés</option>
+                <option value="3">Ansiedad</option>
+                <option value="4">Autoestima</option>
+                <option value="5">Enojo</option>
+                <option value="6">Relaciones</option>
+                <option value="7">Duelo</option>
+                <option value="8">Y más</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Consultation format:</label>
+            <select class="form-select" formControlName="isRemote" required>
+                <option value="true">Remote</option>
+                <option value="false">On site</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date:</label>
+            <select class="form-select" formControlName="date" required>
+                <option value="0">Monday</option>
+                <option value="1">Tuesday</option>
+                <option value="2">Wednesday</option>
+                <option value="3">Thursday</option>
+                <option value="4">Friday</option>
+            </select>
+        </div>
+        <div>
+            <label class="form-label">Duration:</label>
+            <select class="form-select" formControlName="duration" required>
+                <option value="1">1 hour</option>
+                <option value="1.5">1.5 hours</option>
+                <option value="2">2 hours</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Bonus</label>
+            <select class="form-select" formControlName="bonus" required>
+                <option value="15">0%</option>
+                <option value="15">15%</option>
+                <option value="25">25%</option>
+                <option value="50">50%</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Register</button>
+    </form>
+</div>

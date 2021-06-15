@@ -52,13 +52,13 @@ namespace BusinessLogic
             return consultations;
         }
 
-        public bool IsOnList(Psychologist psychologist, Problem problem)
+        public bool IsOnList(Psychologist psychologist, int problemId)
         {
             bool ok = false;
 
             foreach (Problem auxProblem in psychologist.Expertise.ToList())
             {
-                if (auxProblem.Id == problem.Id)
+                if (auxProblem.Id == problemId)
                 {
                     ok = true;
                 }
@@ -74,7 +74,7 @@ namespace BusinessLogic
 
             foreach (Psychologist auxPsychologist in psychologistRepository.GetAll().ToList())
             {
-                if (IsOnList(auxPsychologist, problem))
+                if (IsOnList(auxPsychologist, problemId))
                 {
                     expertise.Add(auxPsychologist);
                 }
@@ -199,6 +199,15 @@ namespace BusinessLogic
             {
                 throw new Exception("Invalid bonus");
             }
+        }
+
+        public void CalculateConsultationCost(Consultation consultation)
+        {
+            int auxCost = (consultation.Psychologist.Fee) * (consultation.Duration);
+            int discount = (auxCost * consultation.Bonus) / 100;
+
+            consultation.Cost = auxCost - discount;
+
         }
     }
 }

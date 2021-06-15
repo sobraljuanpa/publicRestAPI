@@ -60,6 +60,7 @@ namespace UnitTests.BusinessLogicTests
                 PsychologistName = "",
                 PsychologistSurname = "",
                 ActiveYears = 4,
+                Fee = 1000,
                 Schedule = schedule,
                 Expertise = psychologistExperties
             };
@@ -359,6 +360,31 @@ namespace UnitTests.BusinessLogicTests
 
             validator.ValidBonus(newConsultation);
 
+            mockConsultation.VerifyAll();
+        }
+
+        [TestMethod]
+        public void CalculationOfFinalCostTest()
+        {
+            var newConsultation = new Consultation
+            {
+                Id = 1,
+                PatientName = "Sofia",
+                PatientBirthDate = new DateTime(1998, 01, 01),
+                PatientEmail = "sofia@hotmial.com",
+                PatientPhone = "098999999",
+                Problem = problem,
+                Psychologist = psychologist,
+                Address = "aaaa.aa",
+                IsRemote = true,
+                Date = 1,
+                Duration = 1,
+                Bonus = 50
+            };
+
+            validator.CalculateConsultationCost(newConsultation);
+
+            Assert.IsNotNull(500);
             mockConsultation.VerifyAll();
         }
 

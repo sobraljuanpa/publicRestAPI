@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Domain;
+using Domain.DTOs;
 using WebAPI.Controllers;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,10 @@ namespace UnitTests.ControllersTest
     {
 
         private Mock<IConsultationBL> mock;
-        private Consultation consultation;
+        private ConsultationDTO consultation;
         private Psychologist psychologist;
         private Problem problem;
-        private IEnumerable<Consultation> consultations;
+        private IEnumerable<ConsultationDTO> consultations;
         private ConsultationsController controller;
 
         [TestInitialize]
@@ -56,20 +57,21 @@ namespace UnitTests.ControllersTest
                 Schedule = schedule,
                 Expertise = psychologistExperties
             };
-            consultation = new Consultation
+            consultation = new ConsultationDTO
             {
                 Id = 1,
                 PatientName = "Matias",
                 PatientBirthDate = new DateTime(1990, 01, 01),
                 PatientEmail = "matias@hotmial.com",
                 PatientPhone = "098000000",
-                Problem = problem,
-                Psychologist = psychologist,
+                ProblemId = problem.Id,
                 Address = "",
                 IsRemote = false,
-                Date = 2
+                Date = 2,
+                Duration = 1,
+                Bonus = 10
             };
-            consultations = new List<Consultation>
+            consultations = new List<ConsultationDTO>
             {
                 consultation
 
@@ -121,8 +123,31 @@ namespace UnitTests.ControllersTest
         [TestMethod]
         public void GetConsultationsByPsychologistTest()
         {
+            var auxConsultation = new Consultation
+            {
+                Id = 1,
+                PatientName = "Matias",
+                PatientBirthDate = new DateTime(1990, 01, 01),
+                PatientEmail = "matias@hotmial.com",
+                PatientPhone = "098000000",
+                ProblemId = problem.Id,
+                Psychologist = psychologist,
+                Address = "",
+                IsRemote = false,
+                Date = 2,
+                Duration = 1,
+                Bonus = 10
+            };
+
+            var auxConsultations = new List<Consultation>
+            {
+                auxConsultation
+            };
+
+
+
             mock.Setup(x => x.GetConsultationsByPsychologist(1)).
-                Returns(consultations.ToList());
+                Returns(auxConsultations.ToList());
 
             var result = controller.GetConsultationsByPsychologist(1);
             var objectResult = result as ObjectResult;
@@ -160,13 +185,30 @@ namespace UnitTests.ControllersTest
                 Psychologist = psychologist,
                 Address = "https://betterCalm.com.uy/meeting_id/codigo",
                 IsRemote = true,
-                Date = 3
+                Date = 3,
+                Duration = 1,
+                Bonus = 10
             };
 
-            mock.Setup(x => x.CreateConsultation(newConsultation)).
+            var auxConsultation = new ConsultationDTO
+            {
+                Id = 2,
+                PatientName = "Nicolas",
+                PatientBirthDate = new DateTime(1992, 01, 01),
+                PatientEmail = "nico@hotmial.com",
+                PatientPhone = "098000000",
+                ProblemId = problem.Id,
+                Address = "https://betterCalm.com.uy/meeting_id/codigo",
+                IsRemote = true,
+                Date = 3,
+                Duration = 1,
+                Bonus = 10
+            };
+
+            mock.Setup(x => x.CreateConsultation(auxConsultation)).
                 Returns(newConsultation);
 
-            var result = controller.CreateConsultation(newConsultation);
+            var result = controller.CreateConsultation(auxConsultation);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
 
@@ -176,7 +218,7 @@ namespace UnitTests.ControllersTest
         [TestMethod]
         public void CreateInvalidConsultationTest()
         {
-            Consultation newConsultation = null;
+            ConsultationDTO newConsultation = null;
 
             mock.Setup(x => x.CreateConsultation(newConsultation)).
                 Throws(new Exception());

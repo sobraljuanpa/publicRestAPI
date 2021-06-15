@@ -1,0 +1,13 @@
+<div *ngFor="let consultation of consultations">
+    <div class="card w-75 mx-auto mt-5">
+        <div class="card-header">
+            {{consultation.patientEmail}}
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>Name: {{consultation.patientName}}</li>
+                <li>Phone: {{consultation.patientPhone}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
