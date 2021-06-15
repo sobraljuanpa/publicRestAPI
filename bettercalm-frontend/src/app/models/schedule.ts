@@ -19,11 +19,11 @@ export class ScheduleAdapter implements Adapter<Schedule> {
     adapt(item: any): Schedule {
         return new Schedule(
             item.id,
-            item.mon,
-            item.tue,
-            item.wed,
-            item.thu,
-            item.fri
+            item.mondayConsultations,
+            item.tuesdayConsultations,
+            item.wednesdayConsultations,
+            item.thursdayConsultations,
+            item.fridayConsultations
         )
     }
 }

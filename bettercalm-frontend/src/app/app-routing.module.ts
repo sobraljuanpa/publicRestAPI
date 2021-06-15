@@ -38,7 +38,7 @@ const routes: Routes = [
   { path: 'psychologists/add', component: AddPsychologistFormComponent },
   { path: 'psychologists/edit/:id', component: PsychologistEditionFormComponent },
   { path: 'consultations/add', component: AddConsultationFormComponent },
-  { path: 'psychologists/edit/:id/schedule', component: PsychologistScheduleEditionFormComponent }
+  { path: 'psychologists/editschedule/:id', component: PsychologistScheduleEditionFormComponent }
 ];
 
 @NgModule({

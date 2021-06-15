@@ -1,28 +1,32 @@
 <div class="card w-75 mx-auto mt-5">
   <div class="card-header"> Schedule </div>
   <div class="card-body">
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label col-form-label-sm">Monday</label>
-      <div class="col-sm-10 mt-2">
-          <input type="email" class="form-control form-control-sm" >
+    <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label col-form-label-sm">Monday</label>
+        <div class="col-sm-10 mt-2">
+            <input type="text" class="form-control form-control-sm" formControlName="mondaySchedule" >
+        </div>
+        <label class="col-sm-2 col-form-label col-form-label-sm">Tuesday</label>
+        <div class="col-sm-10 mt-2">
+            <input type="text" class="form-control form-control-sm" formControlName="tuesdaySchedule" >
+        </div>
+        <label class="col-sm-2 col-form-label col-form-label-sm">Wednesday</label>
+        <div class="col-sm-10 mt-2">
+            <input type="text" class="form-control form-control-sm" formControlName="wednesdaySchedule">
+        </div>
+        <label class="col-sm-2 col-form-label col-form-label-sm">Thursday</label>
+        <div class="col-sm-10 mt-2">
+            <input type="text" class="form-control form-control-sm" formControlName="thursdaySchedule">
+        </div>
+        <label class="col-sm-2 col-form-label col-form-label-sm">Friday</label>
+        <div class="col-sm-10 mt-2 mb-2">
+            <input type="text" class="form-control form-control-sm" formControlName="fridaySchedule">
+        </div>
       </div>
-      <label class="col-sm-2 col-form-label col-form-label-sm">Tuesday</label>
-      <div class="col-sm-10 mt-2">
-          <input type="email" class="form-control form-control-sm" >
-      </div>
-      <label class="col-sm-2 col-form-label col-form-label-sm">Wednesday</label>
-      <div class="col-sm-10 mt-2">
-          <input type="email" class="form-control form-control-sm" >
-      </div>
-      <label class="col-sm-2 col-form-label col-form-label-sm">Thursday</label>
-      <div class="col-sm-10 mt-2">
-          <input type="email" class="form-control form-control-sm">
-      </div>
-      <label class="col-sm-2 col-form-label col-form-label-sm">Friday</label>
-      <div class="col-sm-10 mt-2">
-          <input type="email" class="form-control form-control-sm" >
-      </div>
-    </div>
+      <button type="button" class="btn btn-danger" (click)="goBack()" style="float: right; margin-left: 10px;">Go
+        back</button>
+      <button type="submit" class="btn btn-primary" style="float: right">Save changes</button>
+    </form>
   </div>
-
 </div>
