@@ -57,13 +57,28 @@ export class PsychologistService {
       );
   }
 
-
-
   getSchedule(id: number): Observable<Schedule> {
     return this.http.get<Schedule>(`${this.schedulesURL}/${id}`)
       .pipe(
         map((data: any) => data = this.scheduleAdapter.adapt(data))
       );
+  }
+
+  updateSchedule(
+    id: number,
+    mon: number,
+    tue: number,
+    wed: number,
+    thu: number,
+    fri: number){
+    return this.http.put(`${this.schedulesURL}/${id}`, {
+      Id: id,
+      MondayConsultations: mon,
+      TuesdayConsultations: tue,
+      WednesdayConsultations: wed,
+      ThursdayConsultations: thu,
+      FridayConsultations: fri
+    })
   }
 
 

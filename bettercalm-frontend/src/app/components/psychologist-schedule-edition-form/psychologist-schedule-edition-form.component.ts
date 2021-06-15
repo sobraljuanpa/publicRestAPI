@@ -44,7 +44,19 @@ export class PsychologistScheduleEditionFormComponent implements OnInit {
   }
 
   onSubmit() {
-
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.psychologistService.updateSchedule(
+      id,
+      this.scheduleForm.controls.mondaySchedule.value,
+      this.scheduleForm.controls.tuesdaySchedule.value,
+      this.scheduleForm.controls.wednesdaySchedule.value,
+      this.scheduleForm.controls.thursdaySchedule.value,
+      this.scheduleForm.controls.fridaySchedule.value
+    ).subscribe(
+      res => {
+        console.log(res);
+        this.location.back();
+      }
+    )
   }
-
 }

@@ -91,6 +91,20 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPut("schedules/{id}")]
+        public IActionResult UpdateSchedule(int id, [FromBody] Schedule schedule)
+        {
+            try
+            {
+                psychologistBL.UpdateSchedule(id, schedule);
+                return Ok(schedule);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
         [HttpPost("{id}/problems")]
         public IActionResult AddProblemToPsychologist(int id, [FromBody] Psychologist psychologist)
         {

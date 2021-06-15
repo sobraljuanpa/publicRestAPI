@@ -256,11 +256,11 @@ namespace BusinessLogic
         {
             ValidateId(psychologistId);
 
-            var auxPsy = repository.Get(psychologistId);
+            var auxSchedule = scheduleRepository.Get(psychologistId);
 
-            auxPsy.Schedule = schedule;
+            auxSchedule = schedule;
 
-            repository.Update(psychologistId, auxPsy);
+            scheduleRepository.Update(psychologistId, auxSchedule);
         }
     }
 }
