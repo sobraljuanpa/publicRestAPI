@@ -200,5 +200,14 @@ namespace BusinessLogic
                 throw new Exception("Invalid bonus");
             }
         }
+
+        public void CalculateConsultationCost(Consultation consultation)
+        {
+            int auxCost = (consultation.Psychologist.Fee) * (consultation.Duration);
+            int discount = (auxCost * consultation.Bonus) / 100;
+
+            consultation.Cost = auxCost - discount;
+
+        }
     }
 }

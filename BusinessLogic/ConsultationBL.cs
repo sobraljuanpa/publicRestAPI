@@ -112,6 +112,7 @@ namespace BusinessLogic
             consultationValidator.ValidBonus(auxConsultation);
             consultationValidator.ValidDuration(auxConsultation);
             consultationValidator.AssignPsychologist(auxConsultation);
+            consultationValidator.CalculateConsultationCost(auxConsultation);
             consultationValidator.IdValidRangePs(auxConsultation.Psychologist.Id);
             consultationValidator.ValidSchedule(auxConsultation.Psychologist);
             consultationValidator.ValidAddress(auxConsultation);
