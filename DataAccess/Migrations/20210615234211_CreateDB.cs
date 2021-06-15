@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace IDataAccess.Migrations
+namespace DataAccess.Migrations
 {
-    public partial class newMigration : Migration
+    public partial class CreateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,11 +72,11 @@ namespace IDataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Duration = table.Column<double>(type: "float", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContentURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -97,9 +96,9 @@ namespace IDataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -107,6 +106,29 @@ namespace IDataAccess.Migrations
                     table.PrimaryKey("PK_Playlists", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Playlists_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VideoContents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Duration = table.Column<double>(type: "float", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VideoURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VideoContents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VideoContents_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
@@ -124,7 +146,8 @@ namespace IDataAccess.Migrations
                     IsRemote = table.Column<bool>(type: "bit", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ActiveYears = table.Column<int>(type: "int", nullable: false),
-                    ScheduleId = table.Column<int>(type: "int", nullable: true)
+                    ScheduleId = table.Column<int>(type: "int", nullable: false),
+                    Fee = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -134,7 +157,7 @@ namespace IDataAccess.Migrations
                         column: x => x.ScheduleId,
                         principalTable: "Schedules",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,13 +175,37 @@ namespace IDataAccess.Migrations
                         column: x => x.ContentsId,
                         principalTable: "PlayableContents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlayableContentPlaylist_Playlists_PlaylistsId",
                         column: x => x.PlaylistsId,
                         principalTable: "Playlists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlaylistVideoContent",
+                columns: table => new
+                {
+                    PlaylistsId = table.Column<int>(type: "int", nullable: false),
+                    VideosId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlaylistVideoContent", x => new { x.PlaylistsId, x.VideosId });
+                    table.ForeignKey(
+                        name: "FK_PlaylistVideoContent_Playlists_PlaylistsId",
+                        column: x => x.PlaylistsId,
+                        principalTable: "Playlists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlaylistVideoContent_VideoContents_VideosId",
+                        column: x => x.VideosId,
+                        principalTable: "VideoContents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,7 +222,10 @@ namespace IDataAccess.Migrations
                     PsychologistId = table.Column<int>(type: "int", nullable: true),
                     IsRemote = table.Column<bool>(type: "bit", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Date = table.Column<int>(type: "int", nullable: false)
+                    Date = table.Column<int>(type: "int", nullable: false),
+                    Duration = table.Column<int>(type: "int", nullable: false),
+                    Bonus = table.Column<int>(type: "int", nullable: false),
+                    Cost = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,6 +339,11 @@ namespace IDataAccess.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlaylistVideoContent_VideosId",
+                table: "PlaylistVideoContent",
+                column: "VideosId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProblemPsychologist_SpecialistsId",
                 table: "ProblemPsychologist",
                 column: "SpecialistsId");
@@ -304,6 +359,11 @@ namespace IDataAccess.Migrations
                 name: "IX_Psychologists_ScheduleId",
                 table: "Psychologists",
                 column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VideoContents_CategoryId",
+                table: "VideoContents",
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -318,6 +378,9 @@ namespace IDataAccess.Migrations
                 name: "PlayableContentPlaylist");
 
             migrationBuilder.DropTable(
+                name: "PlaylistVideoContent");
+
+            migrationBuilder.DropTable(
                 name: "ProblemPsychologist");
 
             migrationBuilder.DropTable(
@@ -325,6 +388,9 @@ namespace IDataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Playlists");
+
+            migrationBuilder.DropTable(
+                name: "VideoContents");
 
             migrationBuilder.DropTable(
                 name: "Problems");

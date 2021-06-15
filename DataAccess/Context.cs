@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Domain;
 
-namespace IDataAccess
+namespace DataAccess
 {
     public class Context : DbContext
     {
