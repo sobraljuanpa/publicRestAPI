@@ -56,7 +56,6 @@ namespace BusinessLogic
                 PatientPhone = consultation.PatientPhone,
                 IsRemote = consultation.IsRemote,
                 ProblemId = consultation.ProblemId,
-                PsychologistId = consultation.Psychologist.Id,
                 Address = consultation.Address,
                 Date = consultation.Date,
                 Duration = consultation.Duration,
@@ -86,7 +85,6 @@ namespace BusinessLogic
         public Consultation ToEntity(ConsultationDTO consultation)
         {
             var problem = problemRepository.Get(consultation.ProblemId);
-            var psychologist = psychologistRepository.Get(consultation.PsychologistId);
 
             Consultation aux = new Consultation
             {
@@ -97,7 +95,6 @@ namespace BusinessLogic
                 IsRemote = consultation.IsRemote,
                 Problem = problem,
                 ProblemId = consultation.ProblemId,
-                Psychologist = psychologist,
                 Address = consultation.Address,
                 Date = consultation.Date,
                 Duration = consultation.Duration,

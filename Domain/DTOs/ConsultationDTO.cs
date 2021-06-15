@@ -18,8 +18,6 @@ namespace Domain.DTOs
 
         public int ProblemId { get; set; }
 
-        public int PsychologistId { get; set; }
-
         public bool IsRemote { get; set; }
 
         public string Address { get; set; }
