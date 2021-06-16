@@ -18,4 +18,9 @@ export class ImportationService {
     debugger;
     return this.http.post(`${this.playablecontentURL}/${type}`, path)
   }
+
+  addPlaylistImportation(type: string, path: string[]) {
+    debugger;
+    return this.http.post(`${this.playlistURL}/${type}`, path)
+  }
 }
