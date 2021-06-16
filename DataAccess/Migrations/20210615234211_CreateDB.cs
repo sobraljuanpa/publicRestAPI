@@ -175,13 +175,13 @@ namespace DataAccess.Migrations
                         column: x => x.ContentsId,
                         principalTable: "PlayableContents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PlayableContentPlaylist_Playlists_PlaylistsId",
                         column: x => x.PlaylistsId,
                         principalTable: "Playlists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,13 +199,13 @@ namespace DataAccess.Migrations
                         column: x => x.PlaylistsId,
                         principalTable: "Playlists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PlaylistVideoContent_VideoContents_VideosId",
                         column: x => x.VideosId,
                         principalTable: "VideoContents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
