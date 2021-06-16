@@ -1,0 +1,15 @@
+<div class="card text-center w-75 mx-auto mt-3">
+    <form>
+        <div class="mb-3">
+            <select class="form-select" [(ngModel)]="selectedType">
+                <option *ngFor="let type of typeImport">{{type}}</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Playable content path</label>
+            <input type="text" [(ngModel)]="path" value="path" name="path" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary mb-3" (click)="importPlayableContent()"
+            style="float: right; margin-left: 10px;">Import</button>
+    </form>
+</div>

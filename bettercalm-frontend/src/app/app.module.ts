@@ -33,6 +33,7 @@ import { PsychologistEditionFormComponent } from './components/psychologist-edit
 import { AddConsultationFormComponent } from './components/add-consultation-form/add-consultation-form.component';
 import { PsychologistScheduleEditionFormComponent } from './components/psychologist-schedule-edition-form/psychologist-schedule-edition-form.component';
 import { ConsultationManagementListComponent } from './components/consultation-management-list/consultation-management-list.component';
+import { ImportPlayablecontentFormComponent } from './components/import-playablecontent-form/import-playablecontent-form.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,9 @@ import { ConsultationManagementListComponent } from './components/consultation-m
     PsychologistEditionFormComponent,
     AddConsultationFormComponent,
     PsychologistScheduleEditionFormComponent,
-    ConsultationManagementListComponent
+    ConsultationManagementListComponent,
+    ImportPlayablecontentFormComponent,
+
   ],
   imports: [
     HttpClientModule,
