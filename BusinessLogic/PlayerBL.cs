@@ -13,15 +13,9 @@ namespace BusinessLogic
 
         private readonly IRepository<Category> categoryRepository;
 
-        private readonly IRepository<PlayableContent> contentRepository;
+        private readonly IPlaylistBL PlaylistBL;
 
-        private readonly PlayableContentValidator contentValidator;
-
-        private readonly IRepository<Playlist> playlistRepository;
-
-        private readonly PlaylistValidator playlistValidator;
-
-        private readonly IRepository<VideoContent> videosRepository;
+        private readonly IContentBL ContentBL;
 
         public PlayerBL(IRepository<Category> categoryRepository,
                         IRepository<PlayableContent> contentRepository,
@@ -29,11 +23,9 @@ namespace BusinessLogic
                         IRepository<VideoContent> videosRepository)
         {
             this.categoryRepository = categoryRepository;
-            this.contentRepository = contentRepository;
-            this.contentValidator = new PlayableContentValidator(this.contentRepository);
-            this.playlistRepository = playlistRepository;
-            this.playlistValidator = new PlaylistValidator(this.playlistRepository);
-            this.videosRepository = videosRepository;
+
+            ContentBL = new ContentBL(contentRepository, videosRepository);
+            PlaylistBL = new PlaylistBL(contentRepository, videosRepository, playlistRepository);
         }
 
         public List<Category> GetCategories()
@@ -48,19 +40,19 @@ namespace BusinessLogic
 
                 List<object> auxReturn = new List<object>();
 
-                var playlists = playlistRepository.GetAll().ToList();
+                var playlists = PlaylistBL.GetPlaylists();
                 foreach (Playlist p in playlists)
                 {
                     if (p.Category.Id == categoryId) auxReturn.Add(p);
                 }
 
-                var contents = contentRepository.GetAll().ToList();
+                var contents = ContentBL.GetContents();
                 foreach (PlayableContent c in contents)
                 {
                     if (c.CategoryId == categoryId) auxReturn.Add(c);
                 }
 
-                var videos = videosRepository.GetAll().ToList();
+                var videos = ContentBL.GetVideos();
                 foreach (VideoContent v in videos)
                 {
                     if (v.CategoryId == categoryId) auxReturn.Add(v);
@@ -74,165 +66,92 @@ namespace BusinessLogic
 
         public Playlist GetPlaylist(int playlistId)
         {
-            playlistValidator.IdInValidRange(playlistId);
-
-            return playlistRepository.Get(playlistId);
+            return PlaylistBL.GetPlaylist(playlistId);
         }
 
         public List<PlayableContent> GetPlaylistContents(int playlistId)
         {
-            playlistValidator.IdInValidRange(playlistId);
-
-            return playlistRepository.Get(playlistId).Contents.ToList();
+            return PlaylistBL.GetPlaylistContents(playlistId);
         }
 
         public List<VideoContent> GetPlaylistVideos(int playlistId)
         {
-            playlistValidator.IdInValidRange(playlistId);
-
-            return playlistRepository.Get(playlistId).Videos.ToList();
+            return PlaylistBL.GetPlaylistVideos(playlistId);
         }
 
         public List<Playlist> GetPlaylists()
         {
-            var playlists = playlistRepository.GetAll();
-
-            foreach (Playlist p in playlists)
-            {
-                foreach (PlayableContent c in p.Contents)
-                {
-                    c.Playlists = null;
-                }
-            }
-
-            return playlists.ToList();
+            return PlaylistBL.GetPlaylists();
         }
 
         public PlayableContent GetPlayableContent(int contentId)
         {
-            contentValidator.IdInValidRange(contentId);
-
-            return contentRepository.Get(contentId);
+            return ContentBL.GetPlayableContent(contentId);
         }
 
         public List<PlayableContent> GetContents()
         {
-            var contents = contentRepository.GetAll();
-            
-            foreach(PlayableContent c in contents)
-            {
-                c.Playlists = null;
-            }
-
-            return contents.ToList();
+            return ContentBL.GetContents();
         }
 
         public VideoContent GetVideo(int videoId)
         {
-            return videosRepository.Get(videoId);
+            return ContentBL.GetVideo(videoId);
         }
 
         public List<VideoContent> GetVideos()
         {
-            var videos = videosRepository.GetAll();
-
-            foreach (VideoContent v in videos)
-            {
-                v.Playlists = null;
-            }
-
-            return videos.ToList();
+            return ContentBL.GetVideos();
         }
 
         public void DeleteVideo(int id)
         {
-            videosRepository.Delete(id);
+            ContentBL.DeleteVideo(id);
         }
 
         public PlayableContent AddIndependentContent (PlayableContent content)
         {
-            contentValidator.ValidateContent(content);
-            contentRepository.Add(content);
-
-            return contentRepository.GetAll().ToList().FindLast(x => x.Name != null);
+            return ContentBL.AddIndependentContent(content);
         }
 
         public VideoContent AddVideoContent (VideoContent video)
         {
-            videosRepository.Add(video);
-
-            return videosRepository.GetAll().ToList().FindLast(x => x.Name != null);
+            return ContentBL.AddVideoContent(video);
         }
 
         public void DeleteContent (int contentId)
         {
-            contentValidator.IdInValidRange(contentId);
-            contentRepository.Delete(contentId);
+            ContentBL.DeleteContent(contentId);
         }
 
         public void AddPlaylist (Playlist playlist)
         {
-            playlistValidator.ValidPlaylist(playlist);
-            playlistRepository.Add(playlist);
+            PlaylistBL.AddPlaylist(playlist);
         } 
 
         public Playlist AddContentToPlaylist(int playlistId, int contentId)
         {
-            Playlist playlist = playlistRepository.Get(playlistId);
-            PlayableContent content = contentRepository.Get(contentId);
-
-            contentValidator.Exists(content);
-            playlistValidator.Exists(playlist);
-            playlistValidator.AlreadyOnPlaylist(playlist, content);
-
-            playlist.Contents.Add(content);
-
-            playlistRepository.Update(playlistId, playlist);
-
-            return playlist;
+            return PlaylistBL.AddContentToPlaylist(playlistId, contentId);
         }
 
         public void DeleteContentFromPlaylist(int playlistId, int contentId)
         {
-            Playlist playlist = playlistRepository.Get(playlistId);
-            PlayableContent content = contentRepository.Get(contentId);
-
-            playlist.Contents.Remove(content);
-
-            playlistRepository.Update(playlistId, playlist);
+            PlaylistBL.DeleteContentFromPlaylist(playlistId, contentId);
         }
 
         public Playlist AddVideoToPlaylist(int playlistId, int videoId)
         {
-            Playlist playlist = playlistRepository.Get(playlistId);
-            VideoContent content = videosRepository.Get(videoId);
-
-            if (playlist.Videos == null) playlist.Videos = new List<VideoContent> { };
-
-            if(! playlist.Videos.Contains(content))
-            {
-                playlist.Videos.Add(content);
-
-                playlistRepository.Update(playlistId, playlist);
-            }
-            
-            return playlist;
+            return PlaylistBL.AddVideoToPlaylist(playlistId, videoId);
         }
 
         public void DeleteVideoFromPlaylist(int playlistId, int videoId)
         {
-            Playlist playlist = playlistRepository.Get(playlistId);
-            VideoContent video = videosRepository.Get(videoId);
-
-            playlist.Videos.Remove(video);
-
-            playlistRepository.Update(playlistId, playlist);
+            PlaylistBL.DeleteVideoFromPlaylist(playlistId, videoId);
         }
 
         public void DeletePlaylist(int playlistId)
         {
-            playlistValidator.IdInValidRange(playlistId);
-            playlistRepository.Delete(playlistId);
+            PlaylistBL.DeletePlaylist(playlistId);
         }
 
     }
