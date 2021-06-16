@@ -12,6 +12,7 @@ namespace BusinessLogic
     {
         public string _path;
         public PlayableContent _playableContent = null;
+        public VideoContent _videoContent = null;
         public Playlist _playlist = null;
 
         public ImporterXML(string path)
@@ -36,6 +37,31 @@ namespace BusinessLogic
                 else
                 {
                     return _playableContent;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Not possible to deserialize Xml file");
+            }
+        }
+
+        public VideoContent VideoContentRoot()
+        {
+            try
+            {
+                if (_videoContent == null)
+                {
+                    VideoContent videoRoot;
+                    XmlSerializer serializer = new XmlSerializer(typeof(VideoContent));
+                    System.IO.StreamReader reader = new System.IO.StreamReader(_path);
+                    videoRoot = (VideoContent)serializer.Deserialize(reader);
+                    _videoContent = videoRoot;
+
+                    return videoRoot;
+                }
+                else
+                {
+                    return _videoContent;
                 }
             }
             catch (Exception)
@@ -78,6 +104,15 @@ namespace BusinessLogic
             return root;
         }
 
+
+        public VideoContent GetVideoContent()
+        {
+            VideoContent root = VideoContentRoot();
+            _videoContent = root;
+
+            return root;
+        }
+
         public void GetContentsFromPlaylis(Playlist auxplaylist, List<PlayableContent> contents)
         {
             if (auxplaylist.Contents != null)
@@ -89,6 +124,17 @@ namespace BusinessLogic
             }
         }
 
+        public void GetVideosFromPlaylis(Playlist auxplaylist, List<VideoContent> contents)
+        {
+            if (auxplaylist.Videos != null)
+            {
+                foreach (var video in auxplaylist.Videos)
+                {
+                    contents.Add(video);
+                }
+            }
+        }
+
         public List<PlayableContent> GetPlayableContents()
         {
             List<PlayableContent> contentList = new List<PlayableContent>();
@@ -96,6 +142,15 @@ namespace BusinessLogic
             GetContentsFromPlaylis(root, contentList);
 
             return contentList;
+        }
+
+        public List<VideoContent> GetVideoContents()
+        {
+            List<VideoContent> videoList = new List<VideoContent>();
+            Playlist root = PlaylistRoot();
+            GetVideosFromPlaylis(root, videoList);
+
+            return videoList;
         }
 
         public Playlist GetPlaylist()

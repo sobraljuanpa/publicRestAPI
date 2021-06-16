@@ -13,6 +13,7 @@ namespace BusinessLogic
         public string _path;
         public PlayableContent playableContent = null;
         public Playlist playlist = null;
+        public VideoContent videoContent = null;
 
         public ImporterJSON (string path)
         {
@@ -38,6 +39,34 @@ namespace BusinessLogic
                 }else
                 {
                     return playableContent;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Not possible to deserialize JSON file");
+            }
+        }
+
+        public VideoContent VideoContentRoot()
+        {
+            try
+            {
+                if (videoContent == null)
+                {
+                    VideoContent contentRoot;
+                    using (System.IO.StreamReader jsonStream = System.IO.File.OpenText(_path))
+                    {
+                        var json = jsonStream.ReadToEnd();
+                        contentRoot = JsonConvert.DeserializeObject<VideoContent>(json);
+                    }
+
+                    videoContent = contentRoot;
+
+                    return contentRoot;
+                }
+                else
+                {
+                    return videoContent;
                 }
             }
             catch (Exception)
@@ -85,6 +114,26 @@ namespace BusinessLogic
             }
         }
 
+        public void GetVideoContentsFromPlaylist(Playlist auxplaylist, List<VideoContent> videos)
+        {
+            if (auxplaylist.Videos != null)
+            {
+                foreach (var video in auxplaylist.Videos)
+                {
+                    videos.Add(video);
+                }
+            }
+        }
+
+        public List<VideoContent> GetVideoContents()
+        {
+            List<VideoContent> videoList = new List<VideoContent>();
+            Playlist root = PlaylistRoot();
+            GetVideoContentsFromPlaylist(root, videoList);
+
+            return videoList;
+        }
+
         public List<PlayableContent> GetPlayableContents()
         {
             List<PlayableContent> contentList = new List<PlayableContent>();
@@ -97,6 +146,13 @@ namespace BusinessLogic
         public PlayableContent GetPlayableContent()
         {
             PlayableContent root = PlayableContentRoot();
+
+            return root;
+        }
+
+        public VideoContent GetVideoContent()
+        {
+            VideoContent root = VideoContentRoot();
 
             return root;
         }
@@ -119,7 +175,7 @@ namespace BusinessLogic
         public List<object> GetParameters()
         {
             List<object> parameters = new List<object>();
-            parameters.Add(Parameter.FILE);
+            parameters.Add(Parameter.STRING);
 
             return parameters;
         }

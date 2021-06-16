@@ -12,6 +12,7 @@ namespace BusinessLogic
         PlayerBL _playerBL;
         Playlist playlist = null;
         PlayableContent playableContent = null;
+        VideoContent videoContent = null;
 
         public Importation(IImportation importation, PlayerBL playerBL)
         {
@@ -27,6 +28,19 @@ namespace BusinessLogic
                 _playerBL.AddIndependentContent(playableContent);
             }
             catch(Exception)
+            {
+                throw new Exception("Incompatible format");
+            }
+        }
+
+        public void AddVideoContent()
+        {
+            try
+            {
+                videoContent = _importation.GetVideoContent();
+                _playerBL.AddVideoContent(videoContent);
+            }
+            catch (Exception)
             {
                 throw new Exception("Incompatible format");
             }

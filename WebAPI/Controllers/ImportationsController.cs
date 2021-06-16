@@ -36,6 +36,7 @@ namespace WebAPI.Controllers
                     IImportation importation = (IImportation)Activator.CreateInstance(type,param);
                     IImportationLogic logic = new BusinessLogic.Importation(importation,_playerBL);
                     logic.AddPlayableContent();
+                    logic.AddVideoContent();
                     logic.AddPlaylist();
                 }
                 return Ok();

@@ -13,7 +13,11 @@ namespace IBusinessLogic
 
         public PlayableContent GetPlayableContent();
 
+        public VideoContent GetVideoContent();
+
         public List<PlayableContent> GetPlayableContents();
+
+        public List<VideoContent> GetVideoContents();
 
         public Playlist GetPlaylist();
 

@@ -8,6 +8,8 @@ namespace IBusinessLogic
     {
         public void AddPlayableContent();
 
+        public void AddVideoContent();
+
         public void AddPlaylist();
     }
 }
