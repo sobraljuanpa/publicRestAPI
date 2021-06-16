@@ -240,6 +240,40 @@ paths:
           description: Deleted successfully
         '400':
           description: No content associated to given id
+  '/api/PlayableContents/videos/{id}':
+    get:
+      summary: Gets given video.
+      tags:
+        - PlayableContent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: No content associated to given id
+      security: []
+    delete:
+      summary: Deletes given video.
+      tags:
+        - PlayableContent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Deleted successfully
+        '400':
+          description: No content associated to given id
   /api/PlayableContents:
     post:
       summary: Creates new playablecontent.
@@ -257,6 +291,41 @@ paths:
           description: Unauthorized.
         '400':
           description: Error in request body.
+    get:
+      summary: Retrieves all playable contents.
+      tags:
+        - PlayableContent
+      responses:
+        '200':
+          description: Success, returns contents.
+        '403':
+          description: Unauthorized.
+  /api/PlayableContents/videos:
+    post:
+      summary: Creates new video.
+      tags:
+        - PlayableContent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoContent'
+      responses:
+        '201':
+          description: Success, returns created at url.
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in request body.
+    get:
+      summary: Retrieves all playable videos.
+      tags:
+        - PlayableContent
+      responses:
+        '200':
+          description: Success, returns videos.
+        '403':
+          description: Unauthorized.
   '/api/Playlists/{id}':
     get:
       summary: Gets given playlist.
@@ -310,6 +379,15 @@ paths:
           description: Unauthorized.
         '400':
           description: Error in request body.
+    get:
+      summary: Retrieves all playlists.
+      tags:
+        - Playlist
+      responses:
+        '200':
+          description: Success, returns all playlists.
+        '403':
+          description: Unauthorized.
   '/api/Playlist/{playlistId}/contents':
     post:
       summary: Adds given content to given playlist
@@ -329,6 +407,76 @@ paths:
             format: int32
       responses:
         '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in params.
+    delete:
+      summary: Removes given content from given playlist
+      tags:
+        - Playlist
+      parameters:
+        - name: playlistId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: contentId
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in params.
+  '/api/Playlist/{playlistId}/videos':
+    post:
+      summary: Adds given video to given playlist
+      tags:
+        - Playlist
+      parameters:
+        - name: playlistId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: videoId
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Error in params.
+    delete:
+      summary: Removes given video from given playlist
+      tags:
+        - Playlist
+      parameters:
+        - name: playlistId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: videoId
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
           description: Success
         '403':
           description: Unauthorized.
@@ -567,6 +715,34 @@ components:
         contentURL:
           type: string
           nullable: true
+        playlists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Playlist'
+          nullable: true
+      additionalProperties: false
+    VideoContent:
+      required:
+        - categoryId
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        videoURL:
+          type: string
+          nullable: true
+        category:
+          $ref: '#/components/schemas/Category'
+        categoryId:
+          type: integer
+          format: int32
+        duration:
+          type: number
+          format: double
         playlists:
           type: array
           items:
