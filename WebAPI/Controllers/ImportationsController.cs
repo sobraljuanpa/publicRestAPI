@@ -23,22 +23,12 @@ namespace WebAPI.Controllers
             _playerBL = playerBL;
         }
 
-        [HttpPost("{importerPath}")]
-        public IActionResult ImportContent(string importerPath, [FromBody] object[] param)
+        [HttpPost("{type}")]
+        public IActionResult ImportContent(string type, [FromBody] object[] parameters)
         {
             try
             {
-                var dllFile = new FileInfo(importerPath);
-                Assembly assembly = Assembly.LoadFile(dllFile.FullName);
-
-                foreach (Type type in assembly.GetTypes())
-                {
-                    IImportation importation = (IImportation)Activator.CreateInstance(type,param);
-                    IImportationLogic logic = new BusinessLogic.Importation(importation,_playerBL);
-                    logic.AddPlayableContent();
-                    logic.AddVideoContent();
-                    logic.AddPlaylist();
-                }
+                _importationLogic.LoadFile(type, parameters);
                 return Ok();
             }
             catch (Exception e)

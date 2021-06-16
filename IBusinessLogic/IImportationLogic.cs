@@ -6,6 +6,7 @@ namespace IBusinessLogic
 {
     public interface IImportationLogic
     {
+        public void LoadFile(string type, object[] parameters);
         public void AddPlayableContent();
 
         public void AddVideoContent();

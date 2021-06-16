@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using Domain;
 using IBusinessLogic;
@@ -18,6 +20,21 @@ namespace BusinessLogic
         {
             _importation = importation;
             _playerBL = playerBL;
+        }
+
+        public void LoadFile(string type, object[] parameters)
+        {
+            var dllFile = new FileInfo(@"..\BetterCalm.Importation.dll");
+            Assembly assembly = Assembly.LoadFile(dllFile.FullName);
+
+            Type importationType = assembly.GetType("BetterCalm.Importation" + "Importer" + type);
+            IImportation importation = (IImportation)Activator.CreateInstance(importationType, parameters);
+            IImportationLogic logic = new BusinessLogic.Importation(importation, _playerBL);
+
+            logic.AddPlayableContent();
+            logic.AddVideoContent();
+            logic.AddPlaylist();
+                  
         }
 
         public void AddPlayableContent()
