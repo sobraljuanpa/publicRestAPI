@@ -23,4 +23,9 @@ export class ImportationService {
     debugger;
     return this.http.post(`${this.playlistURL}/${type}`, path)
   }
+
+  addVideoImportation(type: string, path: string[]) {
+    debugger;
+    return this.http.post(`${this.videocontentURL}/${type}`, path)
+  }
 }

@@ -11,7 +11,7 @@
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><a class="dropdown-item" routerLink="/playlists/add">Add playlist</a></li>
           <li><a class="dropdown-item" routerLink="/playlists">Manage playlists</a></li>
-          <li><a class="dropdown-item" routerLink="/playlists">Import playlist</a></li>
+          <li><a class="dropdown-item" routerLink="/playlists/import">Import playlist</a></li>
         </ul>
       </li>
       <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
@@ -22,7 +22,7 @@
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><a class="dropdown-item" routerLink="/playablecontents/add">Add content</a></li>
           <li><a class="dropdown-item" routerLink="/playablecontents">Manage contents</a></li>
-          <li><a class="dropdown-item" routerLink="/playablecontents/importations">Import content</a></li>
+          <li><a class="dropdown-item" routerLink="/playablecontents/import">Import content</a></li>
         </ul>
       </li>
       <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
@@ -33,7 +33,7 @@
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><a class="dropdown-item" routerLink="/videos/add">Add video</a></li>
           <li><a class="dropdown-item" routerLink="/videos">Manage videos</a></li>
-          <li><a class="dropdown-item" routerLink="/videos">Import video</a></li>
+          <li><a class="dropdown-item" routerLink="/videos/import">Import video</a></li>
         </ul>
       </li>
       <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
