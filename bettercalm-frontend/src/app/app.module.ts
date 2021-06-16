@@ -35,6 +35,7 @@ import { PsychologistScheduleEditionFormComponent } from './components/psycholog
 import { ConsultationManagementListComponent } from './components/consultation-management-list/consultation-management-list.component';
 import { ImportPlayablecontentFormComponent } from './components/import-playablecontent-form/import-playablecontent-form.component';
 import { ImportPlaylistFormComponent } from './components/import-playlist-form/import-playlist-form.component';
+import { ImportVideoFormComponent } from './components/import-video-form/import-video-form.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ImportPlaylistFormComponent } from './components/import-playlist-form/i
     ConsultationManagementListComponent,
     ImportPlayablecontentFormComponent,
     ImportPlaylistFormComponent,
+    ImportVideoFormComponent,
 
   ],
   imports: [
