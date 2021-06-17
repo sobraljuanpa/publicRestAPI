@@ -8,12 +8,12 @@ using System.Xml.Serialization;
 
 namespace BusinessLogic
 {
-    public class ImporterXML : IImportation 
+    public class ImporterXML : IImportation
     {
         public string _path;
-        public PlayableContent _playableContent = null;
-        public VideoContent _videoContent = null;
-        public Playlist _playlist = null;
+        public PlayableContent playableContent = null;
+        public VideoContent videoContent = null;
+        public Playlist playlist = null;
 
         public ImporterXML(string path)
         {
@@ -24,19 +24,19 @@ namespace BusinessLogic
         {
             try
             {
-                if (_playableContent == null)
+                if (playableContent == null)
                 {
                     PlayableContent contentRoot;
                     XmlSerializer serializer = new XmlSerializer(typeof(PlayableContent));
                     System.IO.StreamReader reader = new System.IO.StreamReader(_path);
                     contentRoot = (PlayableContent)serializer.Deserialize(reader);
-                    _playableContent = contentRoot;
+                    playableContent = contentRoot;
 
                     return contentRoot;
                 }
                 else
                 {
-                    return _playableContent;
+                    return playableContent;
                 }
             }
             catch (Exception)
@@ -49,19 +49,19 @@ namespace BusinessLogic
         {
             try
             {
-                if (_videoContent == null)
+                if (videoContent == null)
                 {
                     VideoContent videoRoot;
                     XmlSerializer serializer = new XmlSerializer(typeof(VideoContent));
                     System.IO.StreamReader reader = new System.IO.StreamReader(_path);
                     videoRoot = (VideoContent)serializer.Deserialize(reader);
-                    _videoContent = videoRoot;
+                    videoContent = videoRoot;
 
                     return videoRoot;
                 }
                 else
                 {
-                    return _videoContent;
+                    return videoContent;
                 }
             }
             catch (Exception)
@@ -74,19 +74,19 @@ namespace BusinessLogic
         {
             try
             {
-                if (_playlist == null)
+                if (playlist == null)
                 {
                     Playlist playlistRoot;
                     XmlSerializer serializer = new XmlSerializer(typeof(Playlist));
                     System.IO.StreamReader reader = new System.IO.StreamReader(_path);
                     playlistRoot = (Playlist)serializer.Deserialize(reader);
-                    _playlist = playlistRoot;
+                    playlist = playlistRoot;
 
                     return playlistRoot;
                 }
                 else
                 {
-                    return _playlist;
+                    return playlist;
                 }
             }
             catch (Exception)
@@ -94,12 +94,12 @@ namespace BusinessLogic
                 throw new Exception("Not possible to deserialize Xml file");
             }
 
-         }
+        }
 
         public PlayableContent GetPlayableContent()
         {
             PlayableContent root = PlayableContentRoot();
-            _playableContent = root;
+            playableContent = root;
 
             return root;
         }
@@ -108,7 +108,7 @@ namespace BusinessLogic
         public VideoContent GetVideoContent()
         {
             VideoContent root = VideoContentRoot();
-            _videoContent = root;
+            videoContent = root;
 
             return root;
         }
@@ -156,7 +156,7 @@ namespace BusinessLogic
         public Playlist GetPlaylist()
         {
             Playlist root = PlaylistRoot();
-            _playlist = root;
+            playlist = root;
 
             return root;
         }
@@ -172,7 +172,7 @@ namespace BusinessLogic
         public List<object> GetParameters()
         {
             List<object> parameters = new List<object>();
-            parameters.Add(Parameter.FILE);
+            parameters.Add(Parameter.STRING);
 
             return parameters;
         }
