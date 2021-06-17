@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Domain;
+using Domain.DTOs;
 using IDataAccess;
 using BusinessLogic;
 using System;
@@ -50,6 +51,7 @@ namespace UnitTests.BusinessLogicTests
                     PsychologistSurname = "Perez", 
                     IsRemote = true, 
                     Address = "1234567", 
+                    Fee= 1000,
                     Expertise = new List<Problem> { expertiseDepression } 
                 },
                 new Psychologist 
@@ -57,7 +59,9 @@ namespace UnitTests.BusinessLogicTests
                     Id = 2, 
                     PsychologistName = "María", 
                     PsychologistSurname = "Lopez", 
-                    IsRemote = false, Address = "", 
+                    IsRemote = false, 
+                    Address = "", 
+                    Fee = 2000,
                     Expertise = new List<Problem> { expertiseStress } 
                 }
             }.AsQueryable();
@@ -67,29 +71,55 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void AddPsychologistTest()
         {
-            Psychologist psychologist = new Psychologist
+            PsychologistDTO psychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
                 IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0
-                }
+                Fee = 500
             };
 
-            mock.Setup(x => x.Add(psychologist));
-            mock.Setup(x => x.Get(psychologist.Id)).Returns(psychologist);
-            
+            mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem { });
+
+            mockSchedule.Setup(x => x.GetAll()).Returns(new List<Schedule> { }.AsQueryable);
+            mockSchedule.Setup(x => x.Add(It.IsAny<Schedule>()));
+            mockSchedule.Setup(x => x.Get(0)).Returns(new Schedule());
+
+            mock.Setup(x => x.Add(It.IsAny<Psychologist>()));
+            mock.Setup(x => x.Get(psychologist.Id)).Returns(businessLogic.ToEntity(psychologist));
+
             businessLogic.AddPsychologist(psychologist);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddPsychologistWithInvalidFeeTest()
+        {
+            PsychologistDTO psychologist = new PsychologistDTO
+            {
+                PsychologistName = "juan",
+                Address = "juan 1234",
+                PsychologistSurname = "perez",
+                IsRemote = false,
+                Fee = 100
+            };
+
+            mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem { });
+
+            mockSchedule.Setup(x => x.GetAll()).Returns(new List<Schedule> { }.AsQueryable);
+            mockSchedule.Setup(x => x.Add(It.IsAny<Schedule>()));
+            mockSchedule.Setup(x => x.Get(0)).Returns(new Schedule());
+
+            mock.Setup(x => x.Add(It.IsAny<Psychologist>()));
+            mock.Setup(x => x.Get(psychologist.Id)).Returns(businessLogic.ToEntity(psychologist));
+
+            businessLogic.AddPsychologist(psychologist);
+
+            mock.VerifyAll();
+
         }
 
         [TestMethod]
@@ -174,27 +204,21 @@ namespace UnitTests.BusinessLogicTests
         [TestMethod]
         public void UpdatePsychologistTest()
         {
-            Psychologist psychologist = new Psychologist
+            PsychologistDTO psychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
                 IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0 
-                }
+                Fee= 1000
             };
 
             mock.Setup(x => x.GetAll()).Returns(data.AsQueryable());
-            mock.Setup(x => x.Update(1, psychologist));
+            mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem());
+            mock.Setup(x => x.Update(1, It.IsAny<Psychologist>()));
 
             businessLogic.UpdatePsychologist(1, psychologist);
+
             mock.VerifyAll();
         }
 
@@ -202,18 +226,42 @@ namespace UnitTests.BusinessLogicTests
         [ExpectedException(typeof(Exception))]
         public void UpdatePsychologistInvalidIdTest()
         {
-            Psychologist p = new Psychologist
+            PsychologistDTO p = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule { MondayConsultations = 0, TuesdayConsultations = 0, WednesdayConsultations = 0, ThursdayConsultations = 0, FridayConsultations = 0 }
+                IsRemote = false
             };
+
             mock.Setup(x => x.GetAll()).Returns(data.AsQueryable);
-            mock.Setup(x => x.Update(10, p));
+            mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem());
+            mock.Setup(x => x.Update(10, businessLogic.ToEntity(p)));
+            
             businessLogic.UpdatePsychologist(10, p);
+            
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void UpdatePsychologistInvalidFeeTest()
+        {
+            PsychologistDTO psychologist = new PsychologistDTO
+            {
+                PsychologistName = "juan",
+                Address = "juan 1234",
+                PsychologistSurname = "perez",
+                IsRemote = false,
+                Fee= 11
+            };
+
+            mock.Setup(x => x.GetAll()).Returns(data.AsQueryable);
+            mockProblem.Setup(x => x.Get(It.IsAny<int>())).Returns(new Problem());
+            mock.Setup(x => x.Update(10, businessLogic.ToEntity(psychologist)));
+
+            businessLogic.UpdatePsychologist(10, psychologist);
+
             mock.VerifyAll();
         }
 
@@ -239,9 +287,9 @@ namespace UnitTests.BusinessLogicTests
             };
 
             mock.Setup(x => x.GetAll()).Returns(data.AsQueryable());
-            mock.Setup(x => x.Get(1)).Returns(psychologist);
             psychologist.Schedule = schedule;
-            mock.Setup(x => x.Update(1, psychologist));
+            mockSchedule.Setup(x => x.Get(1)).Returns(new Schedule());
+            mockSchedule.Setup(x => x.Update(1, schedule));
             businessLogic.UpdateSchedule(1, schedule);
 
             mock.VerifyAll();
@@ -267,6 +315,8 @@ namespace UnitTests.BusinessLogicTests
 
             mock.VerifyAll();
         }
+
+
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]

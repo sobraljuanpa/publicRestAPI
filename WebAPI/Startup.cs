@@ -45,6 +45,7 @@ namespace WebAPI
             services.AddScoped<IRepository<Category>, CategoryRepository>();
             services.AddScoped<IRepository<Problem>, ProblemRepository>();
             services.AddScoped<IRepository<PlayableContent>, PlayableContentRepository>();
+            services.AddScoped<IRepository<VideoContent>, VideoContentRepository>();
             services.AddScoped<IPlayerBL, PlayerBL>();
             services.AddScoped<IRepository<Psychologist>, PsychologistRepository>();
             services.AddScoped<IRepository<Schedule>, ScheduleRepository>();

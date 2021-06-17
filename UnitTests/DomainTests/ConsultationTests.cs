@@ -73,6 +73,42 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void SetAndGetDurationTest()
+        {
+            int duration = 1;
+
+            Consultation consultation = new Consultation();
+
+            consultation.Duration = duration;
+
+            Assert.AreEqual(duration, consultation.Duration);
+        }
+
+        [TestMethod]
+        public void SetAndGetBonusTest()
+        {
+            int bonus = 25;
+
+            Consultation consultation = new Consultation();
+
+            consultation.Bonus = bonus;
+
+            Assert.AreEqual(bonus, consultation.Bonus);
+        }
+
+        [TestMethod]
+        public void SetAndGetCostTest()
+        {
+            int cost = 200;
+
+            Consultation consultation = new Consultation();
+
+            consultation.Cost = cost;
+
+            Assert.AreEqual(cost, consultation.Cost);
+        }
+
+        [TestMethod]
         public void SetAndGetProblemIdTest()
         {
             int problemId = 1;

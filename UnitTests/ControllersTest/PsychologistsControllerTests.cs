@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Domain;
+using Domain.DTOs;
 using WebAPI.Controllers;
 using IBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
@@ -90,25 +91,16 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void AddPsychologistTest()
         {
-            Psychologist newPsychologist = new Psychologist
+            PsychologistDTO newPsychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule
-                {
-                    MondayConsultations = 0,
-                    TuesdayConsultations = 0,
-                    WednesdayConsultations = 0,
-                    ThursdayConsultations = 0,
-                    FridayConsultations = 0
-                }
+                IsRemote = false
             };
 
             mock.Setup(x => x.AddPsychologist(newPsychologist)).
-                Returns(newPsychologist);
+                Returns(new Psychologist());
 
             var result = controller.AddPsychologist(newPsychologist);
             var objectResult = result as ObjectResult;
@@ -121,21 +113,12 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void AddPsychologistFailTest()
         {
-            Psychologist newPsychologist = new Psychologist
+            PsychologistDTO newPsychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule
-                {
-                    MondayConsultations = 0,
-                    TuesdayConsultations = 0,
-                    WednesdayConsultations = 0,
-                    ThursdayConsultations = 0,
-                    FridayConsultations = 0
-                }
+                IsRemote = false
             };
 
             mock.Setup(x => x.AddPsychologist(newPsychologist)).
@@ -177,24 +160,15 @@ namespace UnitTests.ControllersTests
         }
 
         [TestMethod]
-        public void GetAdministratorByIdTest()
+        public void GetPsychologistByIdTest()
         {
             mock.Setup(x => x.GetPsychologist(1))
-                .Returns(new Psychologist
+                .Returns(new PsychologistDTO
                 {
                     PsychologistName = "juan",
                     Address = "juan 1234",
                     PsychologistSurname = "perez",
-                    Expertise = new List<Problem> { expertiseStress },
-                    IsRemote = false,
-                    Schedule = new Schedule
-                    {
-                        MondayConsultations = 0,
-                        TuesdayConsultations = 0,
-                        WednesdayConsultations = 0,
-                        ThursdayConsultations = 0,
-                        FridayConsultations = 0
-                    }
+                    IsRemote = false
                 });
 
             var result = controller.GetPsychologistById(1);
@@ -204,6 +178,39 @@ namespace UnitTests.ControllersTests
             Assert.AreEqual(200, statusCode);
             mock.VerifyAll();
         }
+
+        [TestMethod]
+        public void GetPsychologistsTest()
+        {
+            mock.Setup(x => x.GetPsychologists())
+                .Returns(new List<PsychologistDTO>
+            {
+                new PsychologistDTO
+                {
+                    Id = 1,
+                    PsychologistName = "Martin",
+                    PsychologistSurname = "Perez",
+                    IsRemote = false,
+                    Address = "1234567",
+                },
+                new PsychologistDTO
+                {
+                    Id = 2,
+                    PsychologistName = "María",
+                    PsychologistSurname = "Lopez",
+                    IsRemote = false,
+                    Address = "",
+                }
+            });
+
+            var result = controller.GetPsychologists();
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+
+            Assert.AreEqual(200, statusCode);
+            mock.VerifyAll();
+        }
+
 
         [TestMethod]
         public void GetNonExistingAdministratorByIdTest()
@@ -280,7 +287,6 @@ namespace UnitTests.ControllersTests
                     ThursdayConsultations = 0,
                     FridayConsultations = 0
                 }
-
 
             };
 
@@ -379,21 +385,12 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void UpdateAdministratorTest()
         {
-            Psychologist newPsychologist = new Psychologist
+            PsychologistDTO newPsychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0 
-                }
+                IsRemote = false
             };
 
             mock.Setup(x => x.UpdatePsychologist(1, newPsychologist));
@@ -409,21 +406,12 @@ namespace UnitTests.ControllersTests
         [TestMethod]
         public void UpdateNonExistingAdministratorTest()
         {
-            Psychologist newPsychologist = new Psychologist
+            PsychologistDTO newPsychologist = new PsychologistDTO
             {
                 PsychologistName = "juan",
                 Address = "juan 1234",
                 PsychologistSurname = "perez",
-                Expertise = new List<Problem> { expertiseStress },
-                IsRemote = false,
-                Schedule = new Schedule 
-                { 
-                    MondayConsultations = 0, 
-                    TuesdayConsultations = 0, 
-                    WednesdayConsultations = 0, 
-                    ThursdayConsultations = 0, 
-                    FridayConsultations = 0 
-                }
+                IsRemote = false
             };
             mock.Setup(x => x.UpdatePsychologist(0, newPsychologist)).
                 Throws(new Exception());

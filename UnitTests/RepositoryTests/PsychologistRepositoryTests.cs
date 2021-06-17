@@ -31,14 +31,15 @@ namespace UnitTests.RepositoryTests
             };
             var data = new List<Psychologist>
             {
-                new Psychologist 
-                { 
-                    Id = 1, 
-                    PsychologistName = "Martin", 
-                    PsychologistSurname = "Perez", 
-                    IsRemote = true, 
-                    Address = "1234567", 
-                    Expertise = new List<Problem> { expertiseDespression } 
+                new Psychologist
+                {
+                    Id = 1,
+                    PsychologistName = "Martin",
+                    PsychologistSurname = "Perez",
+                    IsRemote = true,
+                    Address = "1234567",
+                    Expertise = new List<Problem> { expertiseDespression },
+                    Schedule = new Schedule()
                 },
                 new Psychologist 
                 { 
@@ -47,7 +48,8 @@ namespace UnitTests.RepositoryTests
                     PsychologistSurname = "Lopez", 
                     IsRemote = false, 
                     Address = "", 
-                    Expertise = new List<Problem> { expertiseStress } 
+                    Expertise = new List<Problem> { expertiseStress },
+                    Schedule = new Schedule()
                 }
             }.AsQueryable();
 
@@ -126,17 +128,21 @@ namespace UnitTests.RepositoryTests
             { 
                 Name = "Estrés" 
             };
-            var psychologist = new Psychologist 
-            { 
-                Id = 2, 
-                PsychologistName = "María", 
-                PsychologistSurname = "Lopez", 
-                IsRemote = false, 
-                Address = "", 
-                Expertise = new List<Problem> { expertiseStress, expertiseDespression } 
+            var psychologist = new Psychologist
+            {
+                Id = 2,
+                PsychologistName = "María",
+                PsychologistSurname = "Lopez",
+                IsRemote = false,
+                Address = "",
+                Expertise = new List<Problem> { expertiseStress, expertiseDespression },
+                ScheduleId = 2
             };
 
+            var originalPsychologist = repository.Get(2);
+
             repository.Update(2, psychologist);
+
             var modifiedPsychologist = repository.Get(2);
 
             int result = 2;

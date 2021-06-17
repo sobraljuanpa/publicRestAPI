@@ -19,9 +19,6 @@ namespace UnitTests.RepositoryTests
     {
 
         ConsultationRepository repository;
-        Mock<DbSet<Consultation>> mockSet;
-        Mock<Context> mockContext;
-        DbContextOptions<Context> DbOptions;
 
         [TestInitialize]
         public void SetUp()
@@ -47,17 +44,18 @@ namespace UnitTests.RepositoryTests
                  }
             }.AsQueryable();
 
-            mockSet = new Mock<DbSet<Consultation>>();
-            mockSet.As<IQueryable<Consultation>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Consultation>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Consultation>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            mockSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(pk => data.FirstOrDefault(d => d.Id == (int)pk[0]));
+            var options = new DbContextOptionsBuilder<Context>()
+                 .UseInMemoryDatabase("BetterCalmDB")
+                 .Options;
 
-            DbOptions = new DbContextOptions<Context>();
-            mockContext = new Mock<Context>(DbOptions);
-            mockContext.Setup(v => v.Consultations).Returns(mockSet.Object);
+            Context context = new Context(options);
 
-            repository = new ConsultationRepository(mockContext.Object);
+            context.Database.EnsureDeleted();
+            context.Set<Consultation>().AddRange(data);
+            context.SaveChanges();
+
+
+            repository = new ConsultationRepository(context);
         }
 
         [TestMethod]
@@ -92,10 +90,10 @@ namespace UnitTests.RepositoryTests
                 PatientEmail = "pablo@hotmail.com", 
                 PatientPhone = "098567342" 
             };
+
             repository.Add(consultation);
 
-            mockSet.Verify(v => v.Add(It.IsAny<Consultation>()), Times.Once());
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            Assert.AreEqual(repository.GetAll().ToList().Count, 3);
         }
 
         [TestMethod]
@@ -112,7 +110,7 @@ namespace UnitTests.RepositoryTests
             repository.Update(1, consultation);
             var modifiedConsultation = repository.Get(1);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            
             Assert.AreEqual(consultation.PatientEmail, modifiedConsultation.PatientEmail);
         }
 
@@ -121,7 +119,7 @@ namespace UnitTests.RepositoryTests
         {
             repository.Delete(1);
 
-            mockContext.Verify(e => e.SaveChanges(), Times.Once());
+            Assert.AreEqual(repository.GetAll().ToList().Count, 1);
         }
     }
 }

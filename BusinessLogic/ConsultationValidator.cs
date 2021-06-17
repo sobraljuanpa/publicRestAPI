@@ -52,13 +52,13 @@ namespace BusinessLogic
             return consultations;
         }
 
-        public bool IsOnList(Psychologist psychologist, Problem problem)
+        public bool IsOnList(Psychologist psychologist, int problemId)
         {
             bool ok = false;
 
             foreach (Problem auxProblem in psychologist.Expertise.ToList())
             {
-                if (auxProblem.Id == problem.Id)
+                if (auxProblem.Id == problemId)
                 {
                     ok = true;
                 }
@@ -74,7 +74,7 @@ namespace BusinessLogic
 
             foreach (Psychologist auxPsychologist in psychologistRepository.GetAll().ToList())
             {
-                if (IsOnList(auxPsychologist, problem))
+                if (IsOnList(auxPsychologist, problemId))
                 {
                     expertise.Add(auxPsychologist);
                 }
@@ -102,7 +102,9 @@ namespace BusinessLogic
         public void AssignPsychologist(Consultation consultation)
         {
             List<Psychologist> experts = PsychologistsWithExpertise(consultation.ProblemId);
-            consultation.Psychologist = GetExpert(experts);
+            Psychologist expert = GetExpert(experts);
+
+            consultation.Psychologist = expert;
         }
 
         public void IdValidRangePs(int id)
@@ -121,10 +123,10 @@ namespace BusinessLogic
             }
         }
 
-        public void ValidRemoteAddress(String address)
+        public void ValidRemoteAddress(Consultation consultation)
         {
             var guid = Guid.NewGuid();
-            string finalAddress = string.Join("",address+guid);
+            string finalAddress = string.Join("",consultation.Address+guid);
 
             string format = @"\A[https]+(\://)[betterCalm]+(\.)[com]+(\.)[uy]+(\/)[meeting_id]+(\/)[a-z0-9]";
 
@@ -132,13 +134,15 @@ namespace BusinessLogic
             {
                 throw new Exception("Address with wrong format.");
             }
+
+            consultation.Address = finalAddress;
         }
 
         public void ValidAddress(Consultation consultation)
         {
             if (consultation.IsRemote)
             {
-                ValidRemoteAddress(consultation.Address);
+                ValidRemoteAddress(consultation);
             }
 
         }
@@ -179,6 +183,36 @@ namespace BusinessLogic
             }
 
             psychologistRepository.Update(psychologist.Id, psychologist);
+        }
+
+        public void ValidDuration(Consultation consultation)
+        {
+            if (consultation.Duration != 1 &&
+                consultation.Duration != 1.5 &&
+                consultation.Duration != 2)
+            {
+                throw new Exception("Invalid duration");
+            }
+        }
+
+        public void ValidBonus(Consultation consultation)
+        {
+            if (consultation.Bonus != 15 &&
+                consultation.Bonus != 25 &&
+                consultation.Bonus != 50 &&
+                consultation.Bonus != 0)
+            {
+                throw new Exception("Invalid bonus");
+            }
+        }
+
+        public void CalculateConsultationCost(Consultation consultation)
+        {
+            int auxCost = (consultation.Psychologist.Fee) * (consultation.Duration);
+            int discount = (auxCost * consultation.Bonus) / 100;
+
+            consultation.Cost = auxCost - discount;
+
         }
     }
 }

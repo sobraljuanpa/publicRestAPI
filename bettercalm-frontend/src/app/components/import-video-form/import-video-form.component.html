@@ -1,0 +1,16 @@
+<div class="card text-center w-75 mx-auto mt-3">
+    <form>
+        <div class="mb-3">
+            <label class="form-label">Importation type:</label>
+            <select class="form-select" [(ngModel)]="selectedType" name="t">
+                <option value="JSON">JSON</option>
+                <option value="XML">XML</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Video path</label>
+            <input type="text" [(ngModel)]="path" value="path" name="path" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary mb-3" (click)="importVideo()">Import</button>
+    </form>
+</div>

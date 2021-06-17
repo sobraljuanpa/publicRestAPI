@@ -23,7 +23,6 @@ namespace Domain
 
         public int ProblemId { get; set; }
 
-
         public Psychologist Psychologist { get; set; }
 
         public bool IsRemote { get; set; }
@@ -31,5 +30,12 @@ namespace Domain
         public string Address { get; set; }
 
         public int Date { get; set; }
+
+        public int Duration { get; set; }
+
+        public int Bonus { get; set; }
+
+        public int Cost { get; set; }
+
     }
 }
