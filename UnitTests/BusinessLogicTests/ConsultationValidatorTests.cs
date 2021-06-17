@@ -355,7 +355,7 @@ namespace UnitTests.BusinessLogicTests
                 IsRemote = true,
                 Date = 1,
                 Duration = 1,
-                Bonus = 0
+                Bonus = 1
             };
 
             validator.ValidBonus(newConsultation);

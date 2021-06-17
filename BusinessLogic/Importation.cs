@@ -40,7 +40,7 @@ namespace BusinessLogic
             }
         }
 
-        public void AddVideoContent()
+        public void AddVideoContents()
         {
             try
             {
