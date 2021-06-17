@@ -499,6 +499,15 @@ paths:
           description: Unauthorized.
         '400':
           description: Error in body.
+    get:
+      summary: Retrieves all psychologists
+      tags:
+        - Psychologists
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Unauthorized.
   '/api/Psychologists/{id}':
     delete:
       summary: Deletes given psychologist
@@ -622,6 +631,30 @@ paths:
           description: Unauthorized.
         '400':
           description: No psychologist associated to given id.
+  '/api/importations/{type}':
+    post:
+      summary: Adds imported data into system
+      tags:
+        - Importations
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Importation'
+      responses:
+        '200':
+          description: Importation succesful
+        '403':
+          description: Unauthorized.
+        '400':
+          description: Problem importing
 components:
   schemas:
     Administrator:
@@ -841,6 +874,14 @@ components:
         fridayConsultations:
           type: integer
           format: int32
+      additionalProperties: false
+    Importation:
+      type: object
+      properties:
+        parameters:
+          type: array
+          items:
+            type: object
       additionalProperties: false
   securitySchemes:
       token:
