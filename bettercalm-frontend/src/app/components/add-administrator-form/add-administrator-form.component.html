@@ -1,5 +1,5 @@
 <div class="card text-center w-75 mx-auto mt-3">
-  <form [formGroup]="adminForm" (ngSubmit)="onSubmit()">
+  <form class="was-validated" [formGroup]="adminForm" (ngSubmit)="onSubmit()">
     <div>
       <label class="form-label">Email:</label>
       <input type="text" formControlName="email" class="form-control">

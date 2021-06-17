@@ -42,6 +42,17 @@ export class ConsultationService {
     })
   }
 
+  updateConsultation(
+    id: number,
+    bonus: number
+  ) {
+    return this.http.put(`${this.consultationURL}/${id}`, {
+      Id: id,
+      Bonus: bonus
+    })
+
+  }
+
   getConsultations(): Observable<Consultation[]> {
     return this.http.get<Consultation[]>(this.consultationURL)
       .pipe(
@@ -56,4 +67,6 @@ export class ConsultationService {
         map((data: any) => data = this.consultationAdapter.adapt(data))
       );
   }
+
+
 }

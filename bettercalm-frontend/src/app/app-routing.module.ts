@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: 'consultations', component: ConsultationManagementListComponent },
   { path: 'playablecontents/import', component: ImportPlayablecontentFormComponent },
   { path: 'playlists/import', component: ImportPlaylistFormComponent },
-  { path: 'videos/import', component: ImportVideoFormComponent }
+  { path: 'videos/import', component: ImportVideoFormComponent },
 ];
 
 @NgModule({
