@@ -13,64 +13,9 @@ namespace BusinessLogic
         public Playlist playlist = null;
         public VideoContent videoContent = null;
 
-        public ImporterJSON (string path)
+        public ImporterJSON(string path)
         {
             _path = path;
-        }
-
-        public PlayableContent PlayableContentRoot()
-        {
-            try
-            {
-                if (playableContent == null)
-                {
-                    PlayableContent contentRoot;
-                    using (System.IO.StreamReader jsonStream = System.IO.File.OpenText(_path))
-                    {
-                        var json = jsonStream.ReadToEnd();
-                        contentRoot = JsonConvert.DeserializeObject<PlayableContent>(json);
-                    }
-
-                    playableContent = contentRoot;
-
-                    return contentRoot;
-                }else
-                {
-                    return playableContent;
-                }
-            }
-            catch (Exception)
-            {
-                throw new Exception("Not possible to deserialize JSON file");
-            }
-        }
-
-        public VideoContent VideoContentRoot()
-        {
-            try
-            {
-                if (videoContent == null)
-                {
-                    VideoContent contentRoot;
-                    using (System.IO.StreamReader jsonStream = System.IO.File.OpenText(_path))
-                    {
-                        var json = jsonStream.ReadToEnd();
-                        contentRoot = JsonConvert.DeserializeObject<VideoContent>(json);
-                    }
-
-                    videoContent = contentRoot;
-
-                    return contentRoot;
-                }
-                else
-                {
-                    return videoContent;
-                }
-            }
-            catch (Exception)
-            {
-                throw new Exception("Not possible to deserialize JSON file");
-            }
         }
 
         private Playlist PlaylistRoot()
@@ -141,20 +86,6 @@ namespace BusinessLogic
             return contentList;
         }
 
-        public PlayableContent GetPlayableContent()
-        {
-            PlayableContent root = PlayableContentRoot();
-
-            return root;
-        }
-
-        public VideoContent GetVideoContent()
-        {
-            VideoContent root = VideoContentRoot();
-
-            return root;
-        }
-
         public Playlist GetPlaylist()
         {
             Playlist root = PlaylistRoot();
@@ -168,14 +99,6 @@ namespace BusinessLogic
             STRING,
             INTEGER,
             DATE
-        }
-
-        public List<object> GetParameters()
-        {
-            List<object> parameters = new List<object>();
-            parameters.Add(Parameter.STRING);
-
-            return parameters;
         }
     }
 }

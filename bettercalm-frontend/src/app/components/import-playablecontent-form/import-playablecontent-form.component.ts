@@ -28,10 +28,12 @@ export class ImportPlayablecontentFormComponent implements OnInit {
     this.array = [this.path];
     this.importationService.addImportation(this.selectedType, this.array).subscribe(
       res => {
+        console.log(res);
         this.toastr.success("Importation successful!")
         this.location.back();
       },
       err => {
+        console.log(err);
         this.toastr.error("Importation failed!")
       }
     )

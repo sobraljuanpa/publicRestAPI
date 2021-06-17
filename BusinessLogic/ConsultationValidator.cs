@@ -199,7 +199,8 @@ namespace BusinessLogic
         {
             if (consultation.Bonus != 15 &&
                 consultation.Bonus != 25 &&
-                consultation.Bonus != 50)
+                consultation.Bonus != 50 &&
+                consultation.Bonus != 0)
             {
                 throw new Exception("Invalid bonus");
             }

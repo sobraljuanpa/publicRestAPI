@@ -3,6 +3,8 @@ using IBusinessLogic;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using BusinessLogic;
+using System.IO;
+using System.Reflection;
 
 namespace WebAPI.Controllers
 {
@@ -11,11 +13,11 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class ImportationsController : ControllerBase
     {
-        private readonly IImportationBL _importationLogic;
+        private readonly IPlayerBL _playerBL;
 
-        public ImportationsController(IImportationBL importationLogic)
+        public ImportationsController(IPlayerBL playerBL)
         {
-            _importationLogic = importationLogic;
+            _playerBL = playerBL;
         }
 
         [HttpPost("{type}")]
@@ -23,7 +25,17 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _importationLogic.LoadFile(type, parameters);
+                var dllFile = new FileInfo(@"..\BetterCalm.Importation.dll");
+                Assembly assembly = Assembly.LoadFile(dllFile.FullName);
+
+                Type importationType = assembly.GetType("BetterCalm.Importation" + "Importer" + type);
+                IImportation importation = (IImportation)Activator.CreateInstance(importationType, parameters);
+                IImportationBL logic = new BusinessLogic.Importation(importation,_playerBL);
+
+                logic.AddPlayableContent();
+                logic.AddVideoContent();
+                logic.AddPlaylist();
+
                 return Ok();
             }
             catch (Exception e)

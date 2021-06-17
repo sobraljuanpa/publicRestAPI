@@ -11,38 +11,28 @@ namespace BusinessLogic
     public class Importation : IImportationBL
     {
         IImportation _importation;
-        PlayerBL _playerBL;
+        IPlayerBL _playerBL;
         Playlist playlist = null;
-        PlayableContent playableContent = null;
-        VideoContent videoContent = null;
+        List<PlayableContent> playableContents = null;
+        List<VideoContent> videoContents = null;
 
-        public Importation(IImportation importation, PlayerBL playerBL)
+        public Importation(IImportation importation, IPlayerBL playerBL)
         {
             _importation = importation;
             _playerBL = playerBL;
         }
 
-        public void LoadFile(string type, object[] parameters)
-        {
-            var dllFile = new FileInfo(@"..\BetterCalm.Importation.dll");
-            Assembly assembly = Assembly.LoadFile(dllFile.FullName);
-
-            Type importationType = assembly.GetType("BetterCalm.Importation" + "Importer" + type);
-            IImportation importation = (IImportation)Activator.CreateInstance(importationType, parameters);
-            IImportationBL logic = new BusinessLogic.Importation(importation, _playerBL);
-
-            logic.AddPlayableContent();
-            logic.AddVideoContent();
-            logic.AddPlaylist();
-                  
-        }
-
-        public void AddPlayableContent()
+        public void AddPlayableContents()
         {
             try
             {
-                playableContent = _importation.GetPlayableContent();
-                _playerBL.AddIndependentContent(playableContent);
+                playableContents = _importation.GetPlayableContents();
+
+                foreach (PlayableContent playableContent in playableContents)
+                {
+                    _playerBL.AddIndependentContent(playableContent);
+                }
+                
             }
             catch(Exception)
             {
@@ -54,8 +44,13 @@ namespace BusinessLogic
         {
             try
             {
-                videoContent = _importation.GetVideoContent();
-                _playerBL.AddVideoContent(videoContent);
+                videoContents = _importation.GetVideoContents();
+
+                foreach (VideoContent videoContent in videoContents)
+                {
+                    _playerBL.AddVideoContent(videoContent);
+                }
+
             }
             catch (Exception)
             {

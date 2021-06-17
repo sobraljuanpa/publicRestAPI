@@ -14,6 +14,6 @@ export class ImportationService {
 
   addImportation(type: string, parameters: object[]) {
     debugger;
-    return this.http.post(`${this.importationURL}/${type}`, parameters)
+    return this.http.post(`${this.importationURL}/${type}`, { parameters: parameters })
   }
 }

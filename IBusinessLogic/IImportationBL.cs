@@ -6,10 +6,9 @@ namespace IBusinessLogic
 {
     public interface IImportationBL
     {
-        public void LoadFile(string type, object[] parameters);
-        public void AddPlayableContent();
+        public void AddPlayableContents();
 
-        public void AddVideoContent();
+        public void AddVideoContents();
 
         public void AddPlaylist();
     }
