@@ -8,24 +8,12 @@ import { GlobalVariables } from '../globals';
 })
 export class ImportationService {
 
-  private playablecontentURL = `${GlobalVariables.BASE_API_URL}/playablecontents`;
-  private videocontentURL = `${GlobalVariables.BASE_API_URL}/videos`;
-  private playlistURL = `${GlobalVariables.BASE_API_URL}/playlists`;
+  private importationURL = `${GlobalVariables.BASE_API_URL}/importations`;
 
   constructor(private http: HttpClient) { }
 
-  addPlayableContentImportation(type: string, path: string[]) {
+  addImportation(type: string, parameters: object[]) {
     debugger;
-    return this.http.post(`${this.playablecontentURL}/${type}`, path)
-  }
-
-  addPlaylistImportation(type: string, path: string[]) {
-    debugger;
-    return this.http.post(`${this.playlistURL}/${type}`, path)
-  }
-
-  addVideoImportation(type: string, path: string[]) {
-    debugger;
-    return this.http.post(`${this.videocontentURL}/${type}`, path)
+    return this.http.post(`${this.importationURL}/${type}`, parameters)
   }
 }

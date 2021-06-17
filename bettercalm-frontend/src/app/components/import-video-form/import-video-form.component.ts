@@ -11,9 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 export class ImportVideoFormComponent implements OnInit {
 
   selectedType!: string;
-  path!: string;
-  array!: string[];
-  typeImport: string[] = ['Xml', 'Json'];
+  path!: object;
+  array!: object[];
 
   constructor(
     private importationService: ImportationService,
@@ -26,7 +25,7 @@ export class ImportVideoFormComponent implements OnInit {
 
   importVideo() {
     this.array = [this.path];
-    this.importationService.addVideoImportation(this.selectedType, this.array).subscribe(
+    this.importationService.addImportation(this.selectedType, this.array).subscribe(
       res => {
         this.toastr.success("Importation successful!")
         this.location.back();

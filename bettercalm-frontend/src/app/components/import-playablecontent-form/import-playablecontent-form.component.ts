@@ -11,9 +11,9 @@ import { ToastrService } from 'ngx-toastr';
 export class ImportPlayablecontentFormComponent implements OnInit {
 
   selectedType!: string;
-  path!: string;
-  array!: string[];
-  typeImport: string[] = ['Xml', 'Json'];
+  path!: object;
+  array!: object[];
+
 
   constructor(
     private importationService: ImportationService,
@@ -26,7 +26,7 @@ export class ImportPlayablecontentFormComponent implements OnInit {
 
   importPlayableContent() {
     this.array = [this.path];
-    this.importationService.addPlayableContentImportation(this.selectedType, this.array).subscribe(
+    this.importationService.addImportation(this.selectedType, this.array).subscribe(
       res => {
         this.toastr.success("Importation successful!")
         this.location.back();
