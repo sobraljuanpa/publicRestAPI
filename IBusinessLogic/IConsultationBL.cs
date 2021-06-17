@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Domain;
+using Domain.DTOs;
 
 namespace IBusinessLogic
 {
@@ -9,10 +10,10 @@ namespace IBusinessLogic
     {
         public List<Consultation> GetConsultationsByPsychologist(int id);
 
-        public List<Consultation> GetConsultations();
+        public List<ConsultationDTO> GetConsultations();
 
-        public Consultation Get(int id);
+        public ConsultationDTO Get(int id);
 
-        public Consultation CreateConsultation(Consultation consultation);
+        public Consultation CreateConsultation(ConsultationDTO consultation);
     }
 }

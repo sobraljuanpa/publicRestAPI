@@ -72,6 +72,11 @@ namespace BusinessLogic
             else throw new Exception("No administrator associated to given id.");
         }
 
+        public List<Administrator> GetAll()
+        {
+            return administratorRepository.GetAll().ToList();
+        }
+
     }
         
 }

@@ -19,6 +19,7 @@ namespace UnitTests.BusinessLogicTests
         private Mock<IRepository<Playlist>> playlistRepoMock;
         private Mock<IRepository<PlayableContent>> contentRepoMock;
         private Mock<IRepository<Category>> categoryRepoMock;
+        private Mock<IRepository<VideoContent>> videoRepoMock;
 
         private IEnumerable<Category> categories;
         private IEnumerable<Playlist> playlists;
@@ -115,8 +116,9 @@ namespace UnitTests.BusinessLogicTests
             categoryRepoMock = new Mock<IRepository<Category>>(MockBehavior.Strict);
             contentRepoMock = new Mock<IRepository<PlayableContent>>(MockBehavior.Strict);
             playlistRepoMock = new Mock<IRepository<Playlist>>(MockBehavior.Strict);
+            videoRepoMock = new Mock<IRepository<VideoContent>>(MockBehavior.Strict);
 
-            playerBL = new PlayerBL(categoryRepoMock.Object, contentRepoMock.Object, playlistRepoMock.Object);
+            playerBL = new PlayerBL(categoryRepoMock.Object, contentRepoMock.Object, playlistRepoMock.Object, videoRepoMock.Object);
         }
 
         [TestMethod]
@@ -273,6 +275,7 @@ namespace UnitTests.BusinessLogicTests
         {
             playlistRepoMock.Setup(x => x.GetAll()).Returns(playlists.AsQueryable);
             contentRepoMock.Setup(x => x.GetAll()).Returns(contents.AsQueryable);
+            videoRepoMock.Setup(x => x.GetAll()).Returns((new List<VideoContent> { }).AsQueryable);
 
             var auxContents = playerBL.GetCategoryElements(3);
 

@@ -1,0 +1,75 @@
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">BetterCalm</a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" routerLink="/categories">Categories</a></li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Playlists
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" routerLink="/playlists/add">Add playlist</a></li>
+          <li><a class="dropdown-item" routerLink="/playlists">Manage playlists</a></li>
+          <li><a class="dropdown-item" routerLink="/playlists/import">Import playlist</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Contents
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" routerLink="/playablecontents/add">Add content</a></li>
+          <li><a class="dropdown-item" routerLink="/playablecontents">Manage contents</a></li>
+          <li><a class="dropdown-item" routerLink="/playablecontents/import">Import content</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Videos
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" routerLink="/videos/add">Add video</a></li>
+          <li><a class="dropdown-item" routerLink="/videos">Manage videos</a></li>
+          <li><a class="dropdown-item" routerLink="/videos/import">Import video</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Psychologists
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" routerLink="/psychologists/add">Add psychologist</a></li>
+          <li><a class="dropdown-item" routerLink="/psychologists">Manage psychologists</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Consultations
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" routerLink="consultations/add">Add consultation</a></li>
+          <li><a class="dropdown-item" routerLink="/consultations">Manage consultation</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown" *ngIf="this.authenticationService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Administrators
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" routerLink="/administrators/add">Add administrator</a></li>
+          <li><a class="dropdown-item" routerLink="/administrators">Manage administrators</a></li>
+        </ul>
+      </li>
+    </ul>
+    <button *ngIf="! this.authenticationService.isAuthenticated()" class="btn btn-primary" routerLink="/login">Log
+      in</button>
+    <button *ngIf="this.authenticationService.isAuthenticated()" class="btn btn-danger" (click)="logOut()">Log
+      out</button>
+  </div>
+</nav>

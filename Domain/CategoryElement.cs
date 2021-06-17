@@ -11,8 +11,6 @@ namespace Domain
 
         public string Name { get; set; }
 
-        public string ImageURL { get; set; }
-
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
