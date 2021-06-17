@@ -102,7 +102,9 @@ namespace BusinessLogic
         public void AssignPsychologist(Consultation consultation)
         {
             List<Psychologist> experts = PsychologistsWithExpertise(consultation.ProblemId);
-            consultation.Psychologist = GetExpert(experts);
+            Psychologist expert = GetExpert(experts);
+
+            consultation.Psychologist = expert;
         }
 
         public void IdValidRangePs(int id)
@@ -121,10 +123,10 @@ namespace BusinessLogic
             }
         }
 
-        public void ValidRemoteAddress(String address)
+        public void ValidRemoteAddress(Consultation consultation)
         {
             var guid = Guid.NewGuid();
-            string finalAddress = string.Join("",address+guid);
+            string finalAddress = string.Join("",consultation.Address+guid);
 
             string format = @"\A[https]+(\://)[betterCalm]+(\.)[com]+(\.)[uy]+(\/)[meeting_id]+(\/)[a-z0-9]";
 
@@ -132,13 +134,15 @@ namespace BusinessLogic
             {
                 throw new Exception("Address with wrong format.");
             }
+
+            consultation.Address = finalAddress;
         }
 
         public void ValidAddress(Consultation consultation)
         {
             if (consultation.IsRemote)
             {
-                ValidRemoteAddress(consultation.Address);
+                ValidRemoteAddress(consultation);
             }
 
         }

@@ -8,7 +8,7 @@ using IBusinessLogic;
 
 namespace BusinessLogic
 {
-    public class Importation : IImportationLogic
+    public class Importation : IImportationBL
     {
         IImportation _importation;
         PlayerBL _playerBL;
@@ -29,7 +29,7 @@ namespace BusinessLogic
 
             Type importationType = assembly.GetType("BetterCalm.Importation" + "Importer" + type);
             IImportation importation = (IImportation)Activator.CreateInstance(importationType, parameters);
-            IImportationLogic logic = new BusinessLogic.Importation(importation, _playerBL);
+            IImportationBL logic = new BusinessLogic.Importation(importation, _playerBL);
 
             logic.AddPlayableContent();
             logic.AddVideoContent();

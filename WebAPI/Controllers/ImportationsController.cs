@@ -2,10 +2,7 @@
 using IBusinessLogic;
 using System;
 using Microsoft.AspNetCore.Authorization;
-using System.IO;
-using System.Reflection;
 using BusinessLogic;
-using System.Collections.Generic;
 
 namespace WebAPI.Controllers
 {
@@ -14,13 +11,11 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class ImportationsController : ControllerBase
     {
-        private readonly IImportationLogic _importationLogic;
-        private readonly PlayerBL _playerBL;
+        private readonly IImportationBL _importationLogic;
 
-        public ImportationsController(IImportationLogic importationLogic, PlayerBL playerBL)
+        public ImportationsController(IImportationBL importationLogic)
         {
             _importationLogic = importationLogic;
-            _playerBL = playerBL;
         }
 
         [HttpPost("{type}")]
